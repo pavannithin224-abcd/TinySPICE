@@ -23,7 +23,7 @@ NUMERIC_FIELDS = ["width_um", "length_um", "temperature_c", "sweep_start", "swee
                   "max_tool_calls", "max_retries"]
 
 _MEAS = {"ID": r"drain current|\bid\b(?!\s*-?\s*v)|current curve", "GM": r"transconductance|\bgm\b",
-         "GDS": r"output conductance|\bgds\b", "VTH": r"threshold|\bvth\b|\bvt\b",
+         "GDS": r"output conductance|\bgds\b", "VTH": r"(?<!sub)(?<!sub-)(?<!sub )threshold|\bvth\b|\bvt\b",
          "SS": r"subthreshold swing|\bss\b|sub-threshold swing", "ION": r"on-?\s?current|\bion\b|\bi_on\b",
          "IOFF": r"off-?\s?current|leakage|\bioff\b|\bi_off\b"}
 
@@ -67,6 +67,13 @@ def _anchored(text: str, value: float, before: str, after: str) -> bool:
 
 _ANCHORS = {"width_um": (r"(?:\bw\b|width)[^\d\n]{0,25}$", r"^\W*(?:wide|width)"),
             "length_um": (r"(?:\bl\b|length)[^\d\n]{0,25}$", r"^\W*(?:long|length)")}
+
+
+def uncovered_measurements(raw: dict, request: str) -> list[str]:
+    """Measurement codes the request names that the extraction omits (converse of grounding: catches incomplete specs)."""
+    low = request.lower()
+    have = set(raw.get("measurements") or [])
+    return [c for c, pat in _MEAS.items() if c not in have and re.search(pat, low)]
 
 
 def ungrounded_fields(raw: dict, request: str) -> list[str]:

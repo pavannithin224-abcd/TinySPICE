@@ -76,3 +76,46 @@ def test_anchors_accept_common_phrasings():
 
 def test_swapped_width_and_length_flagged():
     assert {"width_um", "length_um"} <= set(ungrounded_fields(raw(width_um=0.5, length_um=2.0), "W = 2 um, L = 0.5 um NMOS SKY130 room temperature Id-Vg"))
+
+
+# ---- coverage + prune ----
+from tinyspice.agent.grounding import uncovered_measurements  # noqa: E402
+
+
+def test_coverage_flags_omitted_requested_measurement():
+    assert uncovered_measurements(raw(measurements=["IOFF"]), REQ) == ["VTH"]
+    assert uncovered_measurements(raw(), REQ) == []
+
+
+def test_subthreshold_does_not_count_as_threshold_voltage():
+    req = "NMOS SKY130 NFET, measure the subthreshold swing only"
+    assert uncovered_measurements(raw(measurements=["SS"]), req) == []
+    assert "VTH" in ungrounded_fields(raw(measurements=["VTH"]), req) or "measurements[VTH]" in ungrounded_fields(raw(measurements=["VTH"]), req)
+
+
+def test_incomplete_extraction_is_rejected_even_without_pruning():
+    r = interpret_request(REQ, ScriptedProvider(json.dumps(raw(measurements=["IOFF"]))))
+    assert not r.ok and r.errors[0]["type"] == "incomplete_extraction"
+
+
+def test_prune_drops_spurious_measurement_when_complete_and_logs_it():
+    p = ScriptedProvider(json.dumps(raw(measurements=["ID", "VTH", "IOFF"])))
+    assert not interpret_request(REQ, p).ok                                  # default: reject (strict)
+    r = interpret_request(REQ, ScriptedProvider(json.dumps(raw(measurements=["ID", "VTH", "IOFF"]))), prune=True)
+    assert r.ok and r.pruned == ["ID"] and sorted(m.value if hasattr(m, "value") else m for m in r.spec.measurements) == ["IOFF", "VTH"]
+
+
+def test_prune_never_rescues_an_incomplete_extraction():
+    # model padded ID AND dropped VTH: pruning ID would leave a valid-looking but incomplete spec -> must still reject
+    r = interpret_request(REQ, ScriptedProvider(json.dumps(raw(measurements=["ID", "IOFF"]))), prune=True)
+    assert not r.ok and r.errors[0]["type"] == "incomplete_extraction"
+
+
+def test_prune_does_not_touch_ungrounded_numbers():
+    r = interpret_request(REQ, ScriptedProvider(json.dumps(raw(length_um=0.18, measurements=["ID", "VTH", "IOFF"]))), prune=True)
+    assert not r.ok and r.errors[0]["loc"] == "length_um"
+
+
+def test_prune_dedupes_looping_measurements():
+    r = interpret_request(REQ, ScriptedProvider(json.dumps(raw(measurements=["VTH", "VTH", "IOFF", "IOFF"]))), prune=True)
+    assert r.ok and "duplicates" in r.pruned

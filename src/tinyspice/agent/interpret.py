@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 
 from pydantic import ValidationError
 
-from tinyspice.agent.grounding import ungrounded_fields
+from tinyspice.agent.grounding import uncovered_measurements, ungrounded_fields
 from tinyspice.agent.raw import raw_json_schema, raw_to_spec_dict
 from tinyspice.providers.base import LLMProvider
 from tinyspice.schemas import ExperimentSpec, ExperimentStatus
@@ -64,7 +64,7 @@ class InterpretResult:
     latency_s: float = 0.0
     model: str = ""
     raw_text: str = ""
-
+    pruned: list = field(default_factory=list)      # measurement codes dropped because the request never asked for them
     @property
     def ok(self) -> bool:
         return self.spec is not None
@@ -81,7 +81,7 @@ _REPAIRABLE = {"json_invalid", "extra_forbidden", "enum", "literal_error", "floa
 
 
 def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1, seed: int = 0, max_tokens: int = 450,
-                      ground: bool = True) -> InterpretResult:
+                      ground: bool = True, prune: bool = False) -> InterpretResult:
     schema = raw_json_schema()
     res = InterpretResult(spec=None, status=ExperimentStatus.REJECTED_INVALID, model=getattr(provider, "name", "?"))
     note: str | None = None
@@ -105,11 +105,30 @@ def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1,
                 continue
             break
         res.raw = raw
+        if prune and isinstance(raw.get("measurements"), list):
+            seen = list(dict.fromkeys(raw["measurements"]))      # order-preserving dedupe (tiny models loop)
+            if len(seen) != len(raw["measurements"]):
+                res.pruned.append("duplicates")
+                raw = dict(raw, measurements=seen)
+                res.raw = raw
         if ground:
             ug = ungrounded_fields(raw, request)
-            if ug:
+            soft = [f for f in ug if f.startswith("measurements[")]
+            hard = [f for f in ug if f not in soft]
+            if hard or (soft and not prune):
                 res.errors = [{"type": "ungrounded_value", "loc": f, "msg": f"value of `{f}` is not stated in the request"} for f in ug]
                 break                                   # final: never repaired
+            if soft:                                    # spurious measurement codes: drop (and log), never invent
+                drop = {f[len("measurements["):-1] for f in soft}
+                kept = [m for m in (raw.get("measurements") or []) if m not in drop]
+                res.pruned = sorted(set(res.pruned) | drop)
+                raw = dict(raw, measurements=kept or None)
+                res.raw = raw
+            miss = uncovered_measurements(raw, request)
+            if miss:                                    # named in the request but absent from the extraction => incomplete
+                res.errors = [{"type": "incomplete_extraction", "loc": f"measurements[{c}]",
+                               "msg": f"request names {c} but the extraction omits it"} for c in miss]
+                break
         try:
             spec = ExperimentSpec.model_validate(raw_to_spec_dict(raw))
         except ValidationError as e:

@@ -15,20 +15,21 @@ from tinyspice.benchmark import evaluate, load_tasks, save
 from tinyspice.providers import LlamaCppProvider, ProviderUnavailable, RuleBasedProvider
 
 ROOT = Path(__file__).resolve().parents[1]
-SETS = {"dev": ROOT / "tests" / "benchmark" / "group1_dev.json", "frozen": ROOT / "tests" / "benchmark" / "group1_frozen.json", "frozen2": ROOT / "tests" / "benchmark" / "group1_frozen2.json"}
+SETS = {"dev": ROOT / "tests" / "benchmark" / "group1_dev.json", "frozen": ROOT / "tests" / "benchmark" / "group1_frozen.json", "frozen2": ROOT / "tests" / "benchmark" / "group1_frozen2.json", "frozen3": ROOT / "tests" / "benchmark" / "group1_frozen3.json", "probe": ROOT / "tests" / "benchmark" / "group1_probe.json"}
 
 ap = argparse.ArgumentParser()
 ap.add_argument("provider", help="'rules' or a model key from .tools/manifest.json")
 ap.add_argument("--tasks", default="dev", choices=sorted(SETS))
 ap.add_argument("--threads", type=int, default=4)
 ap.add_argument("--seed", type=int, default=0)
+ap.add_argument("--prune", action="store_true", help="drop (and log) ungrounded measurement codes instead of rejecting")
 ap.add_argument("--no-ground", action="store_true", help="ablation: disable the grounding check")
 ap.add_argument("--only", nargs="*", help="task ids to run, e.g. --only D01 D04")
 a = ap.parse_args()
 
 tasks = load_tasks(SETS[a.tasks])
 if a.provider == "rules":
-    res = evaluate(RuleBasedProvider(), tasks, seed=a.seed, only=a.only, ground=not a.no_ground)
+    res = evaluate(RuleBasedProvider(), tasks, seed=a.seed, only=a.only, ground=not a.no_ground, prune=a.prune)
     meta = {}
 else:
     try:
@@ -36,7 +37,7 @@ else:
     except ProviderUnavailable as e:
         sys.exit(f"provider unavailable: {e}")
     with prov:
-        res = evaluate(prov, tasks, seed=a.seed, only=a.only, ground=not a.no_ground)
+        res = evaluate(prov, tasks, seed=a.seed, only=a.only, ground=not a.no_ground, prune=a.prune)
         man = prov.tools.manifest
         meta = {"startup_s": round(prov.startup_s, 2), "threads": a.threads, "ctx": prov.ctx,
                 "llama_cpp_tag": man["llama_cpp"]["tag"], "model": man["models"][a.provider]}

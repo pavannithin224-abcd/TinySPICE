@@ -3,7 +3,7 @@ extractor (oracle), and grounding never blocks a perfect extraction. Usage: pyth
 import json
 import sys
 
-from tinyspice.agent.grounding import ungrounded_fields
+from tinyspice.agent.grounding import uncovered_measurements, ungrounded_fields
 from tinyspice.agent.raw import RAW_FIELDS, raw_to_spec_dict
 from tinyspice.schemas import ExperimentSpec
 
@@ -23,7 +23,9 @@ for t in T:
         for k, v in g["budget"].items():
             raw[k] = v
     else:
-        raw = {k: None for k in RAW_FIELDS} | t["oracle"]
+        raw = {k: None for k in RAW_FIELDS} | t.get("oracle", {})
+        if "oracle" not in t:
+            continue
         try:
             ExperimentSpec.model_validate(raw_to_spec_dict(t["oracle"]))
             bad += 1
@@ -33,7 +35,7 @@ for t in T:
             if not all(m.lower() in blob for m in t["reject_match"]):
                 bad += 1
                 print("REASON MISMATCH", t["id"], t["reject_match"], blob[:240].replace("\n", " "))
-    ug = ungrounded_fields(raw, t["text"])
+    ug = ungrounded_fields(raw, t["text"]) + [f"UNCOVERED:{c}" for c in uncovered_measurements(raw, t["text"])]
     if ug:
         bad += 1
         print("PERFECT EXTRACTION BLOCKED BY GROUNDING", t["id"], ug)

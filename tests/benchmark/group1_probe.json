@@ -1,0 +1,107 @@
+{
+ "_note": "Synonym probe: measures grounding false-blocks. Perfect extractions are EXPECTED to be blocked for some of these.",
+ "tasks": [
+  {
+   "id": "S01",
+   "expect": "valid",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, at room temperature. Id-Vg with VDS = 1.8 V, VGS from 0 to 1.8 V in 0.1 V steps. Measure the subthreshold slope. At most 40 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "vds_v": 1.8,
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.1
+    },
+    "measurements": [
+     "SS"
+    ],
+    "budget": {
+     "max_points": 40
+    }
+   }
+  },
+  {
+   "id": "S02",
+   "expect": "valid",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, at 27 C. Id-Vg with VDS = 1.8 V, VGS from 0 to 1.8 V in 0.1 V steps. Measure the saturation drive current at VGS = 1.8 V. At most 40 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "vds_v": 1.8,
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.1
+    },
+    "measurements": [
+     "ION"
+    ],
+    "ion_vgs_v": 1.8,
+    "budget": {
+     "max_points": 40
+    }
+   }
+  },
+  {
+   "id": "S03",
+   "expect": "valid",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, at 27 C. Id-Vg with VDS = 1.8 V, VGS from 0 to 1.8 V in 0.1 V steps. Measure the standby current at VGS = 0 V. At most 40 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "vds_v": 1.8,
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.1
+    },
+    "measurements": [
+     "IOFF"
+    ],
+    "ioff_vgs_v": 0.0,
+    "budget": {
+     "max_points": 40
+    }
+   }
+  },
+  {
+   "id": "S04",
+   "expect": "valid",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, at 27 C. Id-Vg with VDS = 1.8 V, VGS from 0 to 1.8 V in 0.1 V steps. Measure the turn-on voltage. At most 40 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "vds_v": 1.8,
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.1
+    },
+    "measurements": [
+     "VTH"
+    ],
+    "budget": {
+     "max_points": 40
+    }
+   }
+  }
+ ]
+}
