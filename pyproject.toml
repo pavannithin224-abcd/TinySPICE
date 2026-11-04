@@ -16,6 +16,9 @@ dev = ["pytest>=8"]
 api = ["fastapi", "uvicorn"]
 ml = ["torch"]
 
+[project.scripts]
+tinyspice = "tinyspice.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

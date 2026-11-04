@@ -58,10 +58,20 @@ def test_wallclock_is_a_total_deadline_and_timeouts_grow_but_never_pass_it():
     assert t1 == pytest.approx(4.0)                # 0.4 x total
     c.t = 4.0
     t2 = L.attempt_timeout(t1)
-    assert t2 == pytest.approx(6.0)                # min(remaining 6, 8)
+    assert t2 == pytest.approx(5.8)                # min(remaining 6 - margin 0.2, 8)
     c.t = 10.0
     with pytest.raises(BudgetExceeded) as e:
         L.attempt_timeout(t2)
+    assert e.value.dimension == "runtime"
+
+
+def test_no_process_may_start_inside_the_safety_margin():
+    L, c = ledger(max_runtime_s=0.3)
+    assert L.margin_s == pytest.approx(0.1)
+    assert L.attempt_timeout(None) == pytest.approx(0.12)          # min(0.3-0.1, 0.4*0.3)
+    c.t = 0.25                                                      # 0.05 s left < 0.1 s margin
+    with pytest.raises(BudgetExceeded) as e:
+        L.attempt_timeout(0.12)
     assert e.value.dimension == "runtime"
 
 

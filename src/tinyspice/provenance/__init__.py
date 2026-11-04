@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS runs(
   run_id TEXT PRIMARY KEY, created_utc TEXT NOT NULL, spec_sha256 TEXT NOT NULL, status TEXT NOT NULL, message TEXT,
   strategy TEXT, retries_used INTEGER, tool_calls INTEGER, points INTEGER, wallclock_s REAL, budget_json TEXT,
   recovery_chain_json TEXT, code_git_commit TEXT, code_dirty INTEGER, ngspice_version TEXT, model_files_json TEXT,
-  llm_json TEXT, run_dir TEXT, manifest_sha256 TEXT, injected_json TEXT);
+  llm_json TEXT, run_dir TEXT, manifest_sha256 TEXT, injected_json TEXT, replay_of TEXT);
 CREATE TABLE IF NOT EXISTS events(run_id TEXT NOT NULL, seq INTEGER NOT NULL, kind TEXT NOT NULL, json TEXT NOT NULL, PRIMARY KEY(run_id, seq));
 CREATE TABLE IF NOT EXISTS measurements(run_id TEXT NOT NULL, name TEXT NOT NULL, ok INTEGER NOT NULL, value REAL, unit TEXT,
   error_code TEXT, flags_json TEXT, diagnostics_json TEXT, PRIMARY KEY(run_id, name));
@@ -85,7 +85,7 @@ class ProvenanceStore:
         with c:
             c.execute("INSERT INTO runs VALUES(:run_id,:created_utc,:spec_sha256,:status,:message,:strategy,:retries_used,:tool_calls,"
                       ":points,:wallclock_s,:budget_json,:recovery_chain_json,:code_git_commit,:code_dirty,:ngspice_version,"
-                      ":model_files_json,:llm_json,:run_dir,:manifest_sha256,:injected_json)", run)
+                      ":model_files_json,:llm_json,:run_dir,:manifest_sha256,:injected_json,:replay_of)", run)
             for i, e in enumerate(events):
                 c.execute("INSERT INTO events VALUES(?,?,?,?)", (run["run_id"], i, e["kind"], json.dumps(e, sort_keys=True)))
             for name, m in measurements.items():

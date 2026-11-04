@@ -48,6 +48,12 @@ class BudgetLedger:
         return cls(b.max_points, b.max_runtime_s, b.max_tool_calls, b.max_retries, clock=clock)
 
     # ---- wall-clock ----
+    @property
+    def margin_s(self) -> float:
+        """Safety margin: killing a subprocess takes a few ms, so a timeout of exactly 'what is left' overshoots the limit.
+        No new process may start unless this much remains, and each process timeout is capped at remaining - margin."""
+        return max(0.1, min(2.0, 0.02 * self.max_runtime_s))
+
     def elapsed_s(self) -> float:
         return self.clock() - self._start
 
@@ -55,14 +61,14 @@ class BudgetLedger:
         return max(0.0, self.max_runtime_s - self.elapsed_s())
 
     def check_deadline(self) -> None:
-        if self.remaining_s() <= 0.0:
-            raise BudgetExceeded("runtime", f"deadline {self.max_runtime_s}s reached")
+        if self.remaining_s() <= self.margin_s:
+            raise BudgetExceeded("runtime", f"deadline {self.max_runtime_s}s (safety margin {self.margin_s:.2f}s) reached")
 
     def attempt_timeout(self, previous: float | None) -> float:
-        """First process timeout = min(remaining, 0.4 x total); each timeout-retry doubles the previous, capped at remaining."""
+        """First process timeout = min(remaining - margin, 0.4 x total); each timeout-retry doubles the previous, capped likewise."""
         self.check_deadline()
         want = FIRST_TIMEOUT_FRACTION * self.max_runtime_s if previous is None else previous * TIMEOUT_GROWTH
-        return min(self.remaining_s(), want)
+        return min(self.remaining_s() - self.margin_s, want)
 
     # ---- tool calls ----
     def charge_calls(self, n: int) -> None:
