@@ -27,7 +27,20 @@ def test_raw_schema_matches_spec_fields():
     assert mapped <= spec_fields | set()                       # every raw key lands on a real ExperimentSpec field
     assert {"sweep", "budget"} <= mapped
     s = raw_json_schema()
-    assert set(s["required"]) == set(RAW_FIELDS) and s["additionalProperties"] is False
+    assert len(s["anyOf"]) == 3
+    for v in s["anyOf"]:
+        assert set(v["required"]) == set(RAW_FIELDS) and v["additionalProperties"] is False
+    both_ok = [(v["properties"]["sweep_step"]["type"], v["properties"]["sweep_points"]["type"]) for v in s["anyOf"]]
+    assert ("number", "null") in both_ok and ("null", "integer") in both_ok and ("null", "null") in both_ok
+    assert ("number", "integer") not in both_ok                # step AND points can never both be filled
+
+
+def test_prompt_example_is_wellformed_and_matches_schema():
+    from tinyspice.agent.interpret import SYSTEM_PROMPT
+    ex = json.loads(SYSTEM_PROMPT.split("JSON: ", 1)[1])
+    assert set(ex) == set(RAW_FIELDS)                          # example uses exactly the schema's keys
+    assert ex["sweep_step"] is None and ex["sweep_points"] == 31
+    assert raw_to_spec_dict(ex)["sweep"] == {"start": 0, "stop": 1.5, "points": 31}
 
 
 def test_raw_to_spec_dict_drops_nulls_and_nests():

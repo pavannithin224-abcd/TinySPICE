@@ -33,7 +33,15 @@ STRICT RULES
 7. sweep_start/sweep_stop/sweep_step (or sweep_points) describe the swept voltage. vds_v is the FIXED drain bias for Id-Vg; vgs_v is the FIXED gate bias for Id-Vd.
 8. ion_vgs_v / ioff_vgs_v: the gate voltage at which on-/off-current is evaluated, only if stated.
 9. max_points: a stated limit on simulation points. max_runtime_s, max_tool_calls, max_retries: only if stated.
-10. Ignore irrelevant text. If the request is contradictory, still copy what it states; do not fix it."""
+10. Ignore irrelevant text. If the request is contradictory, still copy what it states; do not fix it.
+11. NEVER copy one number into several fields. max_points, max_runtime_s, max_tool_calls and max_retries are four different limits; each is null unless the request names THAT limit.
+12. For Id-Vg only vds_v is a fixed bias; vgs_v is null unless the request fixes it. For Id-Vd only vgs_v is a fixed bias; vds_v is null. vbs_v is null unless stated. vth_ic_a is null unless a threshold current is stated.
+13. A step ("in 0.02 V steps") fills sweep_step; a count ("with 37 points") fills sweep_points. Never fill both; if neither is stated, both are null.
+14. Lengths: "W = 2000 nm" -> width_um 2.0 ; "L = 150 nm" -> length_um 0.15. Width and length are in micrometres.
+
+EXAMPLE
+REQUEST: Look at an NMOS with width 500 nm and length 2 um at 40 degrees C. Id-Vd, gate fixed at 0.7 V, drain from 0 to 1.5 V with 31 points. Measure the drain current. No more than 45 points.
+JSON: {{"device_type": "nmos", "model_name": null, "width_um": 0.5, "length_um": 2.0, "temperature_c": 40, "analysis": "idvd", "sweep_start": 0, "sweep_stop": 1.5, "sweep_step": null, "sweep_points": 31, "vds_v": null, "vgs_v": 0.7, "vbs_v": null, "measurements": ["ID"], "ion_vgs_v": null, "ioff_vgs_v": null, "vth_ic_a": null, "max_points": 45, "max_runtime_s": null, "max_tool_calls": null, "max_retries": null}}"""
 
 
 def build_user_prompt(request: str, error_note: str | None = None) -> str:

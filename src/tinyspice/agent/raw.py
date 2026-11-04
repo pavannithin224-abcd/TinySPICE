@@ -35,7 +35,16 @@ RAW_FIELDS: dict[str, dict] = {
 
 
 def raw_json_schema() -> dict:
-    return {"type": "object", "properties": RAW_FIELDS, "required": list(RAW_FIELDS), "additionalProperties": False}
+    """Step XOR points is enforced by the grammar itself: three full-object variants (step only / points only / neither).
+    'Both stated' cannot be expressed, so a request that states both is silently reduced to one; documented limitation."""
+    def variant(step: dict, points: dict) -> dict:
+        return {"type": "object", "properties": {**RAW_FIELDS, "sweep_step": step, "sweep_points": points},
+                "required": list(RAW_FIELDS), "additionalProperties": False}
+    return {"anyOf": [
+        variant({"type": "number"}, {"type": "null"}),
+        variant({"type": "null"}, {"type": "integer"}),
+        variant({"type": "null"}, {"type": "null"}),
+    ]}
 
 
 _SWEEP = {"sweep_start": "start", "sweep_stop": "stop", "sweep_step": "step", "sweep_points": "points"}
