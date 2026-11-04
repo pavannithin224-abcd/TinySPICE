@@ -1,0 +1,452 @@
+{
+ "model": "qwen3.5-0.8b",
+ "temperature": 0.2,
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "prompt_sha256": "5698872fac4f6c01939cf6ef4f6f4cde80780e032c1067c0a26ff073579c18e5",
+ "schema_sha256": "febf103bd8e647952971715f5593ab272daa665079cc3d1d72fb512902e89e6c",
+ "outputs": {
+  "T01|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.04,\n  \"sweep_points\": null,\n  \"vds_v\": 1.8,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"SS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 60,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 13.06
+  },
+  "T01|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.04,\n  \"sweep_points\": null,\n  \"vds_v\": 1.8,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"SS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 60,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.89
+  },
+  "T01|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.04,\n  \"sweep_points\": null,\n  \"vds_v\": 1.8,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"SS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 60,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.92
+  },
+  "T02|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 2.0,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"GDS\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.69
+  },
+  "T02|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.002,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.63
+  },
+  "T02|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.002,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.59
+  },
+  "T03|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": 1.8,\n  \"vgs_v\": 0.9,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.36
+  },
+  "T03|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 1.0, \"length_um\": 0.18, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": 0.9, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.13
+  },
+  "T03|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": 1.8,\n  \"vgs_v\": 0.9,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.93
+  },
+  "T04|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 0.75,\n  \"length_um\": 0.2,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": 0.03,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"ION\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.27
+  },
+  "T04|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 0.75,\n  \"length_um\": 0.2,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": 0.03,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"ION\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.84
+  },
+  "T04|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 0.75,\n  \"length_um\": 0.2,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": 0.03,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"ION\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.74
+  },
+  "T05|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": 120,\n  \"max_tool_calls\": 6,\n  \"max_retries\": 2\n}"
+   ],
+   "latency_s": 9.36
+  },
+  "T05|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 1.0, \"length_um\": 0.18, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": null, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": 120, \"max_tool_calls\": 6, \"max_retries\": 2}"
+   ],
+   "latency_s": 7.09
+  },
+  "T05|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": 120,\n  \"max_tool_calls\": 6,\n  \"max_retries\": 2\n}"
+   ],
+   "latency_s": 8.88
+  },
+  "T06|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.02
+  },
+  "T06|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 1.0, \"length_um\": 0.18, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.09
+  },
+  "T06|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.61
+  },
+  "T07|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 5.0,\n  \"length_um\": 1.0,\n  \"temperature_c\": 85,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"ION\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.12
+  },
+  "T07|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 5.0,\n  \"length_um\": 1.0,\n  \"temperature_c\": 85,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.86
+  },
+  "T07|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 5.0,\n  \"length_um\": 1.0,\n  \"temperature_c\": 85,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"ION\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.74
+  },
+  "T08|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 4.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"GDS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 40,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.15
+  },
+  "T08|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 4.0, \"length_um\": 0.5, \"temperature_c\": 27, \"analysis\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": null, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"GDS\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 40, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 6.89
+  },
+  "T08|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 4.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"GDS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 40,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.55
+  },
+  "T09|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.01,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.05
+  },
+  "T09|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 1.0, \"length_um\": 0.18, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.01, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.05
+  },
+  "T09|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.01,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.61
+  },
+  "T10|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 300,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.99
+  },
+  "T10|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 300,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.72
+  },
+  "T10|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 300,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.64
+  },
+  "T11|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"GDS\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.65
+  },
+  "T11|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 2.0, \"length_um\": 0.5, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.06
+  },
+  "T11|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.7
+  },
+  "T12|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"GDS\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.33
+  },
+  "T12|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 2.0, \"length_um\": 0.5, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.01
+  },
+  "T12|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.61
+  },
+  "T13|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.04,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\n    \"VTH\",\n    \"GM\",\n    \"SS\",\n    \"ION\",\n    \"IOFF\"\n  ],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 60,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 10.06
+  },
+  "T13|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.04,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 60,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.06
+  },
+  "T13|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.04,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\n    \"VTH\",\n    \"GM\",\n    \"SS\",\n    \"ION\",\n    \"IOFF\"\n  ],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 60,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.56
+  },
+  "T14|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.3,\n  \"sweep_step\": 0.02,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 40,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.99
+  },
+  "T14|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 1.0, \"length_um\": 0.18, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 0.3, \"sweep_step\": 0.02, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 40, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.09
+  },
+  "T14|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.3,\n  \"sweep_step\": 0.02,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 40,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.57
+  },
+  "T15|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.3,\n  \"sweep_step\": 0.02,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 40,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.14
+  },
+  "T15|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.3,\n  \"sweep_step\": 0.02,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 40,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.59
+  },
+  "T15|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.3,\n  \"sweep_step\": 0.02,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 40,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.59
+  },
+  "T16|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 16,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"SS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 16,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.04
+  },
+  "T16|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 16,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"SS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 16,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.55
+  },
+  "T16|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.0,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 16,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"SS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 16,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.76
+  },
+  "T17|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 85,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 20,\n  \"vds_v\": 1.2,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"SS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 20,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.21
+  },
+  "T17|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 85,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 20,\n  \"vds_v\": 1.2,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"SS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 20,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.71
+  },
+  "T17|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 85,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 20,\n  \"vds_v\": 1.2,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"SS\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 20,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.73
+  },
+  "T18|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 0.42,\n  \"length_um\": 0.15,\n  \"temperature_c\": -40,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.04,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"SS\", \"ION\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 60,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.38
+  },
+  "T18|1": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 0.42,\n  \"length_um\": 0.15,\n  \"temperature_c\": -40,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.04,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"SS\", \"ION\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 60,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.96
+  },
+  "T18|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 0.42,\n  \"length_um\": 0.15,\n  \"temperature_c\": -40,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.04,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"SS\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 60,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.92
+  },
+  "T19|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"GDS\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.68
+  },
+  "T19|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 2.0, \"length_um\": 0.5, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.0
+  },
+  "T19|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.56
+  },
+  "T20|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"GDS\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.29
+  },
+  "T20|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 2.0, \"length_um\": 0.5, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.06
+  },
+  "T20|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.59
+  },
+  "T21|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"GDS\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.62
+  },
+  "T21|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 2.0, \"length_um\": 0.5, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.14
+  },
+  "T21|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.64
+  },
+  "T22|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"GDS\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": 0.3,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 10.01
+  },
+  "T22|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 2.0, \"length_um\": 0.5, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": null, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": 0.3, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.1
+  },
+  "T22|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": 0.3,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.72
+  },
+  "T23|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"GDS\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.78
+  },
+  "T23|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 2.0, \"length_um\": 0.5, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.09
+  },
+  "T23|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.64
+  },
+  "T24|0": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\", \"GM\", \"GDS\", \"SS\", \"ION\", \"IOFF\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 9.25
+  },
+  "T24|1": {
+   "texts": [
+    "{\"device_type\": \"nmos\", \"model_name\": \"sky130_fd_pr__nfet_01v8\", \"width_um\": 2.0, \"length_um\": 0.5, \"temperature_c\": 27, \"analysis\": \"idvg\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": 0.05, \"sweep_points\": null, \"vds_v\": 1.8, \"vgs_v\": null, \"vbs_v\": null, \"measurements\": [\"ID\", \"VTH\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 50, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}"
+   ],
+   "latency_s": 7.11
+  },
+  "T24|2": {
+   "texts": [
+    "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 2.0,\n  \"length_um\": 0.5,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvg\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": 0.05,\n  \"sweep_points\": null,\n  \"vds_v\": null,\n  \"vgs_v\": null,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\", \"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 50,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}"
+   ],
+   "latency_s": 8.55
+  }
+ },
+ "model_meta": {
+  "repo": "unsloth/Qwen3.5-0.8B-GGUF",
+  "revision": "6ab461498e2023f6e3c1baea90a8f0fe38ab64d0",
+  "file": ".tools/models/Qwen3.5-0.8B-Q4_K_M.gguf",
+  "license": "apache-2.0"
+ },
+ "llama_cpp_tag": "b12102"
+}
