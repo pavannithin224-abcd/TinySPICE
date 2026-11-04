@@ -37,7 +37,7 @@ class MockSimulator:
             y = k * wl * (vov * xe - xe**2 / 2) * (1 + 0.05 * x)
         return x, y
 
-    def run(self, spec: ExperimentSpec, run_dir: Path | None = None, points=None) -> SimResult:
+    def run(self, spec: ExperimentSpec, run_dir: Path | None = None, points=None, timeout_s=None, solver_overrides=None, extra_lines=()) -> SimResult:
         self.calls += 1
         base = dict(simulator_version=self.version(), meta={"mock": True})
         active = self.fault and (self.fail_times is None or self.calls <= self.fail_times)

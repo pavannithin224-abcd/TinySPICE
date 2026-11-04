@@ -9,7 +9,7 @@ _PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("MISSING_INCLUDE", re.compile(r"could not find include file", re.I)),
     ("MODEL_NOT_FOUND", re.compile(r"unknown subckt|unknown model|could not find a valid modelname|no such model", re.I)),
     ("NONCONVERGENCE", re.compile(r"singular matrix|no convergence|timestep too small|iteration limit|gmin stepping failed|source stepping failed", re.I)),
-    ("NETLIST_SYNTAX", re.compile(r"syntax error|unknown (?:parameter|command)|unrecognized", re.I)),
+    ("NETLIST_SYNTAX", re.compile(r"syntax error|unknown (?:parameter|command)|unrecognized|unimplemented dot command|incomplete or empty netlist", re.I)),
 ]
 _ERR_LINE = re.compile(r"^\s*(?:error|fatal)\b", re.I | re.M)
 

@@ -30,7 +30,7 @@ def tools():
 def test_netlist_idvg_cards(builtin_spec, tools):
     n = build_netlist(builtin_spec, get_profile("builtin_level1_nmos", tools))
     assert "VDS d 0 1.8" in n and "VGS g 0 0" in n
-    assert "dc VGS 0 1.8 0.02" in n
+    assert "dc VGS 0 1.80002 0.02" in n          # stop nudged by 0.1 % of a step (ngspice otherwise drops the last point for steps like 1.8/49)
     assert "let id = -i(VDS)" in n and "wrdata raw.dat id" in n
     assert ".temp 27" in n and n.rstrip().endswith(".end")
 
@@ -39,12 +39,12 @@ def test_netlist_idvd_sweeps_vds(spec_dict, tools):
     s = spec_from(spec_dict, model_name="builtin_level1_nmos", analysis="idvd", vds_v=None, vgs_v=1.2,
                   measurements=["GDS"], ion_vgs_v=None, ioff_vgs_v=None)
     n = build_netlist(s, get_profile("builtin_level1_nmos", tools))
-    assert "VDS d 0 0" in n and "VGS g 0 1.2" in n and "dc VDS 0 1.8 0.02" in n
+    assert "VDS d 0 0" in n and "VGS g 0 1.2" in n and "dc VDS 0 1.80002 0.02" in n
 
 
 def test_netlist_points_converted_to_step(spec_dict, tools):
     s = spec_from(spec_dict, model_name="builtin_level1_nmos", sweep={"start": 0.0, "stop": 1.8, "points": 19})
-    assert "dc VGS 0 1.8 0.1" in build_netlist(s, get_profile("builtin_level1_nmos", tools))
+    assert "dc VGS 0 1.8001 0.1" in build_netlist(s, get_profile("builtin_level1_nmos", tools))
 
 
 def test_netlist_is_deterministic(builtin_spec, tools):

@@ -158,3 +158,16 @@ def test_curvature_strategy_real_sky130_end_to_end(spec_dict, limits, tmp_path):
             assert abs(a.value - b.value) <= tol * (abs(b.value) if key == "ION" else 1.0), (key, a.value, b.value)
     # ION and IOFF are read at the exact forced bias points, so they must match the dense reference closely
     assert rec.measurements["ION"].ok and rec.measurements["IOFF"].ok
+
+
+@needs_ngspice
+@needs_sky
+@pytest.mark.parametrize("n", [50, 37, 91, 17])
+def test_uniform_points_sweep_returns_exactly_n_rows(spec_dict, n, tmp_path):
+    """Regression (found in Stage 5): a `points`-based sweep with a non-representable step (1.8/49) returned 49 rows for 50."""
+    d = dict(spec_dict)
+    d["sweep"] = {"start": 0.0, "stop": 1.8, "points": n}
+    d["budget"] = {"max_points": 200}
+    r = NgspiceSimulator().run(mk(d), tmp_path / "r")
+    assert r.ok, (r.error_code, r.error_detail)
+    assert len(r.x) == n and abs(r.x[-1] - 1.8) < 1e-6

@@ -36,27 +36,30 @@ class NgspiceSimulator:
             self._version = f"ngspice-{m.group(1)}" if m else "unknown"
         return self._version
 
-    def run(self, spec: ExperimentSpec, run_dir: Path, profile: ModelProfile | None = None, points=None) -> SimResult:
+    def run(self, spec: ExperimentSpec, run_dir: Path, profile: ModelProfile | None = None, points=None,
+            timeout_s: float | None = None, solver_overrides=None, extra_lines=()) -> SimResult:
         profile = profile or get_profile(spec.model_name, self.tools)
         run_dir = Path(run_dir)
         netlist_path = run_dir / NETLIST_NAME
         if netlist_path.exists():
             raise FileExistsError(f"refusing to overwrite existing run: {netlist_path}")
         run_dir.mkdir(parents=True, exist_ok=True)
-        netlist_path.write_text(build_netlist(spec, profile, points), encoding="utf-8", newline="\n")
+        timeout = timeout_s if timeout_s is not None else spec.budget.max_runtime_s
+        netlist_path.write_text(build_netlist(spec, profile, points, solver_overrides, extra_lines), encoding="utf-8", newline="\n")
         raw_path = run_dir / RAW_NAME
         meta = {"model": profile.name, "corner": profile.corner, "educational_model": profile.educational,
                 "solver_options": profile.solver_options, "explicit_points": None if points is None else len(points),
+                "solver_overrides": dict(solver_overrides or {}), "process_timeout_s": timeout,
                 "model_files_sha256": {p.name: file_sha256(p) for p in profile.model_files}}
         common = dict(simulator_version=self.version(), netlist_path=netlist_path, raw_path=raw_path, meta=meta)
 
         t0 = time.monotonic()
         try:
             proc = subprocess.run([str(self.exe), "-b", NETLIST_NAME], cwd=run_dir, capture_output=True, text=True,
-                                  timeout=spec.budget.max_runtime_s, stdin=subprocess.DEVNULL, shell=False)
+                                  timeout=timeout, stdin=subprocess.DEVNULL, shell=False)
         except subprocess.TimeoutExpired as e:
             return SimResult(ok=False, error_code="TIMEOUT", runtime_s=time.monotonic() - t0,
-                             error_detail=f"exceeded {spec.budget.max_runtime_s}s",
+                             error_detail=f"exceeded {timeout}s",
                              stdout=_s(e.stdout), stderr=_s(e.stderr), **common)
         dt = time.monotonic() - t0
         (run_dir / "ngspice.stdout.txt").write_text(proc.stdout, encoding="utf-8")

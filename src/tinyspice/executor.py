@@ -86,7 +86,8 @@ WINDOW_TARGET = 6
 
 
 def run_sweep(spec: ExperimentSpec, simulator: Simulator, run_dir: Path, strategy: str = "uniform",
-              pilot_frac: float = PILOT_FRAC, window_target: int = WINDOW_TARGET) -> SimResult:
+              pilot_frac: float = PILOT_FRAC, window_target: int = WINDOW_TARGET,
+              timeout_s: float | None = None, solver_overrides=None) -> SimResult:
     """Run the sweep under a sampling strategy; ALWAYS spends exactly spec.sweep.n_points simulated points (never more).
       uniform      - the spec's own uniform dc sweep (1 process)
       uniform_pwl  - BENCHMARK ONLY: the same uniform points through the explicit-point path, so uniform and curvature
@@ -96,17 +97,18 @@ def run_sweep(spec: ExperimentSpec, simulator: Simulator, run_dir: Path, strateg
       window       - like curvature, but first guarantees `window_target` points inside the SS-extraction window
                      (Id in [Ic/1e3, Ic]) estimated from the pilot; the rest by curvature (2 processes)."""
     n = spec.sweep.n_points
+    sim_kw = {k: v for k, v in (("timeout_s", timeout_s), ("solver_overrides", solver_overrides)) if v is not None}   # only when set
     if strategy == "uniform":
-        return simulator.run(spec, run_dir / "sim")
+        return simulator.run(spec, run_dir / "sim", **sim_kw)
     if strategy == "uniform_pwl":
-        return simulator.run(spec, run_dir / "sim", points=uniform_grid(spec.sweep.start, spec.sweep.stop, n))
+        return simulator.run(spec, run_dir / "sim", points=uniform_grid(spec.sweep.start, spec.sweep.stop, n), **sim_kw)
     if strategy not in ("uniform", "uniform_pwl", "curvature", "window"):
         raise ValueError(f"unknown strategy {strategy!r}")
     forced = [v for v in (spec.ion_vgs_v, spec.ioff_vgs_v) if v is not None]
     pilot = pilot_grid(spec.sweep.start, spec.sweep.stop, pilot_base(n, len(forced), pilot_frac), forced)
     if n - len(pilot) == 1:                       # a 1-point explicit run is undefined: fold it into the pilot grid
         pilot = pilot_grid(spec.sweep.start, spec.sweep.stop, pilot_base(n, len(forced), pilot_frac) + 1, forced)
-    s1 = simulator.run(spec, run_dir / "sim_pilot", points=pilot)
+    s1 = simulator.run(spec, run_dir / "sim_pilot", points=pilot, **sim_kw)
     if not s1.ok:
         return s1
     n_new = n - len(pilot)
@@ -125,7 +127,7 @@ def run_sweep(spec: ExperimentSpec, simulator: Simulator, run_dir: Path, strateg
     phases = [{"phase": "pilot", "points": int(len(pilot)), "runtime_s": s1.runtime_s}]
     x, y, runtime = s1.x, s1.y, s1.runtime_s
     if len(new) > 0:
-        s2 = simulator.run(spec, run_dir / "sim_refine", points=new)
+        s2 = simulator.run(spec, run_dir / "sim_refine", points=new, **sim_kw)
         if not s2.ok:
             return s2
         order = np.argsort(np.concatenate([s1.x, s2.x]))
