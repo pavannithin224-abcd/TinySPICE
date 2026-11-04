@@ -49,49 +49,49 @@ def test_raw_to_spec_dict_drops_nulls_and_nests():
 
 
 def test_valid_extraction_yields_spec_no_repair():
-    r = interpret_request("x", ScriptedProvider(j()))
+    r = interpret_request("x", ScriptedProvider(j()), ground=False)
     assert r.ok and r.status is None and r.llm_calls == 1 and not r.repaired and r.spec.width_um == 1.0
 
 
 def test_missing_value_is_rejected_and_never_repaired():
     p = ScriptedProvider(j(width_um=None), j())                # a 2nd (valid) answer exists; it must NOT be requested
-    r = interpret_request("x", p)
+    r = interpret_request("x", p, ground=False)
     assert not r.ok and r.status is ExperimentStatus.REJECTED_INVALID and p.calls == 1 and not r.repaired
     assert any("width_um" in e["loc"] for e in r.errors)
 
 
 def test_contradiction_is_rejected_and_never_repaired():
     p = ScriptedProvider(j(vgs_v=0.9), j())
-    r = interpret_request("x", p)
+    r = interpret_request("x", p, ground=False)
     assert not r.ok and p.calls == 1 and "must not be set" in json.dumps(r.errors)
 
 
 def test_malformed_json_gets_exactly_one_repair():
     p = ScriptedProvider("{not json", j())
-    r = interpret_request("x", p)
+    r = interpret_request("x", p, ground=False)
     assert r.ok and r.repaired and p.calls == 2 and "FORMAT reasons only" in p.users[1]
 
 
 def test_malformed_twice_is_rejected_after_bounded_repair():
     p = ScriptedProvider("garbage", "still garbage", j())
-    r = interpret_request("x", p)
+    r = interpret_request("x", p, ground=False)
     assert not r.ok and p.calls == 2 and r.errors[0]["type"] == "json_invalid"
 
 
 def test_bad_enum_is_repairable_once():
     p = ScriptedProvider(j(analysis="transfer"), j())
-    r = interpret_request("x", p)
+    r = interpret_request("x", p, ground=False)
     assert r.ok and r.repaired and p.calls == 2
 
 
 def test_repair_prompt_forbids_invention():
     p = ScriptedProvider("{broken", j())
-    interpret_request("x", p)
+    interpret_request("x", p, ground=False)
     assert "Do NOT add any value the request does not state" in p.users[1]
 
 
 def test_all_null_is_rejected():
-    r = interpret_request("x", ScriptedProvider(json.dumps({k: None for k in RAW_FIELDS})))
+    r = interpret_request("x", ScriptedProvider(json.dumps({k: None for k in RAW_FIELDS})), ground=False)
     assert not r.ok and r.llm_calls == 1
 
 
@@ -102,12 +102,12 @@ def test_provider_error_surfaces():
         def complete_json(self, *a, **k):
             from tinyspice.providers import LLMResponse
             return LLMResponse(text="", model="dead", latency_s=0.0, error="ConnectionError: refused")
-    r = interpret_request("x", Dead())
+    r = interpret_request("x", Dead(), ground=False)
     assert not r.ok and r.errors[0]["type"] == "provider_error"
 
 
 def test_non_object_json_rejected():
-    r = interpret_request("x", ScriptedProvider("[1,2,3]", "[1]"))
+    r = interpret_request("x", ScriptedProvider("[1,2,3]", "[1]"), ground=False)
     assert not r.ok and r.llm_calls == 2
 
 

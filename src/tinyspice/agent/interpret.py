@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 
 from pydantic import ValidationError
 
+from tinyspice.agent.grounding import ungrounded_fields
 from tinyspice.agent.raw import raw_json_schema, raw_to_spec_dict
 from tinyspice.providers.base import LLMProvider
 from tinyspice.schemas import ExperimentSpec, ExperimentStatus
@@ -79,7 +80,8 @@ _REPAIRABLE = {"json_invalid", "extra_forbidden", "enum", "literal_error", "floa
                "greater_than_equal", "too_short"}
 
 
-def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1, seed: int = 0, max_tokens: int = 450) -> InterpretResult:
+def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1, seed: int = 0, max_tokens: int = 450,
+                      ground: bool = True) -> InterpretResult:
     schema = raw_json_schema()
     res = InterpretResult(spec=None, status=ExperimentStatus.REJECTED_INVALID, model=getattr(provider, "name", "?"))
     note: str | None = None
@@ -103,6 +105,11 @@ def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1,
                 continue
             break
         res.raw = raw
+        if ground:
+            ug = ungrounded_fields(raw, request)
+            if ug:
+                res.errors = [{"type": "ungrounded_value", "loc": f, "msg": f"value of `{f}` is not stated in the request"} for f in ug]
+                break                                   # final: never repaired
         try:
             spec = ExperimentSpec.model_validate(raw_to_spec_dict(raw))
         except ValidationError as e:

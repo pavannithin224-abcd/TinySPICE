@@ -48,12 +48,12 @@ def specs_equal(a: ExperimentSpec, b: ExperimentSpec) -> bool:
     return _eq(_norm(a.model_dump(mode="json")), _norm(b.model_dump(mode="json")))
 
 
-def evaluate(provider: LLMProvider, tasks: list[dict], seed: int = 0, only: list[str] | None = None) -> dict:
+def evaluate(provider: LLMProvider, tasks: list[dict], seed: int = 0, only: list[str] | None = None, ground: bool = True) -> dict:
     recs = []
     for t in tasks:
         if only and t["id"] not in only:
             continue
-        r = interpret_request(t["text"], provider, seed=seed)
+        r = interpret_request(t["text"], provider, seed=seed, ground=ground)
         rec = {"id": t["id"], "expect": t["expect"], "produced_valid": r.ok, "llm_calls": r.llm_calls, "repaired": r.repaired,
                "latency_s": round(r.latency_s, 3), "errors": [f"{e['loc']}: {e['msg']}" for e in r.errors][:6], "raw": r.raw,
                "raw_text_head": r.raw_text[:600], "raw_text_tail": r.raw_text[-300:], "raw_text_len": len(r.raw_text)}
