@@ -50,6 +50,25 @@ def _isin(v: float, cands: list[float]) -> bool:
     return any(math.isclose(v, c, rel_tol=1e-6, abs_tol=1e-12) for c in cands)
 
 
+def _anchored(text: str, value: float, before: str, after: str) -> bool:
+    """True if some number in `text` equals `value` (after unit scaling) AND sits next to its field's own anchor word."""
+    t = text.replace("\u2212", "-")
+    for m in _NUM.finditer(t):
+        unit = (m.group(2) or "").lower().replace(" ", "") or None
+        vals = [float(m.group(1)) * s for s in _SCALE.get(unit, [1.0])] + [float(m.group(1))]
+        if not any(math.isclose(value, v, rel_tol=1e-6, abs_tol=1e-12) for v in vals):
+            continue
+        pre = t[max(0, m.start() - 40):m.start()].lower()
+        post = t[m.end():m.end() + 14].lower()
+        if re.search(before, pre) or re.search(after, post):
+            return True
+    return False
+
+
+_ANCHORS = {"width_um": (r"(?:\bw\b|width)[^\d\n]{0,25}$", r"^\W*(?:wide|width)"),
+            "length_um": (r"(?:\bl\b|length)[^\d\n]{0,25}$", r"^\W*(?:long|length)")}
+
+
 def ungrounded_fields(raw: dict, request: str) -> list[str]:
     low = request.lower()
     cands = _candidates(request)
@@ -65,6 +84,8 @@ def ungrounded_fields(raw: dict, request: str) -> list[str]:
             continue
         if not _isin(fv, cands):
             bad.append(k)
+        elif k in _ANCHORS and not _anchored(request, fv, *_ANCHORS[k]):
+            bad.append(k)                                   # real number, wrong field (e.g. VDS 1.8 V read as width)
     for k, kw in _BUDGET_KW.items():                       # a limit needs its own keyword, not just a matching number
         if raw.get(k) is not None and k not in bad and not re.search(kw, low):
             bad.append(k)

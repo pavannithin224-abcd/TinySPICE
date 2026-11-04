@@ -57,3 +57,22 @@ def test_grounding_can_be_switched_off_for_ablation():
 def test_grounded_valid_request_passes_end_to_end():
     r = interpret_request(REQ, ScriptedProvider(json.dumps(raw())))
     assert r.ok and r.spec.width_um == 2.0 and r.spec.sweep.step == 0.02
+
+
+def test_cross_field_number_is_flagged_for_width_and_length():
+    # 1.8 is a real number in the request (VDS = 1.8 V) but it is not the width
+    req = "NMOS SKY130 NFET with L = 180 nm at 27 C. Id-Vg, VDS fixed at 1.8 V, VGS 0 to 1.8 V in 0.02 V steps. Measure threshold voltage. 200 points max."
+    assert "width_um" in ungrounded_fields(raw(width_um=1.8, length_um=0.18, max_points=200), req)
+    assert "length_um" not in ungrounded_fields(raw(width_um=1.8, length_um=0.18, max_points=200), req)
+
+
+def test_anchors_accept_common_phrasings():
+    for req, w, l in [("W = 1 um and L = 0.18 um", 1.0, 0.18), ("width 2000 nm, length 150 nm", 2.0, 0.15),
+                      ("Geometry: width 3 um, length 0.25 um", 3.0, 0.25), ("W 8 um, L 0.15 um", 8.0, 0.15),
+                      ("a transistor 4 um wide and 0.5 um long", 4.0, 0.5), ("Width 600 nm and length 300 nm", 0.6, 0.3)]:
+        bad = ungrounded_fields(raw(width_um=w, length_um=l), req + " NMOS SKY130 NFET room temperature Id-Vg VDS 1.8 V 0 to 1.8 V 0.02 V steps threshold off-current VGS = 0 V 80 points")
+        assert "width_um" not in bad and "length_um" not in bad, (req, bad)
+
+
+def test_swapped_width_and_length_flagged():
+    assert {"width_um", "length_um"} <= set(ungrounded_fields(raw(width_um=0.5, length_um=2.0), "W = 2 um, L = 0.5 um NMOS SKY130 room temperature Id-Vg"))
