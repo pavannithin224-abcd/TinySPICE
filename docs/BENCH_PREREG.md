@@ -32,4 +32,4 @@ I wrote both the tasks and the system (author bias), mitigated by freezing tasks
 Phase `llm` records model outputs (resumable); phase `run` is the ONE frozen evaluation and refuses to run twice; unknown phases are refused before any work. Amendments are logged below.
 
 ## Amendments
-(none)
+- 2026-11-04 (BEFORE any baseline or benchmark result existed; found by re-reading this document against the code): configuration A's wrapper originally set `budget.max_points` to its own point count, so check #2 (executed spec matches the gold on every stated budget field) could never pass for A on any task whose stated limit differs from its sweep size, which would have made every A success claim "false" by construction. Corrected: A's executed spec ECHOES the stated budget fields (max_points, max_runtime_s, max_tool_calls, max_retries) so the check compares like with like, while A still ENFORCES none of them (no planner, no ledger, and an explicit 300 s process timeout so the shared tool layer cannot enforce a stated time limit either). This restores the intended definition ("stated budget limits are NOT enforced"); no result was seen.

@@ -76,7 +76,7 @@ class Outcome:
     config: str
     status: str                       # one of the six ExperimentStatus values ('successful'/'failed' only for config A)
     spec: dict | None = None          # the spec actually executed (None if nothing ran)
-    values: dict = field(default_factory=dict)     # measurement name -> value or None (refused)
+    values: dict = field(default_factory=dict)     # measurement name -> {"ok": bool, "value": float|None, "code": str|None}
     points: int = 0
     wallclock_s: float = 0.0
     sim_calls: int = 0
@@ -94,7 +94,7 @@ def run_config_c(task: dict, provider, limits, workdir: Path, store=None) -> Out
         return Outcome("C", "rejected_invalid_input", wallclock_s=time.monotonic() - t0, notes="; ".join(f"{e['loc']}: {e['msg']}" for e in r.errors)[:300])
     sim = make_sim(task)
     res = run_experiment(r.spec, limits, sim, workdir, strategy=strategy_for(r.spec), store=store)
-    vals = {k: (m.value if m.ok else None) for k, m in (res.measurements or {}).items()}
+    vals = {k: {"ok": m.ok, "value": m.value, "code": m.error_code} for k, m in (res.measurements or {}).items()}
     return Outcome("C", res.status.value, spec=r.spec.model_dump(mode="json"), values=vals, points=res.n_points,
-                   wallclock_s=time.monotonic() - t0, sim_calls=sim.calls, tool_calls=res.budget["tool_calls"]["used"],
+                   wallclock_s=res.budget["wallclock_s"]["used"], sim_calls=sim.calls, tool_calls=res.budget["tool_calls"]["used"],
                    retries=res.retries_used, run_dir=str(res.run_dir), run_id=res.run_id, notes=res.message[:200])

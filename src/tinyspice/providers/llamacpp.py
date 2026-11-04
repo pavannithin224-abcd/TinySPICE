@@ -19,7 +19,7 @@ from tinyspice.simulator.tools import ToolPaths, find_tools
 
 class LlamaCppProvider:
     def __init__(self, model_key: str, tools: ToolPaths | None = None, threads: int = 4, ctx: int = 4096,
-                 startup_timeout_s: float = 240.0, request_timeout_s: float = 300.0, enable_thinking: bool = False):
+                 startup_timeout_s: float = 240.0, request_timeout_s: float = 300.0, enable_thinking: bool = False, temperature: float = 0.0):
         self.tools = tools or find_tools()
         man = self.tools.manifest
         try:
@@ -30,7 +30,7 @@ class LlamaCppProvider:
         if not self.exe.exists() or not self.model_path.exists():
             raise ProviderUnavailable(f"missing file: {self.exe if not self.exe.exists() else self.model_path}")
         self.name = f"llamacpp:{model_key}"
-        self.model_key, self.threads, self.ctx = model_key, threads, ctx
+        self.model_key, self.threads, self.ctx, self.temperature = model_key, threads, ctx, temperature
         self.startup_timeout_s, self.request_timeout_s, self.enable_thinking = startup_timeout_s, request_timeout_s, enable_thinking
         self.proc: subprocess.Popen | None = None
         self.port = 0
@@ -94,7 +94,7 @@ class LlamaCppProvider:
             self.start()
         body = {
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
-            "temperature": 0, "seed": seed, "max_tokens": max_tokens,
+            "temperature": self.temperature, "seed": seed, "max_tokens": max_tokens,
             "response_format": {"type": "json_schema", "json_schema": {"name": "spec", "strict": True, "schema": schema}},
             "chat_template_kwargs": {"enable_thinking": self.enable_thinking},
         }
