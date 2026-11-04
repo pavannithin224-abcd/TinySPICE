@@ -17,3 +17,10 @@
 | 2026-11-04 | GDS defined at the last Id-Vd sweep point; GM defined as max dId/dVGS; SS window = Ic/1e3..Ic with R^2 >= 0.995 gate | spec has no bias for GDS/GM/SS; deterministic, documented, refuses rather than guesses |
 | 2026-11-04 | SUCCESSFUL only if every requested measurement succeeds; some fail -> PARTIAL; all fail -> FAILED | honest-status rule |
 | 2026-11-04 | Metrics and tasks frozen by Nov 23, before final run | prevents benchmark tuning |
+
+## D-S4-1 Non-uniform sweep points (Stage 4, 2026-11-04) - VERIFIED on real ngspice-47
+Question: can ngspice sweep an arbitrary list of gate voltages? Spikes: scripts/spike_dc_list.py, scripts/spike_dc_pwl.py.
+- `dc VGS LIST v1 v2 ...` does NOT exist for the dc command: "Error: Bad syntax" for every variant; a 200-value dc line also crashed the process (exit 0xC0000409). Rejected.
+- CHOSEN (primary): sweep an integer index source `VIDX idx 0 0` with `dc VIDX 0 N-1 1` and drive the gate with a behavioral source `BGS g 0 V = pwl(v(idx), 0,v0, 1,v1, ...)`, written with `+` continuation lines. Measured: 2, 5, 15 and 200 arbitrary points all returned exactly N rows with gate values equal to the requested ones (atol 1e-9), ~0.7 s each, one process. Id at points shared with a plain uniform sweep agrees to <= 3.6e-4 relative (default reltol 1e-3 path noise; ~0.01 mV of VTH), so uniform and adaptive strategies will BOTH be run through the same PWL path to keep the comparison fair.
+- FALLBACK (works, not used): piecewise-uniform sub-sweeps, several `dc` + `wrdata raw<k>.dat` inside one control block (3 segments -> 4+9+5 rows in one process).
+- Cost model: a two-phase adaptive run = 2 ngspice processes (pilot, then refinement of ONLY the new points) = 2 tool calls; total simulated points = pilot + refinement <= budget.
