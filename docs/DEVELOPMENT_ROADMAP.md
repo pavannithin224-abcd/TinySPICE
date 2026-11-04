@@ -17,4 +17,5 @@ Every stage ends at a **gate**; the next stage starts only when the gate passes.
 **Cut order if behind:** second LLM row -> error-guided sampling -> FastAPI -> PMOS -> temperature sweep. The pipeline and benchmark are never cut.
 
 **Extra features (core):** failure-injection suite, replay & verify, dry-run plan preview, defaults ledger, measurement validity flags, frozen metrics.
+**Optional ablation (first to cut):** learned failure-rules memory (idea from AnalogAgent, KDD 2026) compared against the deterministic recovery catalog.
 **If time allows:** Id-Vd/GDS, PMOS, temperature sweep, Plotly report, error-guided sampling, FastAPI.

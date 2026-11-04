@@ -9,8 +9,8 @@ Status legend used across all docs: **IMPLEMENTED** (code exists) · **MOCK-TEST
 |---|---|
 | 0 Foundation | DONE (committed) |
 | 1 Simulator core | DONE (committed; hardening commit d3986a8) |
-| 2 Measurement engine | DONE: IMPLEMENTED, unit-tested on analytic curves (E1), cross-checked on real SKY130 data (E2). Awaiting commit |
-| 3 LLM -> spec | not started |
+| 2 Measurement engine | DONE (committed 2346cac): IMPLEMENTED, unit-tested on analytic curves (E1), cross-checked on real SKY130 data (E2) |
+| 3 LLM -> spec | IN PROGRESS: provider interface, strict interpreter, rule-based floor, Group-1 dev set + harness done and tested (120 tests). Real local LLM NOT yet run: model downloads are slow (~200 KB/s from Hugging Face), Qwen3.5-2B in progress |
 
 ## Components
 | Component | Status |
@@ -25,7 +25,10 @@ Status legend used across all docs: **IMPLEMENTED** (code exists) · **MOCK-TEST
 | PMOS | NOT IMPLEMENTED (rejected with UnsupportedDevice) |
 | measurements: ID, GM, GDS, VTH (constant current), SS (log-slope fit with R^2 gate), ION, IOFF | IMPLEMENTED, unit-tested on analytic curves (known answers; independent brentq reference for VTH), **cross-checked** on real SKY130 data against an independent scipy spline computation (same data; NOT validated against silicon or a datasheet). Every failure returns value=None + code |
 | executor measurement wiring | IMPLEMENTED: all requested ok -> SUCCESSFUL; some fail -> PARTIAL; all fail -> FAILED; writes measurements.json |
-| sampling, budget runtime, recovery, provenance store, providers, agent, benchmark, CLI | NOT IMPLEMENTED |
+| providers: interface, RuleBasedProvider (no-LLM floor), ScriptedProvider (test double), LlamaCppProvider (loopback-only llama-server) | IMPLEMENTED, MOCK-TESTED. LlamaCppProvider NOT yet run against a real model |
+| agent: strict NL -> ExperimentSpec interpreter (nulls dropped, missing/contradiction never repaired, <=1 format repair) | IMPLEMENTED, MOCK-TESTED (scripted + rule provider). NOT yet tested with a real LLM |
+| Group-1 dev set (13 tasks) + harness (valid/exact/wrong-value/false-accept/reason-match metrics) | IMPLEMENTED; rule floor: 100 % exact on dev (tuned on dev, so NOT evidence of generalisation). Frozen test set not written yet |
+| sampling, budget runtime, recovery, provenance store, CLI | NOT IMPLEMENTED |
 
 ## Evidence (real runs)
 - ngspice-47 executed from `.tools/ngspice/Spice64/bin/ngspice_con.exe`.

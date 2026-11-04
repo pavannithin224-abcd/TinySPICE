@@ -55,14 +55,36 @@ def sha256(p: Path) -> str:
     return h.hexdigest()
 
 
-def fetch(url: str, dest: Path) -> None:
+def fetch(url: str, dest: Path, retries: int = 6) -> None:
+    """Download with retry + HTTP Range resume (large GGUF files / flaky CDNs). Partial data lives in <dest>.part."""
+    import time
+    import urllib.error
     dest.parent.mkdir(parents=True, exist_ok=True)
-    req = urllib.request.Request(url, headers={"User-Agent": "tinyspice-setup/0.1"})
     tmp = dest.with_suffix(dest.suffix + ".part")
-    with urllib.request.urlopen(req, timeout=120) as r, tmp.open("wb") as f:
-        while chunk := r.read(1 << 20):
-            f.write(chunk)
-    tmp.replace(dest)
+    last: Exception | None = None
+    for attempt in range(1, retries + 1):
+        have = tmp.stat().st_size if tmp.exists() else 0
+        headers = {"User-Agent": "tinyspice-setup/0.1"}
+        if have:
+            headers["Range"] = f"bytes={have}-"
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=120) as r:
+                mode = "ab" if (have and getattr(r, "status", 200) == 206) else "wb"
+                with tmp.open(mode) as f:
+                    while chunk := r.read(1 << 20):
+                        f.write(chunk)
+            tmp.replace(dest)
+            return
+        except urllib.error.HTTPError as e:
+            if e.code == 416 and have:  # already complete
+                tmp.replace(dest)
+                return
+            last = e
+        except (OSError, urllib.error.URLError) as e:
+            last = e
+        print(f"  attempt {attempt}/{retries} failed ({type(last).__name__}); resuming from {tmp.stat().st_size if tmp.exists() else 0:,} bytes")
+        time.sleep(2 * attempt)
+    raise RuntimeError(f"download failed after {retries} attempts: {last}")
 
 
 def load_manifest() -> dict:
