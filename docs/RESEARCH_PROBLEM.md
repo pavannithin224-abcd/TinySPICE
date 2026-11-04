@@ -9,6 +9,7 @@ Characterizing a MOSFET means preparing a SPICE deck, sweeping biases, running t
 - Benchmarks for LLM SPICE work: NetlistBench; Long-Horizon Analog Design Bench.
 - Provenance/governance for LLM-driven experiments: KDD 2026 workshop paper on governed LLM experimentation.
 - Adaptive sampling for device/circuit modelling: several older papers (SVM-based, statistical compact-model sampling).
+- Execution-driven multi-agent analog *design* generation: **AnalogAgent** (KDD 2026 AI4Science oral, arXiv 2603.23910; repo TheWind-upBird/Analogagent, MIT) with a Code Generator / Design Optimizer / Knowledge Curator and a self-evolving rule memory; also AnalogCoder and AnalogCoder-Pro. Evaluated by Pass@1/Pass@5 on circuit-design tasks; has a per-task attempt cap `K`. Read 2026-11-04 (abstract + paper HTML; code not read or run). Not found in the paper text: point/time budgets, honest status states, false-success metric, provenance/replay (absence not proven). Reference only; no code reused.
 
 **Therefore** "LLM drives ngspice" is not novel. We make no such claim.
 
