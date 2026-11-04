@@ -1,6 +1,8 @@
-"""E3: uniform (PWL) vs curvature sampling against a dense reference. See docs/STAGE4_PREREG.md (frozen before running).
-  python scripts/run_e3.py tune      # fits pilot_frac on the TUNING conditions only
-  python scripts/run_e3.py heldout   # ONE run on the held-out conditions with the tuned pilot_frac
+"""E3: uniform (PWL) vs curvature vs window sampling against a dense reference. See docs/STAGE4_PREREG.md (frozen before running).
+  python scripts/run_e3.py tune            # fits pilot_frac (arm C) on the TUNING conditions only
+  python scripts/run_e3.py tune_window     # fits window_target (arm W) on the TUNING conditions only
+  python scripts/run_e3.py heldout         # ONE run on the held-out conditions with the tuned values
+A phase argument is REQUIRED and unknown phases are refused (a typo must never fall through to the one-shot held-out run).
 Outputs go to results/stage4/. Needs ngspice + SKY130 in ./.tools."""
 import itertools
 import json
@@ -8,6 +10,10 @@ import shutil
 import sys
 import time
 from pathlib import Path
+
+PHASES = ("tune", "tune_window", "heldout")
+if __name__ == "__main__" and (len(sys.argv) != 2 or sys.argv[1] not in PHASES):   # checked BEFORE any heavy import or work
+    sys.exit(f"usage: run_e3.py <{'|'.join(PHASES)}>  (got {sys.argv[1:]!r})")
 
 import numpy as np
 
@@ -25,7 +31,10 @@ TUNE = [c for i, c in enumerate(CONDS) if i % 4 == 0]   # stride 4 (coprime to t
 HELD = [c for i, c in enumerate(CONDS) if i % 4 != 0]
 NS = [12, 16, 20, 30, 50]
 FRACS = [0.2, 0.3, 0.4]
+WTARGETS = [5, 6, 8]
 MEAS = ["VTH", "SS", "GM", "ION", "IOFF"]
+INFORMATIVE = ["VTH", "SS", "GM"]
+ARMS = ("uniform_pwl", "curvature", "window")
 TOL = {"VTH": 5.0, "SS": 5.0, "GM": 5.0, "ION": 2.0, "IOFF": 0.05}
 PENALTY = 10.0
 SIM = NgspiceSimulator()
@@ -73,27 +82,27 @@ def err(k, v, ref):
     return abs(v - ref) / abs(ref) * 100.0
 
 
-def run_cell(c, n, strategy, frac, tag):
+def run_cell(c, n, strategy, frac, wt, tag):
     spec = spec_for(c, n)
-    d = RUNS / f"{tag}_{strategy}_{c[0]}_{c[1]}_{c[2]}_{n}_{frac}"
+    d = RUNS / f"{tag}_{strategy}_{c[0]}_{c[1]}_{c[2]}_{n}_{frac}_{wt}"
     if d.exists():
         shutil.rmtree(d)
     d.mkdir(parents=True)
-    sim = run_sweep(spec, SIM, d, strategy, pilot_frac=frac)
+    sim = run_sweep(spec, SIM, d, strategy, pilot_frac=frac, window_target=wt)
     if not sim.ok:
         return {k: None for k in MEAS}, sim.error_code, 0.0
     return measure(spec, sim), None, sim.runtime_s
 
 
-def table(conds, frac, tag):
+def table(conds, frac, wt, tag, arms=ARMS):
     rows = []
     for c in conds:
         ref = reference(c)
         for n in NS:
-            for strat in ("uniform_pwl", "curvature"):
-                vals, code, rt = run_cell(c, n, strat, frac, tag)
-                rows.append({"cond": list(c), "n": n, "strategy": strat, "frac": frac, "sim_error": code, "runtime_s": rt,
-                             "values": vals, "err": {k: err(k, vals[k], ref[k]) for k in MEAS}, "ref": ref})
+            for strat in arms:
+                vals, code, rt = run_cell(c, n, strat, frac, wt, tag)
+                rows.append({"cond": list(c), "n": n, "strategy": strat, "frac": frac, "window_target": wt, "sim_error": code,
+                             "runtime_s": rt, "values": vals, "err": {k: err(k, vals[k], ref[k]) for k in MEAS}, "ref": ref})
     return rows
 
 
@@ -102,28 +111,51 @@ def score(e, k):  # normalised error with the pre-registered failure penalty
 
 
 def main(phase):
+    assert phase in PHASES
     OUT.mkdir(parents=True, exist_ok=True)
     t0 = time.monotonic()
     if phase == "tune":
         best = {}
-        allrows = {}
         for fr in FRACS:
-            rows = [r for r in table(TUNE, fr, f"tune{fr}") if r["strategy"] == "curvature"]
-            allrows[fr] = rows
+            rows = table(TUNE, fr, 6, f"tune{fr}", arms=("curvature",))
             best[fr] = float(np.mean([score(r["err"][k], k) for r in rows for k in MEAS]))
             print(f"pilot_frac={fr}: mean normalised error {best[fr]:.4f} (tuning conditions only)")
         pick = min(best, key=lambda f: (best[f], f))
         (OUT / "tune.json").write_text(json.dumps({"pilot_frac": pick, "scores": best, "tuning_conditions": TUNE, "heldout_conditions": HELD}, indent=1))
         print("CHOSEN pilot_frac =", pick, f"({time.monotonic() - t0:.0f}s)")
         return
-    tune = json.loads((OUT / "tune.json").read_text())
+    frac = json.loads((OUT / "tune.json").read_text())["pilot_frac"]
+    if phase == "tune_window":
+        best = {}
+        for wt in WTARGETS:
+            rows = table(TUNE, frac, wt, f"tunew{wt}", arms=("window",))
+            best[wt] = float(np.mean([score(r["err"][k], k) for r in rows for k in MEAS]))
+            print(f"window_target={wt}: mean normalised error {best[wt]:.4f} (tuning conditions only, pilot_frac={frac})")
+        pick = min(best, key=lambda w: (best[w], w))
+        (OUT / "tune_window.json").write_text(json.dumps({"window_target": pick, "scores": best, "pilot_frac": frac}, indent=1))
+        print("CHOSEN window_target =", pick, f"({time.monotonic() - t0:.0f}s)")
+        return
+    # phase == "heldout"
     if (OUT / "heldout.json").exists():
         sys.exit("held-out results already exist: the held-out run is executed ONCE (see STAGE4_PREREG.md). Refusing.")
-    frac = tune["pilot_frac"]
-    rows = table(HELD, frac, "held")
-    (OUT / "heldout.json").write_text(json.dumps({"pilot_frac": frac, "rows": rows}, indent=1))
+    if not (OUT / "tune_window.json").exists():
+        sys.exit("run `tune_window` first (window_target must be fit on the tuning conditions before the held-out run).")
+    wt = json.loads((OUT / "tune_window.json").read_text())["window_target"]
+    rows = table(HELD, frac, wt, "held")
+    (OUT / "heldout.json").write_text(json.dumps({"pilot_frac": frac, "window_target": wt, "rows": rows}, indent=1))
     analyse(rows)
     print(f"done in {time.monotonic() - t0:.0f}s")
+
+
+def _diffs(by, k, arm):
+    d = {}
+    for key, group in by.items():
+        eu, ea = group["uniform_pwl"]["err"][k], group[arm]["err"][k]
+        if eu is None and ea is None:
+            d[key] = 0.0
+        else:
+            d[key] = (PENALTY * TOL[k] if eu is None else eu) - (PENALTY * TOL[k] if ea is None else ea)
+    return d
 
 
 def analyse(rows):
@@ -131,45 +163,42 @@ def analyse(rows):
     for r in rows:
         by.setdefault((tuple(r["cond"]), r["n"]), {})[r["strategy"]] = r
     conds = sorted({k[0] for k in by})
-    rng = np.random.default_rng(20261104)
-    wins, summary = 0, {}
-    fail = {s: [0, 0] for s in ("uniform_pwl", "curvature")}
-    for r in rows:
+
+    def fail_rate(arm, ms):
+        cells = [r["err"][k] for r in rows if r["strategy"] == arm for k in ms]
+        return sum(e is None for e in cells) / len(cells)
+
+    out = {"arms": {}}
+    for arm in ("curvature", "window"):
+        rng = np.random.default_rng(20261104)
+        per, wins = {}, {}
         for k in MEAS:
-            fail[r["strategy"]][0] += r["err"][k] is None
-            fail[r["strategy"]][1] += 1
-    for k in MEAS:
-        d = {}
-        for (c, n), pair in by.items():
-            eu, ec = pair["uniform_pwl"]["err"][k], pair["curvature"]["err"][k]
-            if eu is None and ec is None:
-                d[(c, n)] = 0.0
-            else:
-                d[(c, n)] = (PENALTY * TOL[k] if eu is None else eu) - (PENALTY * TOL[k] if ec is None else ec)
-        med = float(np.median(list(d.values())))
-        boots = []
-        for _ in range(2000):
-            sample = [conds[i] for i in rng.integers(0, len(conds), len(conds))]
-            boots.append(np.median([d[(c, n)] for c in sample for n in NS]))
-        lo, hi = np.percentile(boots, [2.5, 97.5])
-        win = med > 0 and lo > 0
-        wins += win
-        per_n = {n: float(np.median([d[(c, n)] for c in conds])) for n in NS}
-        nstar = {}
-        for s in ("uniform_pwl", "curvature"):
-            vals = []
-            for c in conds:
-                ok_n = [n for n in NS if by[(c, n)][s]["err"][k] is not None and by[(c, n)][s]["err"][k] <= TOL[k]]
-                vals.append(min(ok_n) if ok_n else 99)
-            nstar[s] = float(np.median(vals))
-        summary[k] = {"median_diff_(U-C)": med, "ci95": [float(lo), float(hi)], "C_wins": bool(win), "per_N_median_diff": per_n, "N_star_median": nstar}
-    fr = {s: a / b for s, (a, b) in fail.items()}
-    supported = wins >= 3 and fr["curvature"] <= fr["uniform_pwl"]
-    out = {"wins": int(wins), "failure_rate": fr, "H4_supported": bool(supported), "per_measurement": summary}
+            d = _diffs(by, k, arm)
+            med = float(np.median(list(d.values())))
+            boots = [np.median([d[(c, n)] for c in [conds[i] for i in rng.integers(0, len(conds), len(conds))] for n in NS]) for _ in range(2000)]
+            lo, hi = np.percentile(boots, [2.5, 97.5])
+            wins[k] = bool(med > 0 and lo > 0)
+            nstar = {}
+            for s in ("uniform_pwl", arm):
+                vals = []
+                for c in conds:
+                    ok_n = [n for n in NS if by[(c, n)][s]["err"][k] is not None and by[(c, n)][s]["err"][k] <= TOL[k]]
+                    vals.append(min(ok_n) if ok_n else 99)
+                nstar[s] = float(np.median(vals))
+            per[k] = {"median_diff_(U-arm)": med, "ci95": [float(lo), float(hi)], "arm_wins": wins[k],
+                      "per_N_median_diff": {n: float(np.median([d[(c, n)] for c in conds])) for n in NS}, "N_star_median": nstar}
+        ss_ok = {s: {n: float(np.mean([by[(c, n)][s]["err"]["SS"] is not None for c in conds])) for n in NS} for s in ("uniform_pwl", arm)}
+        fr_inf = {"uniform_pwl": fail_rate("uniform_pwl", INFORMATIVE), arm: fail_rate(arm, INFORMATIVE)}
+        fr_all = {"uniform_pwl": fail_rate("uniform_pwl", MEAS), arm: fail_rate(arm, MEAS)}
+        amended = sum(wins[k] for k in INFORMATIVE) >= 2 and fr_inf[arm] <= fr_inf["uniform_pwl"]
+        original = sum(wins.values()) >= 3 and fr_all[arm] <= fr_all["uniform_pwl"]
+        out["arms"][arm] = {"per_measurement": per, "ss_extraction_success_by_N": ss_ok, "failure_rate_informative": fr_inf,
+                            "failure_rate_all": fr_all, "H4_supported_amended": bool(amended), "H4_supported_original": bool(original)}
     (OUT / "heldout_summary.json").write_text(json.dumps(out, indent=1))
     print(json.dumps(out, indent=1))
-    print("H4 SUPPORTED" if supported else "H4 NOT SUPPORTED (null/negative result, reported as such)")
+    for arm, a in out["arms"].items():
+        print(f"{arm}: amended criterion {'SUPPORTED' if a['H4_supported_amended'] else 'NOT supported'}; original criterion {'SUPPORTED' if a['H4_supported_original'] else 'NOT supported'}")
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "tune")
+    main(sys.argv[1])
