@@ -1,0 +1,647 @@
+{
+ "_note": "TinySPICEBench tasks. FROZEN once committed with its sha256; expected statuses are pre-registered (see header of scripts/build_bench_tasks.py).",
+ "tasks": [
+  {
+   "id": "T01",
+   "group": "G1",
+   "name": "valid request",
+   "text": "Characterize an NMOS SKY130 NFET with W = 2 um and L = 0.5 um at 27 C. Id-Vg with VDS fixed at 1.8 V, VGS from 0 to 1.8 V in 0.04 V steps. Measure the threshold voltage, transconductance and subthreshold swing. At most 60 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.04,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH",
+     "GM",
+     "SS"
+    ],
+    "max_points": 60
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T02",
+   "group": "G1",
+   "name": "missing parameter (length)",
+   "text": "NMOS SKY130 NFET, W = 2 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "rejected_invalid_input",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T03",
+   "group": "G1",
+   "name": "contradiction (VGS fixed and swept)",
+   "text": "NMOS SKY130 NFET, W = 1 um, L = 0.18 um, 27 C. Id-Vg with VDS = 1.8 V and VGS held at 0.9 V while VGS is swept 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.18,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "vgs_v": 0.9,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "rejected_invalid_input",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T04",
+   "group": "G1",
+   "name": "unit conversion + distractors",
+   "text": "Hi team, quick one (12 people on the thread, rails of 3.3 V are irrelevant). SKY130 NFET NMOS with W = 750 nm and L = 0.2 um at room temperature. Id-Vg, VDS = 1.0 V, VGS from 0 to 1.2 V in 0.03 V steps; measure the threshold voltage and the on-current at VGS = 1.2 V. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.75,
+    "length_um": 0.2,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.03,
+    "vds_v": 1.0,
+    "measurements": [
+     "VTH",
+     "ION"
+    ],
+    "ion_vgs_v": 1.2,
+    "max_points": 50
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T05",
+   "group": "G1",
+   "name": "stated constraints preserved",
+   "text": "NMOS SKY130 NFET, W = 1 um, L = 0.18 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points, at most 6 tool calls, a time limit of 120 s and 2 retries.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.18,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50,
+    "max_tool_calls": 6,
+    "max_runtime_s": 120.0,
+    "max_retries": 2
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T06",
+   "group": "G1",
+   "name": "no invented condition (temperature missing)",
+   "text": "NMOS SKY130 NFET, W = 1 um, L = 0.18 um. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.18,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "rejected_invalid_input",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T07",
+   "group": "G2",
+   "name": "valid plan, mid-size sweep",
+   "text": "NMOS SKY130 NFET, width 5 um, length 1 um, at 85 C. Transfer curve: VDS 1.2 V, VGS 0 to 1.8 V in 0.05 V steps. Measure threshold voltage and off-current at VGS = 0 V. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 5.0,
+    "length_um": 1.0,
+    "temperature_c": 85.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.2,
+    "measurements": [
+     "VTH",
+     "IOFF"
+    ],
+    "ioff_vgs_v": 0.0,
+    "max_points": 50
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T08",
+   "group": "G2",
+   "name": "Id-Vd output curve",
+   "text": "NMOS SKY130 NFET, W = 4 um, L = 0.5 um, 27 C. Id-Vd output curve with VGS = 1.2 V, VDS from 0 to 1.8 V in 0.05 V steps. Measure the drain current and the output conductance. At most 40 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 4.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvd",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vgs_v": 1.2,
+    "measurements": [
+     "ID",
+     "GDS"
+    ],
+    "max_points": 40
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T09",
+   "group": "G2",
+   "name": "point limit respected (sweep needs 181 points, limit 50)",
+   "text": "NMOS SKY130 NFET, W = 1 um, L = 0.18 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.01 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.18,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.01,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "stopped_budget_limit",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T10",
+   "group": "G2",
+   "name": "physically invalid temperature (300 C)",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um at 300 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 300.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "rejected_invalid_input",
+   "inject": null,
+   "note": "ngspice itself happily simulates 300 C; only the planner's device limits refuse it"
+  },
+  {
+   "id": "T11",
+   "group": "G2",
+   "name": "simulator error detected (model include missing)",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "failed",
+   "inject": {
+    "type": "missing_include",
+    "mode": "persistent"
+   },
+   "note": ""
+  },
+  {
+   "id": "T12",
+   "group": "G2",
+   "name": "invalid output never accepted (NaN every attempt)",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "stopped_budget_limit",
+   "inject": {
+    "type": "nan",
+    "mode": "persistent"
+   },
+   "note": "retries are exhausted by the persistent fault; configurations without recovery report failed"
+  },
+  {
+   "id": "T13",
+   "group": "G3",
+   "name": "all five measurements",
+   "text": "NMOS SKY130 NFET, W = 1 um, L = 0.18 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.04 V steps. Measure threshold voltage, transconductance, subthreshold swing, on-current at VGS = 1.8 V and off-current at VGS = 0 V. At most 60 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.18,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.04,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH",
+     "GM",
+     "SS",
+     "ION",
+     "IOFF"
+    ],
+    "ion_vgs_v": 1.8,
+    "ioff_vgs_v": 0.0,
+    "max_points": 60
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T14",
+   "group": "G3",
+   "name": "incomplete data detected (sweep ends below threshold)",
+   "text": "NMOS SKY130 NFET, W = 1 um, L = 0.18 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 0.3 V in 0.02 V steps. Measure the threshold voltage. At most 40 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.18,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 0.3,
+    "sweep_step": 0.02,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 40
+   },
+   "expected_status": "failed",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T15",
+   "group": "G3",
+   "name": "partial result (one measurement refused)",
+   "text": "NMOS SKY130 NFET, W = 1 um, L = 0.18 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 0.3 V in 0.02 V steps. Measure the threshold voltage and the on-current at VGS = 0.3 V. At most 40 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.18,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 0.3,
+    "sweep_step": 0.02,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH",
+     "ION"
+    ],
+    "ion_vgs_v": 0.3,
+    "max_points": 40
+   },
+   "expected_status": "partially_completed",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T16",
+   "group": "G3",
+   "name": "subthreshold swing with only 16 points",
+   "text": "NMOS SKY130 NFET, W = 1 um, L = 0.18 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V with 16 points. Measure threshold voltage and subthreshold swing. At most 16 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.18,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_points": 16,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH",
+     "SS"
+    ],
+    "max_points": 16
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": "needs measurement-aware (window) sampling; uniform sampling cannot extract SS here"
+  },
+  {
+   "id": "T17",
+   "group": "G3",
+   "name": "subthreshold swing with 20 points",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 85 C. Id-Vg, VDS = 1.2 V, VGS 0 to 1.8 V with 20 points. Measure threshold voltage, transconductance and subthreshold swing. At most 20 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 85.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_points": 20,
+    "vds_v": 1.2,
+    "measurements": [
+     "VTH",
+     "GM",
+     "SS"
+    ],
+    "max_points": 20
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T18",
+   "group": "G3",
+   "name": "numerical edge: cold, short, narrow device",
+   "text": "NMOS SKY130 NFET, W = 0.42 um, L = 0.15 um, -40 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.04 V steps. Measure threshold voltage, subthreshold swing and off-current at VGS = 0 V. At most 60 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.42,
+    "length_um": 0.15,
+    "temperature_c": -40.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.04,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH",
+     "SS",
+     "IOFF"
+    ],
+    "ioff_vgs_v": 0.0,
+    "max_points": 60
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": ""
+  },
+  {
+   "id": "T19",
+   "group": "G4",
+   "name": "recover from a recognised fault (timeout once)",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "recovered_after_failure",
+   "inject": {
+    "type": "timeout",
+    "mode": "transient"
+   },
+   "note": ""
+  },
+  {
+   "id": "T20",
+   "group": "G4",
+   "name": "recover from a recognised fault (NaN once)",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "recovered_after_failure",
+   "inject": {
+    "type": "nan",
+    "mode": "transient"
+   },
+   "note": ""
+  },
+  {
+   "id": "T21",
+   "group": "G4",
+   "name": "stop at the retry limit (truncated output every attempt)",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "stopped_budget_limit",
+   "inject": {
+    "type": "truncated",
+    "mode": "persistent"
+   },
+   "note": ""
+  },
+  {
+   "id": "T22",
+   "group": "G4",
+   "name": "respect the time budget (limit 0.3 s)",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points and a time limit of 0.3 s.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50,
+    "max_runtime_s": 0.3
+   },
+   "expected_status": "stopped_budget_limit",
+   "inject": null,
+   "note": "one real ngspice run takes >= 0.7 s, so any configuration that ignores the stated limit violates it"
+  },
+  {
+   "id": "T23",
+   "group": "G4",
+   "name": "provenance preserved and run reproducible",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "successful",
+   "inject": null,
+   "note": "reproducibility is measured by replaying the stored run; configurations without a stored record cannot be replayed"
+  },
+  {
+   "id": "T24",
+   "group": "G4",
+   "name": "no false success (unrecognised fault every attempt)",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 27 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points.",
+   "gold_raw": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.5,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "vds_v": 1.8,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 50
+   },
+   "expected_status": "failed",
+   "inject": {
+    "type": "unknown_code",
+    "mode": "persistent"
+   },
+   "note": ""
+  }
+ ]
+}
