@@ -17,7 +17,7 @@ from tinyspice.errors import PlanRejected
 from tinyspice.measurements import MeasurementResult, extract_all
 from tinyspice.planner import ExecutionPlan, build_plan
 from tinyspice.planner.planner import spec_hash
-from tinyspice.sampling import pilot_base, pilot_grid, refine_points, uniform_grid
+from tinyspice.sampling import pilot_base, pilot_grid, refine_points, uniform_grid, window_points
 from tinyspice.schemas import DeviceLimits, ExperimentSpec, ExperimentStatus
 from tinyspice.simulator.base import SimResult, Simulator
 
@@ -82,22 +82,25 @@ def execute(spec: ExperimentSpec, limits: DeviceLimits, simulator: Simulator, ru
 
 
 PILOT_FRAC = 0.3
+WINDOW_TARGET = 6
 
 
 def run_sweep(spec: ExperimentSpec, simulator: Simulator, run_dir: Path, strategy: str = "uniform",
-              pilot_frac: float = PILOT_FRAC) -> SimResult:
+              pilot_frac: float = PILOT_FRAC, window_target: int = WINDOW_TARGET) -> SimResult:
     """Run the sweep under a sampling strategy; ALWAYS spends exactly spec.sweep.n_points simulated points (never more).
       uniform      - the spec's own uniform dc sweep (1 process)
       uniform_pwl  - BENCHMARK ONLY: the same uniform points through the explicit-point path, so uniform and curvature
                      share the identical ngspice mechanism
       curvature    - pilot (coarse uniform + forced ION/IOFF bias points), then ONLY the remaining points placed by
-                     log10(Id) curvature of the pilot (2 processes)."""
+                     log10(Id) curvature of the pilot (2 processes).
+      window       - like curvature, but first guarantees `window_target` points inside the SS-extraction window
+                     (Id in [Ic/1e3, Ic]) estimated from the pilot; the rest by curvature (2 processes)."""
     n = spec.sweep.n_points
     if strategy == "uniform":
         return simulator.run(spec, run_dir / "sim")
     if strategy == "uniform_pwl":
         return simulator.run(spec, run_dir / "sim", points=uniform_grid(spec.sweep.start, spec.sweep.stop, n))
-    if strategy != "curvature":
+    if strategy not in ("uniform", "uniform_pwl", "curvature", "window"):
         raise ValueError(f"unknown strategy {strategy!r}")
     forced = [v for v in (spec.ion_vgs_v, spec.ioff_vgs_v) if v is not None]
     pilot = pilot_grid(spec.sweep.start, spec.sweep.stop, pilot_base(n, len(forced), pilot_frac), forced)
@@ -108,7 +111,14 @@ def run_sweep(spec: ExperimentSpec, simulator: Simulator, run_dir: Path, strateg
         return s1
     n_new = n - len(pilot)
     try:
-        new = refine_points(s1.x, s1.y, n_new) if n_new > 0 else np.array([])
+        extra = np.array([])
+        if strategy == "window" and n_new > 0:
+            extra = window_points(s1.x, s1.y, spec.vth_ic_a * spec.width_um / spec.length_um, target=window_target,
+                                  max_new=max(0, n_new - 1))
+            if n_new - len(extra) == 1:           # keep the remaining explicit run >= 2 points (or exactly 0)
+                extra = extra[:-1] if len(extra) else extra
+        rest = refine_points(s1.x, s1.y, n_new - len(extra), extra=extra) if n_new - len(extra) > 0 else np.array([])
+        new = np.array(sorted(np.concatenate([extra, rest])))
     except ValueError as e:
         return SimResult(ok=False, error_code="SAMPLING_ERROR", error_detail=str(e), meta=s1.meta,
                          simulator_version=s1.simulator_version, runtime_s=s1.runtime_s)
@@ -126,7 +136,7 @@ def run_sweep(spec: ExperimentSpec, simulator: Simulator, run_dir: Path, strateg
         return SimResult(ok=False, error_code="SAMPLING_ERROR", meta=s1.meta, simulator_version=s1.simulator_version,
                          error_detail=f"merged sweep invalid: {len(x)} points (budget {n}), monotone={bool((np.diff(x) > 0).all())}")
     return SimResult(ok=True, x=x, y=y, runtime_s=runtime, simulator_version=s1.simulator_version, netlist_path=s1.netlist_path,
-                     raw_path=s1.raw_path, meta={**s1.meta, "strategy": "curvature", "phases": phases,
+                     raw_path=s1.raw_path, meta={**s1.meta, "strategy": strategy, "phases": phases,
                                                 "points_requested": n, "points_simulated": int(len(x))})
 
 

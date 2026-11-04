@@ -181,3 +181,66 @@ class _FailSecond(MockSimulator):
             from tinyspice.simulator.base import SimResult
             return SimResult(ok=False, error_code="TIMEOUT", error_detail="injected second-phase fault")
         return super().run(spec, run_dir, points)
+
+
+# ---- arm W: measurement-aware window placement ----
+from tinyspice.sampling import window_points  # noqa: E402
+
+I_HI = 1e-7 * 1.0 / 0.18 * 0 + 5.6e-7          # an Ic like W/L = 5.6 (value only matters relative to the curve below)
+
+
+def _window_v(i_hi, decades=3.0):
+    xs = np.linspace(0, 1.8, 20001)
+    f = np.log10(ekv_log10(xs))
+    return float(np.interp(np.log10(i_hi) - decades, f, xs)), float(np.interp(np.log10(i_hi), f, xs))
+
+
+def test_window_points_land_inside_the_extractor_window():
+    x = uniform_grid(0.0, 1.8, 9)                       # coarse pilot: ~0.225 V apart, window is narrower than a gap
+    v_lo, v_hi = _window_v(I_HI)
+    new = window_points(x, ekv_log10(x), I_HI, target=6)
+    allp = np.sort(np.concatenate([x, new]))
+    inside = allp[(allp >= v_lo) & (allp <= v_hi)]
+    assert len(new) > 0 and len(inside) >= 4, (v_lo, v_hi, inside)
+    assert ((new > v_lo) & (new < v_hi)).all()           # never wasted outside the window (central part only)
+
+
+def test_window_points_empty_when_pilot_does_not_bracket_ic():
+    x = uniform_grid(0.0, 0.2, 9)                       # curve never reaches Ic in this range
+    assert len(window_points(x, ekv_log10(x), I_HI)) == 0
+    assert len(window_points(x, ekv_log10(x), 1e-30)) == 0     # Ic already exceeded at the first point
+
+
+def test_window_points_respects_max_new_and_target():
+    x = uniform_grid(0.0, 1.8, 9)
+    assert len(window_points(x, ekv_log10(x), I_HI, target=10, max_new=2)) == 2
+    assert len(window_points(x, ekv_log10(x), I_HI, target=1)) == 1     # no pilot point is inside the window yet
+    assert len(window_points(x, ekv_log10(x), I_HI, target=0)) == 0     # nothing required
+
+
+def test_refine_with_extra_points_splits_around_them_and_avoids_duplicates():
+    x = uniform_grid(0.0, 1.8, 10)
+    extra = np.array([0.3, 0.31])
+    rest = refine_points(x, ekv_log10(x), 8, extra=extra)
+    assert len(rest) == 8 and not (set(np.round(rest, 9)) & set(np.round(np.concatenate([x, extra]), 9)))
+
+
+def test_window_strategy_spends_exactly_n_points_and_fills_the_ss_window(spec_dict):
+    s = _spec(spec_dict, n=16, measurements=["VTH", "SS", "ION", "IOFF"])
+    res = run_sweep(s, MockSimulator(), __import__("pathlib").Path("unused"), "window", pilot_frac=0.4)
+    assert res.ok and len(res.x) == 16 and (np.diff(res.x) > 0).all()
+    i_hi = s.vth_ic_a * s.width_um / s.length_um
+    in_win = ((res.y >= i_hi / 1e3) & (res.y <= i_hi)).sum()
+    assert in_win >= 4, in_win
+    assert [p["phase"] for p in res.meta["phases"]] == ["pilot", "refine"] and res.meta["strategy"] == "window"
+
+
+def test_window_falls_back_to_curvature_when_window_unreachable(spec_dict):
+    s = _spec(spec_dict, n=20)
+    s = ExperimentSpec.model_validate({**s.model_dump(mode="json"), "sweep": {"start": 0.0, "stop": 0.2, "points": 20}, "ion_vgs_v": 0.2, "ioff_vgs_v": 0.0})
+    res = run_sweep(s, MockSimulator(), __import__("pathlib").Path("unused"), "window")
+    assert res.ok and len(res.x) == 20
+
+
+def test_planner_accepts_window(spec_dict, limits):
+    assert build_plan(_spec(spec_dict), limits, "window").estimated_tool_calls == build_plan(_spec(spec_dict), limits, "curvature").estimated_tool_calls

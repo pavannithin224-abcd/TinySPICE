@@ -16,7 +16,7 @@ from tinyspice.schemas.device import DeviceLimits
 from tinyspice.schemas.spec import AnalysisType, ExperimentSpec, Measurement
 from tinyspice.schemas.status import ExperimentStatus
 
-SUPPORTED_STRATEGIES = {"uniform", "curvature"}
+SUPPORTED_STRATEGIES = {"uniform", "curvature", "window"}
 MIN_CURVATURE_POINTS = 12
 
 
@@ -75,7 +75,7 @@ def build_plan(spec: ExperimentSpec, limits: DeviceLimits, strategy: str = "unif
     _check_device(spec, limits)
 
     n = spec.sweep.n_points
-    if strategy == "curvature":
+    if strategy in ("curvature", "window"):
         if spec.analysis is not AnalysisType.IDVG:
             raise _reject("UNSUPPORTED_STRATEGY", "curvature sampling is implemented for Id-Vg only")
         if n < MIN_CURVATURE_POINTS:
@@ -98,7 +98,7 @@ def build_plan(spec: ExperimentSpec, limits: DeviceLimits, strategy: str = "unif
         PlanStep(order=5, action="persist_provenance", uses_tool_call=True,
                  detail="spec, plan, netlist, model hash, ngspice version, raw output, measurements"),
     ]
-    if strategy == "curvature":
+    if strategy in ("curvature", "window"):
         steps[1] = PlanStep(order=2, action="run_ngspice", uses_tool_call=True,
                             detail="pilot: coarse uniform points + forced ION/IOFF bias points (explicit-point sweep)")
         steps.insert(2, PlanStep(order=3, action="run_ngspice", uses_tool_call=True,
@@ -115,7 +115,7 @@ def build_plan(spec: ExperimentSpec, limits: DeviceLimits, strategy: str = "unif
     rationale = [
         f"{spec.analysis.value.upper()} chosen because the request sweeps "
         f"{'VGS' if spec.analysis is AnalysisType.IDVG else 'VDS'} and all requested measurements are extractable from it.",
-        f"Strategy '{strategy}': {n} {'evenly spaced' if strategy == 'uniform' else 'curvature-placed (pilot + refinement, same count)'} points; {spec.budget.max_points - n} budget points unused.",
+        f"Strategy '{strategy}': {n} {'evenly spaced' if strategy == 'uniform' else ('curvature-placed' if strategy == 'curvature' else 'window+curvature-placed') + ' (pilot + refinement, same count)'} points; {spec.budget.max_points - n} budget points unused.",
         f"vbs_v={spec.vbs_v} V (documented default: bulk tied to source)" if spec.vbs_v == 0.0 else f"vbs_v={spec.vbs_v} V (explicit)",
     ]
     if Measurement.VTH in spec.measurements:

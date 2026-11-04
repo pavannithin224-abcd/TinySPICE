@@ -45,7 +45,42 @@ def pilot_base(n: int, n_forced: int, frac: float = 0.3, minimum: int = 8) -> in
     return base
 
 
-def refine_points(x, y, n_new: int, *, floor: float = 1e-18, min_gap: float = 1e-4) -> np.ndarray:
+def window_points(x, y, i_hi: float, *, decades: float = 3.0, target: int = 6, margin: float = 0.1,
+                  max_new: int | None = None, floor: float = 1e-18) -> np.ndarray:
+    """Measurement-aware placement for the SS extractor: its window is the set of points with Id in [i_hi/10^decades, i_hi]
+    (i_hi = vth_ic_a * W/L) and it needs >= 4 of them over >= 1 decade. Estimate that VGS window from the pilot (monotone
+    envelope of log10 Id) and add points inside its central (1-2*margin) part until `target` pilot+new points lie there,
+    each placed in the middle of the currently largest gap. Returns [] if the pilot does not bracket i_hi."""
+    x = np.asarray(x, float)
+    f = np.maximum.accumulate(np.log10(np.maximum(np.abs(np.asarray(y, float)), floor)))
+    hi_t = float(np.log10(i_hi))
+    lo_t = hi_t - decades
+    if len(x) < 2 or f[-1] < hi_t or f[0] >= hi_t:
+        return np.array([])
+    v_hi = float(np.interp(hi_t, f, x))
+    v_lo = float(x[0]) if f[0] >= lo_t else float(np.interp(lo_t, f, x))
+    w = v_hi - v_lo
+    if w <= 0:
+        return np.array([])
+    a, b = v_lo + margin * w, v_hi - margin * w
+    have = [float(v) for v in x if a <= v <= b]
+    need = max(0, target - len(have))
+    if max_new is not None:
+        need = min(need, max_new)
+    pts = sorted(set([a, b] + have))
+    new: list[float] = []
+    for _ in range(need):
+        gaps = [(pts[i + 1] - pts[i], -i) for i in range(len(pts) - 1)]
+        g, neg_i = max(gaps)
+        if g < 2e-4:
+            break
+        m = 0.5 * (pts[-neg_i] + pts[-neg_i + 1])
+        new.append(round(m, _ROUND))
+        pts = sorted(pts + [m])
+    return np.array(sorted(new))
+
+
+def refine_points(x, y, n_new: int, *, floor: float = 1e-18, min_gap: float = 1e-4, extra=()) -> np.ndarray:
     """Choose n_new points to add to the pilot data (x strictly increasing, y = Id > 0). Returns sorted new points,
     all distinct from the pilot points. May return fewer than n_new only if every interval is already below min_gap."""
     x = np.asarray(x, float)
@@ -56,6 +91,7 @@ def refine_points(x, y, n_new: int, *, floor: float = 1e-18, min_gap: float = 1e
         raise ValueError("pilot data unusable for curvature refinement (need >= 4 strictly increasing finite points)")
     f = np.log10(np.maximum(np.abs(y), floor))
     d2 = CubicSpline(x, f).derivative(2)
+    bp = np.array(sorted(set(np.round(np.concatenate([x, np.asarray(extra, float)]), _ROUND))))   # `extra` = points already decided
 
     def indicator(a: float, b: float) -> float:
         if b - a < 2 * min_gap:
@@ -63,7 +99,7 @@ def refine_points(x, y, n_new: int, *, floor: float = 1e-18, min_gap: float = 1e
         m = 0.5 * (a + b)
         return (b - a) ** 2 * max(abs(float(d2(a))), abs(float(d2(m))), abs(float(d2(b))))
 
-    heap = [(-indicator(a, b), a, b) for a, b in zip(x[:-1], x[1:])]
+    heap = [(-indicator(a, b), a, b) for a, b in zip(bp[:-1], bp[1:])]
     heapq.heapify(heap)
     new: list[float] = []
     while len(new) < n_new and heap:
