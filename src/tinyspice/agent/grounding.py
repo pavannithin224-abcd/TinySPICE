@@ -13,10 +13,10 @@ from __future__ import annotations
 import math
 import re
 
-_NUM = re.compile(r"(?<![\w.])(-?\d+(?:\.\d+)?(?:e-?\d+)?)\s*(nm|um|µm|μm|mv|v|k|°\s?c|c|s|ms|a|ua|µa|μa|na|pa)?\b", re.I)
+_NUM = re.compile(r"(?<![\w.])(-?\d+(?:\.\d+)?(?:e-?\d+)?)\s*(minutes?|min|seconds?|sec|nm|um|µm|μm|mv|v|k|°\s?c|c|s|ms|a|ua|µa|μa|na|pa)?\b", re.I)
 _SCALE = {None: [1.0], "nm": [1e-3, 1.0], "um": [1.0], "µm": [1.0], "μm": [1.0], "mv": [1e-3], "v": [1.0], "k": [1.0],
           "°c": [1.0], "c": [1.0], "s": [1.0], "ms": [1e-3], "a": [1.0], "ua": [1e-6], "µa": [1e-6], "μa": [1e-6],
-          "na": [1e-9], "pa": [1e-12]}
+          "na": [1e-9], "pa": [1e-12], "min": [60.0], "minute": [60.0], "minutes": [60.0], "sec": [1.0], "second": [1.0], "seconds": [1.0]}
 
 NUMERIC_FIELDS = ["width_um", "length_um", "temperature_c", "sweep_start", "sweep_stop", "sweep_step", "sweep_points",
                   "vds_v", "vgs_v", "vbs_v", "ion_vgs_v", "ioff_vgs_v", "vth_ic_a", "max_points", "max_runtime_s",
@@ -78,6 +78,36 @@ _BIAS_KW = {"vds_v": r"(?:\bvds\b|drain(?: bias| voltage)?)", "vgs_v": r"(?:\bvg
 _BIAS_LINK = r"\s*(?:is\s+|are\s+|held\s+|fixed\s+|tied\s+|kept\s+|constant\s+|at\s+|=\s*|of\s+|to\s+)*"
 
 
+_LIMIT_PATTERNS = {
+    "max_tool_calls": [r"(\d+)\s*(?:tool|api)[- ]?calls?", r"(?:tool|api)[- ]?calls?\s*(?:limit|max(?:imum)?|cap|budget)?\s*(?:of|=|:|to|is)?\s*(\d+)"],
+    "max_retries": [r"(\d+)\s*(?:retries|retry|re-tries|attempts?)\b", r"retr(?:y|ies)\s*(?:limit|max(?:imum)?|cap)?\s*(?:of|=|:|to|is)?\s*(\d+)"],
+    "max_runtime_s": [r"(?:time limit|time-out|timeout|runtime|run time|deadline)\s*(?:of|=|:|to|is)?\s*(\d+(?:\.\d+)?)\s*(s\b|sec\w*|seconds?|ms|min\w*)",
+                      r"(\d+(?:\.\d+)?)\s*(s\b|sec\w*|seconds?|ms|min\w*)\s*(?:time limit|timeout|runtime|deadline)",
+                      r"within\s*(\d+(?:\.\d+)?)\s*(s\b|sec\w*|seconds?|ms|min\w*)"],
+}
+_UNIT_S = {"s": 1.0, "ms": 1e-3, "min": 60.0}
+
+
+def _limit_values(field: str, request: str) -> list[float]:
+    """Numbers the request ties to this limit's own keyword (runtime converted to seconds)."""
+    low = request.lower()
+    out: list[float] = []
+    for pat in _LIMIT_PATTERNS[field]:
+        for m in re.finditer(pat, low):
+            v = float(m.group(1))
+            if field == "max_runtime_s":
+                u = m.group(2)
+                v *= _UNIT_S["min" if u.startswith("min") else "ms" if u == "ms" else "s"]
+            out.append(v)
+    return out
+
+
+def omitted_limits(raw: dict, request: str) -> list[str]:
+    """A tool-call / retry / runtime limit the request states but the extraction left null. The schema would silently apply its
+    default (e.g. 20 tool calls for 'at most 4'), which is a wrong spec produced without any warning (bug H13)."""
+    return [f for f in _LIMIT_PATTERNS if raw.get(f) is None and _limit_values(f, request)]
+
+
 def request_conflicts(request: str) -> list[str]:
     """Request-side contradictions the extraction schema cannot express: a sweep step AND a sweep point-count both stated.
     Budget phrases ('at most 40 points') are not sweep counts."""
@@ -134,6 +164,14 @@ def ungrounded_fields(raw: dict, request: str) -> list[str]:
     for k, kw in _BUDGET_KW.items():                       # a limit needs its own keyword, not just a matching number
         if raw.get(k) is not None and k not in bad and not re.search(kw, low):
             bad.append(k)
+    for k in _LIMIT_PATTERNS:                              # ...and the number must sit next to THAT limit's keyword
+        v = raw.get(k)
+        if v is not None and k not in bad:
+            try:
+                if not any(math.isclose(float(v), c, rel_tol=1e-6) for c in _limit_values(k, request)):
+                    bad.append(k)
+            except (TypeError, ValueError):
+                bad.append(k)
     for code in raw.get("measurements") or []:
         if code in _MEAS and not re.search(_MEAS[code], low):
             bad.append(f"measurements[{code}]")

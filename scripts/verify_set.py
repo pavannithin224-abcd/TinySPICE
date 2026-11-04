@@ -3,7 +3,7 @@ extractor (oracle), and grounding never blocks a perfect extraction. Usage: pyth
 import json
 import sys
 
-from tinyspice.agent.grounding import omitted_biases, request_conflicts, uncovered_measurements, ungrounded_fields
+from tinyspice.agent.grounding import omitted_biases, omitted_limits, request_conflicts, uncovered_measurements, ungrounded_fields
 from tinyspice.agent.raw import RAW_FIELDS, raw_to_spec_dict
 from tinyspice.schemas import ExperimentSpec
 
@@ -42,7 +42,8 @@ for t in T:
                 print("REASON MISMATCH", t["id"], t["reject_match"], blob[:240].replace("\n", " "))
     ug = ungrounded_fields(raw, t["text"]) + [f"UNCOVERED:{c}" for c in uncovered_measurements(raw, t["text"])]
     if t["expect"] == "valid":                  # request-side guards must never fire on a valid request's perfect extraction
-        ug += [f"CONFLICT:{c}" for c in request_conflicts(t["text"])] + [f"OMITTED:{c}" for c in omitted_biases(raw, t["text"])]
+        ug += [f"CONFLICT:{c}" for c in request_conflicts(t["text"])] + [f"OMITTED:{c}" for c in omitted_biases(raw, t["text"])] \
+            + [f"OMITTED:{c}" for c in omitted_limits(raw, t["text"])]
     if ug:
         bad += 1
         print("PERFECT EXTRACTION BLOCKED BY GROUNDING", t["id"], ug)

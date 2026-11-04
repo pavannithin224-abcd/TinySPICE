@@ -152,3 +152,37 @@ def test_swapped_bias_value_is_flagged_by_anchor():
     req = BASE + "Id-Vg with VDS = 1.0 V, VGS from 0 to 1.8 V in 0.1 V steps. Threshold voltage. At most 40 points."
     assert "vds_v" in ungrounded_fields(raw(vds_v=1.8, sweep_stop=1.8, sweep_step=0.1), req)
     assert "vds_v" not in ungrounded_fields(raw(vds_v=1.0, sweep_stop=1.8, sweep_step=0.1), req)
+
+
+# ---- stated-limit guard (bug H13) ----
+from tinyspice.agent.grounding import omitted_limits  # noqa: E402
+
+LIM = BASE + "Id-Vg, VDS = 1.0 V, VGS 0 to 1.2 V in 0.05 V steps. Threshold voltage. At most 40 points, at most 4 tool calls, a time limit of 2 minutes and 2 retries."
+
+
+def lraw(**kw):
+    """A faithful extraction of the LIM request except for the limit fields passed in kw."""
+    return raw(measurements=["VTH"], ioff_vgs_v=None, sweep_stop=1.2, sweep_step=0.05, vds_v=1.0, max_points=40, **kw)
+
+
+def test_h13_stated_limits_must_be_extracted():
+    assert set(omitted_limits(lraw(), LIM)) == {"max_tool_calls", "max_runtime_s", "max_retries"}
+    assert omitted_limits(lraw(max_tool_calls=4, max_runtime_s=120.0, max_retries=2), LIM) == []
+    assert omitted_limits(raw(), BASE + "Id-Vg, VDS = 1.0 V, VGS 0 to 1.2 V in 0.05 V steps. Threshold voltage. At most 40 points.") == []
+
+
+def test_h13_the_exact_symptom_is_rejected_by_the_interpreter_not_defaulted():
+    # model leaves tool calls null although 'at most 4 tool calls' was stated: previously the schema silently applied 20
+    r = interpret_request(LIM, ScriptedProvider(json.dumps(lraw(max_runtime_s=120.0, max_retries=2))))
+    assert not r.ok and any(e["loc"] == "max_tool_calls" for e in r.errors) and r.errors[0]["type"] == "incomplete_extraction"
+    r2 = interpret_request(LIM, ScriptedProvider(json.dumps(lraw(max_tool_calls=4, max_runtime_s=120.0, max_retries=2))))
+    assert r2.ok and r2.spec.budget.max_tool_calls == 4 and r2.spec.budget.max_runtime_s == 120.0
+
+
+def test_limit_value_must_sit_next_to_its_own_keyword():
+    assert "max_retries" in ungrounded_fields(lraw(max_tool_calls=4, max_retries=4, max_runtime_s=120.0), LIM)       # 4 is the tool-call number
+    assert "max_tool_calls" in ungrounded_fields(lraw(max_tool_calls=20, max_retries=2, max_runtime_s=120.0), LIM)   # default leaking in
+
+
+def test_minutes_are_understood_by_numeric_grounding():
+    assert "max_runtime_s" not in ungrounded_fields(lraw(max_tool_calls=4, max_retries=2, max_runtime_s=120.0), LIM)
