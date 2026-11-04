@@ -1,0 +1,57 @@
+{
+  "_purpose": "Stage 5 failure-injection suite (E4). Expected statuses are PRE-REGISTERED: written and committed BEFORE any Stage 5 code. Rule: if a case does not realise its intended scenario, its PARAMETERS may be adjusted (with a logged reason in docs/STAGE5_PLAN.md); an expected STATUS may never be changed to fit what the code does.",
+  "_semantics": {
+    "tool_call_unit": "one simulation attempt = 2 tool calls (generate_netlist + run_ngspice); a two-phase strategy (curvature/window) attempt = 4; persist_provenance = 1 and is RESERVED up front so persistence is never blocked by budget.",
+    "retry_unit": "each recovery action (re-run after a fault, solver-ladder step, window refinement after an SS refusal) is one retry; limit = budget.max_retries.",
+    "points_unit": "budget.max_points limits the size of the FINAL retained dataset (refinement adds points to it); failed attempts cost tool calls, retries and wall-clock but not points.",
+    "wallclock": "budget.max_runtime_s is the TOTAL deadline for the whole run, retries included, measured from run start. First process timeout = min(remaining, 0.4 * max_runtime_s); each timeout-retry doubles the previous timeout, capped at remaining.",
+    "injection_modes": "transient = the fault occurs on the FIRST attempt only; persistent = on EVERY attempt.",
+    "status_rules": {
+      "rejected_invalid_input": "the planner refused the spec as invalid; the simulator was never called",
+      "successful": "no fault event; output validated; EVERY requested measurement ok",
+      "recovered_after_failure": ">= 1 recognised-fault recovery event, final output validated, EVERY requested measurement ok; the chain is recorded",
+      "partially_completed": "output validated; >= 1 measurement ok and >= 1 refused and no recovery was possible or left",
+      "failed": "no usable output, OR a non-recoverable / unrecognised fault, OR the recovery ladder is exhausted while retries remain, OR every measurement refused",
+      "stopped_budget_limit": "a recovery was needed but a budget dimension (retries, tool calls, wall-clock) would be exceeded, OR the plan itself exceeds a budget",
+      "precedence": "if both the ladder and the retry budget are exhausted at once, the status is stopped_budget_limit"
+    },
+    "recoverable_faults": ["TIMEOUT", "ROW_COUNT_MISMATCH", "NO_OUTPUT", "NONFINITE_VALUES", "NONCONVERGENCE", "SS_REFUSED(WINDOW_TOO_NARROW|INSUFFICIENT_POINTS) when points remain"],
+    "non_recoverable_faults": ["MISSING_INCLUDE", "MODEL_NOT_FOUND", "NETLIST_SYNTAX", "any unrecognised code"],
+    "solver_ladder": "step 1: raise iteration limits (itl1/itl2/itl4); step 2: method=gear. NEVER gmin/abstol (changing them re-creates the Stage-1 IOFF artefact).",
+    "base_spec": "SKY130 sky130_fd_pr__nfet_01v8, W=1 um, L=0.18 um, T=27 C, Id-Vg, VDS=1.8 V, VGS 0..1.8 V, measurements [VTH,SS,GM,ION,IOFF], ion_vgs_v=1.8, ioff_vgs_v=0.0, uniform strategy unless stated, sweep.points=N, budget defaults except where stated"
+  },
+  "_invariants": [
+    "consumed tool calls, retries, points and wall-clock never exceed their limits (any case)",
+    "status SUCCESSFUL never appears when an injected fault was not handled (any case)",
+    "every executed case has a provenance record whose manifest verifies",
+    "no state is emitted without its evidence in the event log"
+  ],
+  "cases": [
+    {"id": "I01", "name": "clean uniform run", "N": 50, "max_points": 60, "inject": null, "expect": {"status": "successful", "retries_used": 0, "recovery_chain": []}},
+    {"id": "I02", "name": "clean window-strategy run", "N": 30, "max_points": 60, "strategy": "window", "inject": null, "expect": {"status": "successful", "retries_used": 0, "recovery_chain": []}},
+    {"id": "I03", "name": "model include file missing (persistent)", "N": 50, "max_points": 60, "inject": {"type": "missing_include", "mode": "persistent"}, "expect": {"status": "failed", "retries_used": 0, "recovery_chain": [], "note": "configuration fault: never retried"}},
+    {"id": "I04", "name": "netlist syntax error (persistent)", "N": 50, "max_points": 60, "inject": {"type": "netlist_syntax", "mode": "persistent"}, "expect": {"status": "failed", "retries_used": 0, "recovery_chain": []}},
+    {"id": "I05", "name": "non-convergence, first attempt only", "N": 50, "max_points": 60, "inject": {"type": "nonconvergence", "mode": "transient"}, "expect": {"status": "recovered_after_failure", "retries_used": 1, "recovery_chain": ["NONCONVERGENCE:solver_ladder_1"], "note": "recovered run carries a solver-change flag"}},
+    {"id": "I06", "name": "non-convergence, every attempt, max_retries=2", "N": 50, "max_points": 60, "budget": {"max_retries": 2}, "inject": {"type": "nonconvergence", "mode": "persistent"}, "expect": {"status": "stopped_budget_limit", "retries_used": 2, "note": "ladder (2 steps) and retries (2) exhausted together -> precedence rule"}},
+    {"id": "I07", "name": "non-convergence, every attempt, max_retries=5", "N": 50, "max_points": 60, "budget": {"max_retries": 5, "max_tool_calls": 40}, "inject": {"type": "nonconvergence", "mode": "persistent"}, "expect": {"status": "failed", "retries_used": 2, "note": "ladder exhausted while retries remain"}},
+    {"id": "I08", "name": "timeout, first attempt only", "N": 50, "max_points": 60, "inject": {"type": "timeout", "mode": "transient"}, "expect": {"status": "recovered_after_failure", "retries_used": 1, "recovery_chain": ["TIMEOUT:retry_longer"]}},
+    {"id": "I09", "name": "timeout every attempt under a 0.3 s total deadline", "N": 50, "max_points": 60, "budget": {"max_runtime_s": 0.3}, "inject": null, "expect": {"status": "stopped_budget_limit", "note": "one real ngspice run takes >= 0.7 s, so the deadline is hit by real timeouts, no injection needed"}},
+    {"id": "I10", "name": "truncated output, first attempt only", "N": 50, "max_points": 60, "inject": {"type": "truncated", "mode": "transient"}, "expect": {"status": "recovered_after_failure", "retries_used": 1, "recovery_chain": ["ROW_COUNT_MISMATCH:rerun"]}},
+    {"id": "I11", "name": "NaN in output, first attempt only", "N": 50, "max_points": 60, "inject": {"type": "nan", "mode": "transient"}, "expect": {"status": "recovered_after_failure", "retries_used": 1, "recovery_chain": ["NONFINITE_VALUES:rerun"]}},
+    {"id": "I12", "name": "truncated output every attempt, max_retries=2", "N": 50, "max_points": 60, "budget": {"max_retries": 2}, "inject": {"type": "truncated", "mode": "persistent"}, "expect": {"status": "stopped_budget_limit", "retries_used": 2}},
+    {"id": "I13", "name": "unrecognised simulator fault code", "N": 50, "max_points": 60, "inject": {"type": "unknown_code", "mode": "persistent"}, "expect": {"status": "failed", "retries_used": 0, "recovery_chain": [], "note": "never creative"}},
+    {"id": "I14", "name": "SS refused at N=16 with leftover point budget", "N": 16, "max_points": 40, "inject": null, "expect": {"status": "recovered_after_failure", "retries_used": 1, "recovery_chain": ["SS_REFUSED:window_refine"], "note": "final dataset <= 40 points, all five measurements ok"}},
+    {"id": "I15", "name": "SS refused at N=16 with NO leftover point budget", "N": 16, "max_points": 16, "inject": null, "expect": {"status": "partially_completed", "retries_used": 0, "recovery_chain": [], "note": "final dataset == 16 points; no budget violation"}},
+    {"id": "I16", "name": "transient fault with only 4 tool calls allowed", "N": 50, "max_points": 60, "budget": {"max_tool_calls": 4}, "inject": {"type": "nonconvergence", "mode": "transient"}, "expect": {"status": "stopped_budget_limit", "note": "1 reserved for persist, 2 for attempt 1, the retry would need 2 but only 1 is left"}},
+    {"id": "I17", "name": "width outside the verified model bins", "N": 50, "max_points": 60, "spec": {"width_um": 500.0}, "inject": null, "expect": {"status": "rejected_invalid_input", "note": "simulator never called"}},
+    {"id": "I18", "name": "plan needs more points than the budget", "N": 50, "max_points": 40, "inject": null, "expect": {"status": "stopped_budget_limit", "note": "refused at planning; simulator never called"}},
+    {"id": "I19", "name": "sweep ends below threshold: every measurement refused", "N": 16, "max_points": 40, "spec": {"sweep_stop": 0.3, "measurements": ["VTH"], "ion_vgs_v": null, "ioff_vgs_v": null}, "inject": null, "expect": {"status": "failed", "retries_used": 0, "note": "VTH NOT_CROSSED is not fixable by sampling"}},
+    {"id": "I20", "name": "sweep ends below threshold: one measurement ok, one refused", "N": 16, "max_points": 40, "spec": {"sweep_stop": 0.3, "measurements": ["VTH", "ION"], "ion_vgs_v": 0.3, "ioff_vgs_v": null}, "inject": null, "expect": {"status": "partially_completed", "retries_used": 0}}
+  ],
+  "replay_cases": [
+    {"id": "R01", "name": "replay of I01 reproduces every measurement", "expect": {"match_rtol": 1e-06}},
+    {"id": "R02", "name": "verify detects an edited netlist in a stored run", "expect": {"verify": "fail", "names_file": "netlist.cir"}},
+    {"id": "R03", "name": "verify detects a deleted artefact", "expect": {"verify": "fail"}},
+    {"id": "R04", "name": "verify passes on an untouched stored run", "expect": {"verify": "pass"}}
+  ]
+}

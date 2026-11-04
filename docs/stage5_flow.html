@@ -1,0 +1,44 @@
+<style>
+  .row{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:6px 0}
+  .box{border:1px solid var(--border);background:var(--card);border-radius:8px;padding:6px 9px;font-size:12px;line-height:1.35;min-width:96px}
+  .box b{display:block;font-size:12px}
+  .arr{align-self:center;color:var(--muted-foreground);font-size:14px}
+  .det{border-color:var(--accent)}
+  .fault{border-style:dashed}
+  .ok{background:color-mix(in srgb,var(--accent) 14%,var(--card))}
+  .bad{background:color-mix(in srgb,#c0392b 14%,var(--card))}
+  .mid{background:color-mix(in srgb,#d68910 14%,var(--card))}
+  h4{margin:12px 0 2px;font-size:13px}
+  .note{font-size:11px;color:var(--muted-foreground);margin:2px 0 6px}
+</style>
+<h4>Stage 5: one run, end to end (every box is deterministic code; the LLM is only the front door)</h4>
+<div class="row">
+  <div class="box det"><b>1 Spec</b>validated, grounded</div><span class="arr">→</span>
+  <div class="box det"><b>2 Plan</b>budget + device-limit check, defaults ledger</div><span class="arr">→</span>
+  <div class="box det"><b>3 Run</b>BudgetLedger charges BEFORE each ngspice call</div><span class="arr">→</span>
+  <div class="box det"><b>4 Validate</b>rows, finite, monotone, endpoints</div><span class="arr">→</span>
+  <div class="box det"><b>5 Extract</b>VTH SS GM ION IOFF + validity flags</div><span class="arr">→</span>
+  <div class="box det"><b>6 Status</b>pure function of the event log</div><span class="arr">→</span>
+  <div class="box det"><b>7 Store</b>SQLite + run folder + sha256 manifest</div>
+</div>
+<h4>Fault path (between 3 and 5)</h4>
+<div class="row">
+  <div class="box fault"><b>Fault named</b>MISSING_INCLUDE · NONCONVERGENCE · TIMEOUT · TRUNCATED · NaN · SS refused …</div><span class="arr">→</span>
+  <div class="box det"><b>Recovery catalog</b>fault → action, max attempts, "may not change physics" rule</div><span class="arr">→</span>
+  <div class="box"><b>Budget left?</b>retries · tool calls · points · wall-clock</div><span class="arr">→</span>
+  <div class="box ok"><b>Recover</b>retry once, solver ladder (never gmin), re-sample for SS</div>
+</div>
+<div class="row">
+  <div class="box bad"><b>Unrecognised or config fault</b>stop, FAILED, no guessing</div>
+  <div class="box mid"><b>Budget out</b>stop, STOPPED_BUDGET</div>
+</div>
+<h4>The six final states (mutually exclusive)</h4>
+<div class="row">
+  <div class="box ok"><b>successful</b>no fault; output validated; EVERY requested measurement ok</div>
+  <div class="box ok"><b>recovered_after_failure</b>≥1 named fault, recovery worked, EVERY measurement ok; chain recorded</div>
+  <div class="box mid"><b>partially_completed</b>output validated; some measurements refused</div>
+  <div class="box bad"><b>failed</b>no usable output, or unrecognised/config fault</div>
+  <div class="box mid"><b>stopped_budget_limit</b>a limit hit; consumed ≤ limit always</div>
+  <div class="box bad"><b>rejected_invalid_input</b>never reached the simulator</div>
+</div>
+<div class="note">Invariants tested: no state is reachable without its evidence · consumed budget never exceeds a limit · SUCCESSFUL is never emitted when an injected fault was not handled · replay of a stored run matches within rtol 1e-6.</div>
