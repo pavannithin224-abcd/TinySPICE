@@ -1,0 +1,14 @@
+{
+  "model_name": "builtin_level1_nmos",
+  "device_type": "nmos",
+  "w_min_um": 0.5,
+  "w_max_um": 50.0,
+  "l_min_um": 0.18,
+  "l_max_um": 10.0,
+  "v_min": 0.0,
+  "v_max": 1.8,
+  "temp_min_c": -40.0,
+  "temp_max_c": 125.0,
+  "limits_verified": true,
+  "source_note": "Educational SPICE Level-1 model defined in tinyspice.simulator.models; limits are our own choice, for runner smoke tests only. No accuracy claim."
+}

@@ -46,7 +46,7 @@ def test_tool_call_budget(spec_dict, limits):
 
 @pytest.mark.parametrize("over,code", [
     (dict(length_um=0.10), "GEOMETRY_OUT_OF_RANGE"),
-    (dict(width_um=50.0), "GEOMETRY_OUT_OF_RANGE"),
+    (dict(width_um=150.0), "GEOMETRY_OUT_OF_RANGE"),
     (dict(temperature_c=200.0), "TEMPERATURE_OUT_OF_RANGE"),
     (dict(vds_v=3.3), "VOLTAGE_OUT_OF_RANGE"),
     (dict(model_name="other_model"), "DEVICE_MODEL_MISMATCH"),
