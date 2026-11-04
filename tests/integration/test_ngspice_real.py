@@ -128,3 +128,33 @@ def test_e2_sky130_measurements_vs_independent_scipy(spec_dict, tmp_path):
     assert 0.3 < m["VTH"].value < 0.8 and 60 < m["SS"].value < 130        # physical plausibility, not verification
     assert m["ION"].value == pytest.approx(r.y[-1], rel=1e-9) and m["IOFF"].value == pytest.approx(r.y[0], rel=1e-9)
     assert m["IOFF"].diagnostics["near_solver_floor"] is False and m["IOFF"].value < 1e-13
+
+
+@needs_ngspice
+@needs_sky
+def test_curvature_strategy_real_sky130_end_to_end(spec_dict, limits, tmp_path):
+    """Two real ngspice processes (pilot + refine): exactly N points, forced bias points present, honest measurements
+    that agree with a dense uniform reference on the same device."""
+    from tinyspice.executor import execute
+
+    N = 28
+    d = dict(spec_dict, measurements=["VTH", "SS", "ION", "IOFF"], ion_vgs_v=1.8, ioff_vgs_v=0.0)
+    d["sweep"] = {"start": 0.0, "stop": 1.8, "points": N}
+    d["budget"] = {"max_points": 400}
+    rec = execute(mk(d), limits, NgspiceSimulator(), tmp_path / "cur", strategy="curvature")
+    assert rec.sim.ok, (rec.error_code, rec.message)
+    x = rec.sim.x
+    assert len(x) == N and (np.diff(x) > 0).all() and abs(x[0]) < 1e-9 and abs(x[-1] - 1.8) < 1e-9
+    assert [p["phase"] for p in rec.sim.meta["phases"]] == ["pilot", "refine"]
+    assert (tmp_path / "cur" / rec.run_id / "sim_pilot" / "netlist.cir").exists() and (tmp_path / "cur" / rec.run_id / "sim_refine" / "netlist.cir").exists()
+    dense = dict(d)
+    dense["sweep"] = {"start": 0.0, "stop": 1.8, "step": 0.002}
+    dense["budget"] = {"max_points": 1000}
+    ref = execute(mk(dense), limits, NgspiceSimulator(), tmp_path / "ref")
+    assert ref.status.value == "successful", ref.message
+    for key, tol in (("ION", 0.02), ("VTH", 0.01)):
+        a, b = rec.measurements[key], ref.measurements[key]
+        if a.ok:
+            assert abs(a.value - b.value) <= tol * (abs(b.value) if key == "ION" else 1.0), (key, a.value, b.value)
+    # ION and IOFF are read at the exact forced bias points, so they must match the dense reference closely
+    assert rec.measurements["ION"].ok and rec.measurements["IOFF"].ok

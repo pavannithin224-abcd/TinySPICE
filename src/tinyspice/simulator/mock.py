@@ -24,9 +24,9 @@ class MockSimulator:
     def version(self) -> str:
         return "mock-1"
 
-    def curve(self, spec: ExperimentSpec) -> tuple[np.ndarray, np.ndarray]:
+    def curve(self, spec: ExperimentSpec, points=None) -> tuple[np.ndarray, np.ndarray]:
         sw = spec.sweep
-        x = np.linspace(sw.start, sw.stop, sw.n_points)
+        x = np.asarray(points, float) if points is not None else np.linspace(sw.start, sw.stop, sw.n_points)
         wl, vt, vth, k = spec.width_um / spec.length_um, 0.0259, 0.45, 2e-4
         if spec.analysis is AnalysisType.IDVG:
             vds = spec.vds_v or 0.0
@@ -37,7 +37,7 @@ class MockSimulator:
             y = k * wl * (vov * xe - xe**2 / 2) * (1 + 0.05 * x)
         return x, y
 
-    def run(self, spec: ExperimentSpec, run_dir: Path | None = None) -> SimResult:
+    def run(self, spec: ExperimentSpec, run_dir: Path | None = None, points=None) -> SimResult:
         self.calls += 1
         base = dict(simulator_version=self.version(), meta={"mock": True})
         active = self.fault and (self.fail_times is None or self.calls <= self.fail_times)
@@ -45,9 +45,9 @@ class MockSimulator:
             code = {"timeout": "TIMEOUT", "nonconvergence": "NONCONVERGENCE",
                     "missing_include": "MISSING_INCLUDE", "nonzero_exit": "NONZERO_EXIT"}[self.fault]
             return SimResult(ok=False, error_code=code, error_detail=f"injected fault: {self.fault}", **base)
-        x, y = self.curve(spec)
+        x, y = self.curve(spec, points)
         if active and self.fault == "truncated":
             x, y = x[:-5], y[:-5]
         if active and self.fault == "nan":
             y = y.copy(); y[len(y) // 2] = np.nan
-        return wrap_arrays(spec, x, y, **base)
+        return wrap_arrays(spec, x, y, points=points, **base)

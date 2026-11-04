@@ -20,3 +20,4 @@ models/*
 !models/README.md
 .tools/
 !**/.gitkeep
+results/stage4/runs/*

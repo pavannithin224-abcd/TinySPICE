@@ -36,17 +36,17 @@ class NgspiceSimulator:
             self._version = f"ngspice-{m.group(1)}" if m else "unknown"
         return self._version
 
-    def run(self, spec: ExperimentSpec, run_dir: Path, profile: ModelProfile | None = None) -> SimResult:
+    def run(self, spec: ExperimentSpec, run_dir: Path, profile: ModelProfile | None = None, points=None) -> SimResult:
         profile = profile or get_profile(spec.model_name, self.tools)
         run_dir = Path(run_dir)
         netlist_path = run_dir / NETLIST_NAME
         if netlist_path.exists():
             raise FileExistsError(f"refusing to overwrite existing run: {netlist_path}")
         run_dir.mkdir(parents=True, exist_ok=True)
-        netlist_path.write_text(build_netlist(spec, profile), encoding="utf-8", newline="\n")
+        netlist_path.write_text(build_netlist(spec, profile, points), encoding="utf-8", newline="\n")
         raw_path = run_dir / RAW_NAME
         meta = {"model": profile.name, "corner": profile.corner, "educational_model": profile.educational,
-                "solver_options": profile.solver_options,
+                "solver_options": profile.solver_options, "explicit_points": None if points is None else len(points),
                 "model_files_sha256": {p.name: file_sha256(p) for p in profile.model_files}}
         common = dict(simulator_version=self.version(), netlist_path=netlist_path, raw_path=raw_path, meta=meta)
 
@@ -74,10 +74,10 @@ class NgspiceSimulator:
             return SimResult(ok=False, error_code="NO_OUTPUT", error_detail=f"{RAW_NAME} was not produced", **fail)
         try:
             data = np.loadtxt(raw_path, ndmin=2)
-            x, y = data[:, 0], data[:, 1]
+            x, y = (data[:, 1], data[:, -1]) if points is not None else (data[:, 0], data[:, 1])
         except (ValueError, IndexError) as e:
             return SimResult(ok=False, error_code="PARSE_ERROR", error_detail=str(e), **fail)
-        return wrap_arrays(spec, x, y, **fail)
+        return wrap_arrays(spec, x, y, points=points, **fail)
 
 
 def _s(b) -> str:

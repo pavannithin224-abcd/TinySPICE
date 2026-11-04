@@ -8,7 +8,7 @@ from typing import Protocol
 import numpy as np
 
 from tinyspice.schemas.spec import ExperimentSpec
-from tinyspice.simulator.validate import validate_output
+from tinyspice.simulator.validate import validate_output, validate_points
 
 
 @dataclass(frozen=True)
@@ -36,12 +36,15 @@ class Simulator(Protocol):
 
     def version(self) -> str: ...
 
-    def run(self, spec: ExperimentSpec, run_dir: Path) -> SimResult: ...
+    def run(self, spec: ExperimentSpec, run_dir: Path, points=None) -> SimResult: ...
 
 
-def wrap_arrays(spec: ExperimentSpec, x, y, **kw) -> SimResult:
-    """Validate arrays against the spec's sweep and wrap into a SimResult (shared by all simulators)."""
-    ok, code, detail = validate_output(x, y, spec.sweep.n_points, spec.sweep.start, spec.sweep.stop)
+def wrap_arrays(spec: ExperimentSpec, x, y, points=None, **kw) -> SimResult:
+    """Validate arrays against the spec's sweep (or an explicit point list) and wrap into a SimResult."""
+    if points is not None:
+        ok, code, detail = validate_points(x, y, points)
+    else:
+        ok, code, detail = validate_output(x, y, spec.sweep.n_points, spec.sweep.start, spec.sweep.stop)
     if ok:
         return SimResult(ok=True, x=np.asarray(x, float), y=np.asarray(y, float), **kw)
     return SimResult(ok=False, error_code=code, error_detail=detail, **kw)

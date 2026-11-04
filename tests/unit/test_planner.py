@@ -66,5 +66,5 @@ def test_sweep_beyond_supported_voltage(spec_dict, limits):
 
 def test_unimplemented_strategy_refused(spec_dict, limits):
     with pytest.raises(PlanRejected) as e:
-        build_plan(make(spec_dict), limits, strategy="curvature")
+        build_plan(make(spec_dict), limits, strategy="magic")
     assert e.value.code == "UNSUPPORTED_STRATEGY"

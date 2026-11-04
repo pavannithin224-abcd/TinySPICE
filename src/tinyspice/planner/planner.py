@@ -16,7 +16,8 @@ from tinyspice.schemas.device import DeviceLimits
 from tinyspice.schemas.spec import AnalysisType, ExperimentSpec, Measurement
 from tinyspice.schemas.status import ExperimentStatus
 
-SUPPORTED_STRATEGIES = {"uniform"}  # "curvature" lands in Phase 5
+SUPPORTED_STRATEGIES = {"uniform", "curvature"}
+MIN_CURVATURE_POINTS = 12
 
 
 class PlanStep(BaseModel):
@@ -74,6 +75,11 @@ def build_plan(spec: ExperimentSpec, limits: DeviceLimits, strategy: str = "unif
     _check_device(spec, limits)
 
     n = spec.sweep.n_points
+    if strategy == "curvature":
+        if spec.analysis is not AnalysisType.IDVG:
+            raise _reject("UNSUPPORTED_STRATEGY", "curvature sampling is implemented for Id-Vg only")
+        if n < MIN_CURVATURE_POINTS:
+            raise _reject("UNSUPPORTED_STRATEGY", f"curvature sampling needs >= {MIN_CURVATURE_POINTS} points (requested {n}); use uniform")
     if n > spec.budget.max_points:
         raise _reject("BUDGET_EXCEEDED_POINTS",
                       f"plan needs {n} points; budget allows {spec.budget.max_points}. "
@@ -92,6 +98,13 @@ def build_plan(spec: ExperimentSpec, limits: DeviceLimits, strategy: str = "unif
         PlanStep(order=5, action="persist_provenance", uses_tool_call=True,
                  detail="spec, plan, netlist, model hash, ngspice version, raw output, measurements"),
     ]
+    if strategy == "curvature":
+        steps[1] = PlanStep(order=2, action="run_ngspice", uses_tool_call=True,
+                            detail="pilot: coarse uniform points + forced ION/IOFF bias points (explicit-point sweep)")
+        steps.insert(2, PlanStep(order=3, action="run_ngspice", uses_tool_call=True,
+                                 detail=f"refine: remaining points placed by log10(Id) curvature of the pilot; total simulated points == {n}"))
+        for i, s in enumerate(steps, 1):
+            s.order = i
     tool_calls = sum(s.uses_tool_call for s in steps)
     if tool_calls > spec.budget.max_tool_calls:
         raise _reject("BUDGET_EXCEEDED_TOOL_CALLS",
@@ -102,7 +115,7 @@ def build_plan(spec: ExperimentSpec, limits: DeviceLimits, strategy: str = "unif
     rationale = [
         f"{spec.analysis.value.upper()} chosen because the request sweeps "
         f"{'VGS' if spec.analysis is AnalysisType.IDVG else 'VDS'} and all requested measurements are extractable from it.",
-        f"Strategy '{strategy}': {n} evenly spaced points; {spec.budget.max_points - n} budget points unused.",
+        f"Strategy '{strategy}': {n} {'evenly spaced' if strategy == 'uniform' else 'curvature-placed (pilot + refinement, same count)'} points; {spec.budget.max_points - n} budget points unused.",
         f"vbs_v={spec.vbs_v} V (documented default: bulk tied to source)" if spec.vbs_v == 0.0 else f"vbs_v={spec.vbs_v} V (explicit)",
     ]
     if Measurement.VTH in spec.measurements:
