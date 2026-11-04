@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 
 from pydantic import ValidationError
 
-from tinyspice.agent.grounding import uncovered_measurements, ungrounded_fields
+from tinyspice.agent.grounding import omitted_biases, request_conflicts, uncovered_measurements, ungrounded_fields
 from tinyspice.agent.raw import raw_json_schema, raw_to_spec_dict
 from tinyspice.providers.base import LLMProvider
 from tinyspice.schemas import ExperimentSpec, ExperimentStatus
@@ -128,6 +128,14 @@ def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1,
             if miss:                                    # named in the request but absent from the extraction => incomplete
                 res.errors = [{"type": "incomplete_extraction", "loc": f"measurements[{c}]",
                                "msg": f"request names {c} but the extraction omits it"} for c in miss]
+                break
+            conflicts = request_conflicts(request)
+            if conflicts:                               # contradiction the flat schema cannot represent
+                res.errors = [{"type": "request_conflict", "loc": "sweep", "msg": c} for c in conflicts]
+                break
+            om = omitted_biases(raw, request)
+            if om:                                      # stated fixed bias dropped (or fixed+swept contradiction resolved silently)
+                res.errors = [{"type": "incomplete_extraction", "loc": f, "msg": f"request states a fixed `{f}` but the extraction omits it"} for f in om]
                 break
         try:
             spec = ExperimentSpec.model_validate(raw_to_spec_dict(raw))

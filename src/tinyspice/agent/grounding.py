@@ -66,7 +66,45 @@ def _anchored(text: str, value: float, before: str, after: str) -> bool:
 
 
 _ANCHORS = {"width_um": (r"(?:\bw\b|width)[^\d\n]{0,25}$", r"^\W*(?:wide|width)"),
-            "length_um": (r"(?:\bl\b|length)[^\d\n]{0,25}$", r"^\W*(?:long|length)")}
+            "length_um": (r"(?:\bl\b|length)[^\d\n]{0,25}$", r"^\W*(?:long|length)"),
+            "vds_v": (r"(?:\bvds\b|drain)[^\d\n]{0,30}$", r"^$^"),
+            "vgs_v": (r"(?:\bvgs\b|gate)[^\d\n]{0,30}$", r"^$^"),
+            "vbs_v": (r"(?:\bvbs\b|bulk|body|substrate)[^\d\n]{0,30}$", r"^$^")}
+
+_BUDGET_PRE = r"(?:at most|max(?:imum)?|up to|limit(?:ed)?(?: of| to)?|cap(?:ped)?|budget(?: of)?|no more than|allow(?:ed)?|only|≤|<=|not (?:more|exceeding)|under)\W*(?:\w+\W+){0,3}$"
+_CURRENT_PRE = r"(?:(?:on|off)-?\s?current|\bi(?:on|off)\b)\W*(?:\w+\W+){0,2}$"
+_BIAS_KW = {"vds_v": r"(?:\bvds\b|drain(?: bias| voltage)?)", "vgs_v": r"(?:\bvgs\b|gate(?: bias| voltage)?)",
+            "vbs_v": r"(?:\bvbs\b|bulk|body|substrate)"}
+_BIAS_LINK = r"\s*(?:is\s+|are\s+|held\s+|fixed\s+|tied\s+|kept\s+|constant\s+|at\s+|=\s*|of\s+|to\s+)*"
+
+
+def request_conflicts(request: str) -> list[str]:
+    """Request-side contradictions the extraction schema cannot express: a sweep step AND a sweep point-count both stated.
+    Budget phrases ('at most 40 points') are not sweep counts."""
+    low = request.lower().replace("\u2212", "-")
+    step = re.search(r"\bsteps?\b|\bincrements?\b|\bspacing\b", low)
+    count = False
+    for m in re.finditer(r"(\d+)\s*(?:sweep |data |simulation |sample )?(?:points|samples)\b", low):
+        if re.search(_BUDGET_PRE, low[max(0, m.start() - 34):m.start()]):
+            continue
+        count = True
+    return ["sweep step and point-count both stated"] if (step and count) else []
+
+
+def omitted_biases(raw: dict, request: str) -> list[str]:
+    """A fixed bias the request states ('drain at 1.2 V', 'VGS fixed at 0.9 V') that the extraction left null.
+    Catches silently-resolved contradictions (fixed AND swept) and dropped values. Current-measurement biases are excluded."""
+    low = request.lower().replace("\u2212", "-")
+    out = []
+    for f, kw in _BIAS_KW.items():
+        if raw.get(f) is not None:
+            continue
+        for m in re.finditer(kw + _BIAS_LINK + r"(-?\d+(?:\.\d+)?)\s*v\b", low):
+            if re.search(_CURRENT_PRE, low[max(0, m.start() - 30):m.start()]):
+                continue
+            out.append(f)
+            break
+    return out
 
 
 def uncovered_measurements(raw: dict, request: str) -> list[str]:

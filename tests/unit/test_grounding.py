@@ -119,3 +119,36 @@ def test_prune_does_not_touch_ungrounded_numbers():
 def test_prune_dedupes_looping_measurements():
     r = interpret_request(REQ, ScriptedProvider(json.dumps(raw(measurements=["VTH", "VTH", "IOFF", "IOFF"]))), prune=True)
     assert r.ok and "duplicates" in r.pruned
+
+
+# ---- request-side guards ----
+from tinyspice.agent.grounding import omitted_biases, request_conflicts  # noqa: E402
+
+BASE = "NMOS SKY130 NFET, W = 2 um, L = 0.5 um, 27 C. "
+
+
+def test_step_and_points_both_stated_is_a_conflict_but_budget_is_not():
+    assert request_conflicts(BASE + "Id-Vg, VDS 1.0 V, VGS 0 to 1.2 V in 0.05 V steps (that is 25 points). At most 40 points.")
+    assert not request_conflicts(BASE + "Id-Vg, VDS 1.0 V, VGS 0 to 1.2 V in 0.05 V steps. At most 40 points.")
+    assert not request_conflicts(BASE + "Id-Vg, VDS 1.0 V, VGS 0 to 1.2 V using 25 points. Cap the run at 40 points.")
+    assert not request_conflicts(BASE + "Id-Vg, VDS 1.0 V, VGS 0 to 1.2 V, 0.05 V step. ≤ 40 points.")
+
+
+def test_conflict_is_rejected_by_interpreter_and_never_repaired():
+    req = BASE + "Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.1 V steps (19 points). Threshold voltage. At most 40 points."
+    p = ScriptedProvider(json.dumps(raw(length_um=0.5, sweep_step=0.1, ioff_vgs_v=None, measurements=["VTH"], max_points=40, width_um=2.0, temperature_c=27.0, sweep_stop=1.8, vds_v=1.8)))
+    r = interpret_request(req, p)
+    assert not r.ok and r.errors[0]["type"] == "request_conflict" and p.calls == 1
+
+
+def test_stated_fixed_bias_must_be_extracted_but_current_biases_are_ignored():
+    assert omitted_biases(raw(vds_v=None), BASE + "Id-Vg with the drain at 1.2 V, VGS 0 to 1.2 V.") == ["vds_v"]
+    assert omitted_biases(raw(), BASE + "Id-Vg with the drain at 1.2 V.") == []
+    assert omitted_biases(raw(vgs_v=None), BASE + "Id-Vg, VDS 1.0 V. Report on-current at VGS = 1.2 V and off-current at VGS = 0 V.") == []
+    assert omitted_biases(raw(vgs_v=None), BASE + "Id-Vg, VDS 1.0 V, VGS fixed at 0.9 V while VGS is swept 0 to 1.8 V.") == ["vgs_v"]
+
+
+def test_swapped_bias_value_is_flagged_by_anchor():
+    req = BASE + "Id-Vg with VDS = 1.0 V, VGS from 0 to 1.8 V in 0.1 V steps. Threshold voltage. At most 40 points."
+    assert "vds_v" in ungrounded_fields(raw(vds_v=1.8, sweep_stop=1.8, sweep_step=0.1), req)
+    assert "vds_v" not in ungrounded_fields(raw(vds_v=1.0, sweep_stop=1.8, sweep_step=0.1), req)
