@@ -95,3 +95,36 @@ def test_real_timeout_kills_process(spec_dict, tmp_path):
     s = mk(spec_dict, budget={"max_points": 200, "max_runtime_s": 0.01})
     r = NgspiceSimulator().run(s, tmp_path / "t")
     assert not r.ok and r.error_code == "TIMEOUT"
+
+
+# ---- E2: real SKY130 data, measurements cross-checked by an INDEPENDENT scipy computation ----
+@needs_ngspice
+@needs_sky
+def test_e2_sky130_measurements_vs_independent_scipy(spec_dict, tmp_path):
+    from scipy.interpolate import CubicSpline
+    from scipy.optimize import brentq
+
+    from tinyspice.measurements import extract_all
+    s = mk(spec_dict, measurements=["VTH", "GM", "SS", "ION", "IOFF"])  # W=1, L=0.18, T=27, VDS=1.8
+    r = NgspiceSimulator().run(s, tmp_path / "e2")
+    assert r.ok
+    m = extract_all(s, r.x, r.y, floor_a=1e-18 * 1.8)
+    assert all(v.ok for v in m.values()), {k: (v.error_code, v.error_detail) for k, v in m.items()}
+
+    target = 1e-7 * 1.0 / 0.18
+    ls = CubicSpline(r.x, np.log10(r.y))                                  # independent: cubic spline in log domain
+    vth_ref = brentq(lambda v: float(ls(v)) - np.log10(target), 0.2, 1.0)
+    assert m["VTH"].value == pytest.approx(vth_ref, abs=3e-3)
+
+    fine = np.linspace(0, 1.8, 18001)
+    gm_ref = float(CubicSpline(r.x, r.y).derivative()(fine).max())       # independent: spline derivative
+    assert m["GM"].value == pytest.approx(gm_ref, rel=0.03)
+
+    lo, hi = m["SS"].diagnostics["window_vgs_v"]
+    w = np.linspace(lo, hi, 400)
+    ss_ref = 1000.0 / float(np.polyfit(w, ls(w), 1)[0])                  # independent: fit on the spline over same window
+    assert m["SS"].value == pytest.approx(ss_ref, rel=0.02)
+
+    assert 0.3 < m["VTH"].value < 0.8 and 60 < m["SS"].value < 130        # physical plausibility, not verification
+    assert m["ION"].value == pytest.approx(r.y[-1], rel=1e-9) and m["IOFF"].value == pytest.approx(r.y[0], rel=1e-9)
+    assert m["IOFF"].diagnostics["near_solver_floor"] is False and m["IOFF"].value < 1e-13

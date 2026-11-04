@@ -26,12 +26,41 @@ def test_netlist_carries_explicit_solver_floor(bspec):
     assert ".option gmin=1e-18 abstol=1e-18" in n  # regression: default gmin put a 1.8 pA floor under IOFF
 
 
-def test_executor_valid_sim_is_partial_never_successful(bspec, blimits, tmp_path):
+def test_executor_all_measurements_ok_is_successful(bspec, blimits, tmp_path):
     rec = execute(bspec, blimits, MockSimulator(), tmp_path)
-    assert rec.status is ExperimentStatus.PARTIAL and "Stage 2" in rec.message
-    for f in ("spec.json", "plan.json", "result.json"):
+    assert rec.status is ExperimentStatus.SUCCESSFUL, (rec.status, rec.message)
+    assert set(rec.measurements) == {"VTH", "GM", "SS", "ION", "IOFF"} and all(m.ok for m in rec.measurements.values())
+    for f in ("spec.json", "plan.json", "result.json", "measurements.json"):
         assert (rec.run_dir / f).exists()
     assert json.loads((rec.run_dir / "result.json").read_text())["points"] == 91
+    assert json.loads((rec.run_dir / "result.json").read_text())["simulator"] == "mock"
+
+
+class FlatSim:
+    """Valid, finite, monotonic-sweep output whose current is constant: simulation OK, physics useless."""
+    name = "flat"
+
+    def version(self):
+        return "flat-1"
+
+    def run(self, spec, run_dir=None):
+        from tinyspice.simulator import wrap_arrays
+        x = np.linspace(spec.sweep.start, spec.sweep.stop, spec.sweep.n_points)
+        return wrap_arrays(spec, x, np.full_like(x, 1e-12), simulator_version="flat-1", meta={})
+
+
+def test_executor_some_measurements_fail_is_partial(bspec, blimits, tmp_path):
+    rec = execute(bspec, blimits, FlatSim(), tmp_path)           # VTH/SS fail, ION/IOFF/GM succeed
+    assert rec.status is ExperimentStatus.PARTIAL and rec.error_code == "MEASUREMENT_PARTIAL"
+    assert not rec.measurements["VTH"].ok and rec.measurements["VTH"].value is None
+    assert rec.measurements["ION"].ok
+
+
+def test_executor_all_measurements_fail_is_failed(spec_dict, blimits, tmp_path):
+    s = ExperimentSpec.model_validate({**spec_dict, "model_name": "builtin_level1_nmos", "measurements": ["VTH", "SS"],
+                                       "ion_vgs_v": None, "ioff_vgs_v": None})
+    rec = execute(s, blimits, FlatSim(), tmp_path)
+    assert rec.status is ExperimentStatus.FAILED and rec.error_code == "MEASUREMENT_FAILED"
 
 
 def test_executor_sim_failure_is_failed(bspec, blimits, tmp_path):
@@ -62,5 +91,6 @@ def test_executor_runs_never_collide(bspec, blimits, tmp_path):
 @pytest.mark.skipif(TOOLS.ngspice_exe is None, reason="ngspice not installed")
 def test_executor_real_ngspice_end_to_end(bspec, blimits, tmp_path):
     rec = execute(bspec, blimits, NgspiceSimulator(), tmp_path)
-    assert rec.status is ExperimentStatus.PARTIAL, (rec.status, rec.message)
+    assert rec.status in (ExperimentStatus.SUCCESSFUL, ExperimentStatus.PARTIAL), (rec.status, rec.message)
     assert rec.sim.simulator_version == "ngspice-47" and (rec.run_dir / "sim" / "netlist.cir").exists()
+    assert (rec.run_dir / "measurements.json").exists()

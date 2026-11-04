@@ -8,17 +8,17 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import re
 import uuid
 from dataclasses import dataclass
 from pathlib import Path
 
 from tinyspice.errors import PlanRejected
+from tinyspice.measurements import MeasurementResult, extract_all
 from tinyspice.planner import ExecutionPlan, build_plan
 from tinyspice.planner.planner import spec_hash
 from tinyspice.schemas import DeviceLimits, ExperimentSpec, ExperimentStatus
 from tinyspice.simulator.base import SimResult, Simulator
-
-MEASUREMENTS_IMPLEMENTED = False  # flipped in Stage 2; until then SUCCESSFUL is unreachable by construction
 
 
 @dataclass(frozen=True)
@@ -30,6 +30,7 @@ class RunRecord:
     sim: SimResult | None = None
     run_dir: Path | None = None
     error_code: str | None = None
+    measurements: dict[str, MeasurementResult] | None = None
 
 
 def new_run_id(spec: ExperimentSpec) -> str:
@@ -63,8 +64,22 @@ def execute(spec: ExperimentSpec, limits: DeviceLimits, simulator: Simulator, ru
     if not sim.ok:
         return RunRecord(run_id, ExperimentStatus.FAILED, f"{sim.error_code}: {sim.error_detail}",
                          plan, sim, run_dir, sim.error_code)
-    if not MEASUREMENTS_IMPLEMENTED:
-        return RunRecord(run_id, ExperimentStatus.PARTIAL,
-                         "simulation validated; measurement extraction not implemented yet (Stage 2)",
-                         plan, sim, run_dir)
-    raise NotImplementedError("wire measurement extraction here in Stage 2")  # pragma: no cover
+
+    meas = extract_all(spec, sim.x, sim.y, floor_a=_solver_floor(spec, sim))
+    _dump(run_dir / "measurements.json", {k: v.to_dict() for k, v in meas.items()})
+    bad = {k: v.error_code for k, v in meas.items() if not v.ok}
+    if not bad:
+        return RunRecord(run_id, ExperimentStatus.SUCCESSFUL, f"{len(meas)} measurement(s) extracted from validated output",
+                         plan, sim, run_dir, measurements=meas)
+    if len(bad) == len(meas):
+        return RunRecord(run_id, ExperimentStatus.FAILED, f"every measurement failed: {bad}", plan, sim, run_dir,
+                         "MEASUREMENT_FAILED", meas)
+    return RunRecord(run_id, ExperimentStatus.PARTIAL, f"simulation validated; failed measurements: {bad}",
+                     plan, sim, run_dir, "MEASUREMENT_PARTIAL", meas)
+
+
+def _solver_floor(spec: ExperimentSpec, sim: SimResult) -> float | None:
+    """gmin * |VDS| from the recorded solver options: the current floor the simulator itself puts under Id."""
+    m = re.search(r"gmin=([0-9.eE+\-]+)", (sim.meta or {}).get("solver_options", ""))
+    vds = spec.vds_v
+    return float(m.group(1)) * abs(vds) if (m and vds is not None) else None

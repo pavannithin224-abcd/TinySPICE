@@ -10,7 +10,10 @@ Rejected: unknown fields, duplicate measurements, non-ascending sweeps, steps th
 `build_plan(spec, limits, strategy)` -> ExecutionPlan or `PlanRejected(code, status)`. Codes: DEVICE_MODEL_MISMATCH, GEOMETRY_OUT_OF_RANGE, TEMPERATURE_OUT_OF_RANGE, VOLTAGE_OUT_OF_RANGE, BUDGET_EXCEEDED_POINTS, BUDGET_EXCEEDED_TOOL_CALLS, UNSUPPORTED_STRATEGY. Never coarsens a sweep to fit a budget. Plan carries a SHA-256 of the canonical spec.
 Device limits are in `configs/devices/*.json`; the SKY130 NFET bounds are **provisional and unverified** (`limits_verified=false`) until checked against the model card.
 
-## Measurements (planned definitions) — NOT IMPLEMENTED
+## Measurements — IMPLEMENTED (Stage 2). Authoritative definitions: docstring of `src/tinyspice/measurements/extractors.py`
+GM = max dId/dVGS (np.gradient, edge_order=2, non-uniform grids OK; flags a maximum on the sweep edge); GDS = dId/dVDS at the last Id-Vd point; VTH = constant current Ic = ic*W/L (first upward crossing, log-linear interpolation; fails NOT_CROSSED / ALREADY_ABOVE; flags re-crossing); SS = 1/slope of least-squares log10(Id) vs VGS over Ic/1e3..Ic (needs >=4 contiguous points, >=1 decade, R^2 >= 0.995, else POOR_FIT / INSUFFICIENT_POINTS / WINDOW_TOO_NARROW / NON_CONTIGUOUS_WINDOW); ION/IOFF = Id at explicit VGS (log-linear interpolation, OUT_OF_RANGE if outside the sweep; IOFF flagged if within 10x of the solver floor gmin*VDS). Invalid data (NaN/Inf, non-monotonic axis, <3 points, shape mismatch) -> INVALID_DATA. No smoothing/denoising is applied.
+Original plan text follows for history:
+## Measurements (planned definitions)
 - ID: simulator drain current, sign convention documented per device.
 - GM = dID/dVGS, GDS = dID/dVDS: central differences on the sampled grid.
 - VTH: constant-current, VGS where ID = vth_ic_a * W/L, linear interpolation in log(ID); fails if never crossed.

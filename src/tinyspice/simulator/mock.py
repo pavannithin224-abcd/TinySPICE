@@ -30,7 +30,7 @@ class MockSimulator:
         wl, vt, vth, k = spec.width_um / spec.length_um, 0.0259, 0.45, 2e-4
         if spec.analysis is AnalysisType.IDVG:
             vds = spec.vds_v or 0.0
-            y = k * wl * np.log1p(np.exp((x - vth) / (2 * 1.3 * vt))) ** 2 * (1 + 0.05 * vds)
+            y = 1e-6 * wl * np.log1p(np.exp((x - vth) / (2 * 1.3 * vt))) ** 2 * (1 + 0.05 * vds)
         else:
             vov = max((spec.vgs_v or 0.0) - vth, 1e-3)
             xe = np.minimum(x, vov)

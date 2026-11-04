@@ -14,4 +14,6 @@
 | 2026-11-04 | License MIT (provisional) | owner has not specified |
 | 2026-11-04 | Explicit `.option gmin=1e-18 abstol=1e-18` in every netlist (profile field `solver_options`, echoed in provenance) | ngspice defaults put a gmin*VDS = 1.8 pA floor under IOFF; measured 100x error at 27 C; stable down to 1e-20 |
 | 2026-11-04 | Valid simulation without measurements ends PARTIAL, never SUCCESSFUL | SUCCESSFUL requires validated output AND successful extraction |
+| 2026-11-04 | GDS defined at the last Id-Vd sweep point; GM defined as max dId/dVGS; SS window = Ic/1e3..Ic with R^2 >= 0.995 gate | spec has no bias for GDS/GM/SS; deterministic, documented, refuses rather than guesses |
+| 2026-11-04 | SUCCESSFUL only if every requested measurement succeeds; some fail -> PARTIAL; all fail -> FAILED | honest-status rule |
 | 2026-11-04 | Metrics and tasks frozen by Nov 23, before final run | prevents benchmark tuning |
