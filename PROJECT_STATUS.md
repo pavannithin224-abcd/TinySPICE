@@ -10,7 +10,7 @@ Status legend used across all docs: **IMPLEMENTED** (code exists) · **MOCK-TEST
 | 0 Foundation | DONE (committed) |
 | 1 Simulator core | DONE (committed; hardening commit d3986a8) |
 | 2 Measurement engine | DONE (committed 2346cac): IMPLEMENTED, unit-tested on analytic curves (E1), cross-checked on real SKY130 data (E2) |
-| 3 LLM -> spec | DONE with limits (132 tests). Real local models run on 3 sets. F2 (untainted, 23 tasks): Qwen3.5-2B 3/8 exact; grounding takes silent-wrong 4->0 and bad-accepted 4/15->0/15 with 0 correct lost. Open: spurious `ID` padding, schema-inexpressible contradictions, cross-field swaps beyond W/L, small n |
+| 3 LLM -> spec | DONE with limits (143 tests). F3 (untainted, 20 valid + 21 reject): Qwen3.5-2B final pipeline = 7/20 exact, 1 silent wrong (a defaulted omitted limit), 0/21 bad requests accepted (raw: 4 wrong, 7/21 accepted). Safety is strong, recall is weak (35%). Open: stated budget limits must be extracted (H13), vocabulary gaps in regex guards, bounded re-ask idea for Stage 5. Prune policy off by default (no gain) |
 
 ## Components
 | Component | Status |
