@@ -15,7 +15,7 @@ from tinyspice.benchmark import evaluate, load_tasks, save
 from tinyspice.providers import LlamaCppProvider, ProviderUnavailable, RuleBasedProvider
 
 ROOT = Path(__file__).resolve().parents[1]
-SETS = {"dev": ROOT / "tests" / "benchmark" / "group1_dev.json"}
+SETS = {"dev": ROOT / "tests" / "benchmark" / "group1_dev.json", "frozen": ROOT / "tests" / "benchmark" / "group1_frozen.json"}
 
 ap = argparse.ArgumentParser()
 ap.add_argument("provider", help="'rules' or a model key from .tools/manifest.json")
