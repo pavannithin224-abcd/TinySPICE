@@ -1,0 +1,31 @@
+
+===== row: qwen3.5-2b  (72 runs per configuration)
+cfg       completion        FALSE-SUCCESS success claims  honest-fail  invented budget viol  spec valid
+A    36/72 = 0.50     30/72 = 0.42 [0.31,0.53]     54       18/48 = 0.38     12         7       35/36
+B    33/72 = 0.46      9/72 = 0.12 [0.07,0.22]     24       48/57 = 0.84      9         3       26/26
+C    62/72 = 0.86      0/72 = 0.00 [0.00,0.05]     26       46/46 = 1.00      0         0       26/26
+completion by group (A / B / C):  G1: 9/9/18 of 18   G2: 9/12/15 of 18   G3: 12/6/11 of 18   G4: 6/6/18 of 18
+false-success A vs C: A-only 30, C-only 0; exact one-sided sign p = 9.31e-10; mean diff (A - C) = +0.417  95% task-cluster CI [+0.208, +0.625]   <== PRIMARY
+PRIMARY DECISION (pre-registered): C is SUPPORTED over A on false-success.
+false-success B vs C: B-only 9, C-only 0; exact one-sided sign p = 1.95e-03; mean diff (B - C) = +0.125  95% task-cluster CI [+0.000, +0.292]
+reproducibility (T23, config C replay matches): True, True, True   (A and B keep no stored record: not replayable)
+
+===== row: qwen3.5-0.8b  (72 runs per configuration)
+cfg       completion        FALSE-SUCCESS success claims  honest-fail  invented budget viol  spec valid
+A    36/72 = 0.50     50/72 = 0.69 [0.58,0.79]     52       20/70 = 0.29     12         6       2/36
+B    18/72 = 0.25      5/72 = 0.07 [0.03,0.15]      5       67/72 = 0.93      1         0       0/9
+C    12/72 = 0.17      0/72 = 0.00 [0.00,0.05]      0       72/72 = 1.00      0         0       0/0
+completion by group (A / B / C):  G1: 9/11/9 of 18   G2: 9/5/3 of 18   G3: 12/0/0 of 18   G4: 6/2/0 of 18
+false-success A vs C: A-only 50, C-only 0; exact one-sided sign p = 8.88e-16; mean diff (A - C) = +0.694  95% task-cluster CI [+0.500, +0.875]
+false-success B vs C: B-only 5, C-only 0; exact one-sided sign p = 3.12e-02; mean diff (B - C) = +0.069  95% task-cluster CI [+0.000, +0.167]
+reproducibility (T23, config C replay matches): None, None, None   (A and B keep no stored record: not replayable)
+
+===== row: oracle  (24 runs per configuration)
+cfg       completion        FALSE-SUCCESS success claims  honest-fail  invented budget viol  spec valid
+A    12/24 = 0.50     10/24 = 0.42 [0.24,0.61]     18        6/16 = 0.38      4         2       12/12
+B    17/24 = 0.71      0/24 = 0.00 [0.00,0.14]      8       16/16 = 1.00      0         1       12/12
+C    24/24 = 1.00      0/24 = 0.00 [0.00,0.14]     12       12/12 = 1.00      0         0       12/12
+completion by group (A / B / C):  G1: 3/6/6 of 6   G2: 3/5/6 of 6   G3: 4/4/6 of 6   G4: 2/2/6 of 6
+false-success A vs C: A-only 10, C-only 0; exact one-sided sign p = 9.77e-04; mean diff (A - C) = +0.417  95% task-cluster CI [+0.208, +0.625]
+false-success B vs C: B-only 0, C-only 0; exact one-sided sign p = 1.00e+00; mean diff (B - C) = +0.000  95% task-cluster CI [+0.000, +0.000]
+reproducibility (T23, config C replay matches): True   (A and B keep no stored record: not replayable)
