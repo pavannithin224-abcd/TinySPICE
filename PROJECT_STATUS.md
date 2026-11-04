@@ -56,4 +56,4 @@ Note: the venv once lost packages unexpectedly (cause unknown); repaired with `p
 
 ## Schedule
 On plan: Stage 1 finished on day 1 of 5 allotted (Nov 6-10).
-| 4 Adaptive sampling | DONE (170 tests). Curvature + measurement-aware window sampling implemented on a verified ngspice PWL path. Pre-registered H4 NOT SUPPORTED for either arm (held-out, 13 conditions). Exploratory: window sampling raises SS extraction success at N=16 from 15% to 100% (needs confirmatory run). GM slightly worse for both arms |
+| 4 Adaptive sampling | DONE (170 tests). Curvature + measurement-aware window sampling on a verified ngspice PWL path. Pre-registered H4 (curvature) NOT SUPPORTED. Window sampling's SS-extraction finding CONFIRMED on 12 fresh conditions (pre-registered, run once): SS success 24/24 vs 4/24 at N=16-20, p=9.5e-7, small GM cost (<=1.5% vs 5% tol). Tied to the SS extractor's window definition; one device family |
