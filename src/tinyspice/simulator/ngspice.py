@@ -46,6 +46,7 @@ class NgspiceSimulator:
         netlist_path.write_text(build_netlist(spec, profile), encoding="utf-8", newline="\n")
         raw_path = run_dir / RAW_NAME
         meta = {"model": profile.name, "corner": profile.corner, "educational_model": profile.educational,
+                "solver_options": profile.solver_options,
                 "model_files_sha256": {p.name: file_sha256(p) for p in profile.model_files}}
         common = dict(simulator_version=self.version(), netlist_path=netlist_path, raw_path=raw_path, meta=meta)
 

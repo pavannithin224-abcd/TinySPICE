@@ -12,4 +12,6 @@
 | 2026-11-04 | Defaults vbs=0, vth_ic=1e-7*W/L, max_retries=2, max_runtime=300s, max_tool_calls=20 | conventional; always echoed in plan |
 | 2026-11-04 | Never coarsen a sweep to fit a budget; reject instead | honesty over convenience |
 | 2026-11-04 | License MIT (provisional) | owner has not specified |
+| 2026-11-04 | Explicit `.option gmin=1e-18 abstol=1e-18` in every netlist (profile field `solver_options`, echoed in provenance) | ngspice defaults put a gmin*VDS = 1.8 pA floor under IOFF; measured 100x error at 27 C; stable down to 1e-20 |
+| 2026-11-04 | Valid simulation without measurements ends PARTIAL, never SUCCESSFUL | SUCCESSFUL requires validated output AND successful extraction |
 | 2026-11-04 | Metrics and tasks frozen by Nov 23, before final run | prevents benchmark tuning |

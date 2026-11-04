@@ -36,6 +36,9 @@ class ModelProfile:
     educational: bool
     corner: str
     note: str
+    # Solver floors: ngspice defaults (gmin=1e-12 S, abstol=1e-12 A) put a ~pA artefact under every current
+    # (gmin*VDS = 1.8 pA at 1.8 V), which would be measured as IOFF. Verified 2026-11-04: IOFF 1.82 pA -> 20.9 fA.
+    solver_options: str = ".option gmin=1e-18 abstol=1e-18"
 
 
 def _builtin() -> ModelProfile:

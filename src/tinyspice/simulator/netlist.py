@@ -28,6 +28,7 @@ def build_netlist(spec: ExperimentSpec, profile: ModelProfile) -> str:
         f"VGS g 0 {vgs}",
         f"VB b 0 {_n(spec.vbs_v)}",
         profile.instance(spec.width_um, spec.length_um),
+        profile.solver_options,
         f".temp {_n(spec.temperature_c)}",
         ".control",
         *profile.control_lines,
