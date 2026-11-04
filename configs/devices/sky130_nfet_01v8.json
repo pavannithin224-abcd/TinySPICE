@@ -1,0 +1,14 @@
+{
+  "model_name": "sky130_fd_pr__nfet_01v8",
+  "device_type": "nmos",
+  "w_min_um": 0.42,
+  "w_max_um": 7.0,
+  "l_min_um": 0.15,
+  "l_max_um": 8.0,
+  "v_min": 0.0,
+  "v_max": 1.8,
+  "temp_min_c": -40.0,
+  "temp_max_c": 125.0,
+  "limits_verified": false,
+  "source_note": "Conservative provisional bounds for the SKY130 1.8 V NFET. NOT yet checked against the model-card bin table; verify in Phase 2 before any claim about supported range."
+}

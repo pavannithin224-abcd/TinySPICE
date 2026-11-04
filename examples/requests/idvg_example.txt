@@ -1,0 +1,1 @@
+Characterize an NMOS transistor with a channel length of 180 nm at room temperature. Generate an Id-Vg curve with VDS fixed at 1.8 V. Measure threshold voltage, transconductance, subthreshold swing, on-current and off-current. Use a maximum of 200 simulation points.

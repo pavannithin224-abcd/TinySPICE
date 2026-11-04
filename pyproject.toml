@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tinyspice"
+version = "0.0.1"
+description = "Budget-aware, reliability-driven LLM agent for reproducible MOSFET characterization"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = ["pydantic>=2.6", "numpy>=1.26", "scipy>=1.11", "pandas>=2.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+api = ["fastapi", "uvicorn"]
+ml = ["torch"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+  "ngspice: requires a real ngspice installation (deselect with -m 'not ngspice')",
+]

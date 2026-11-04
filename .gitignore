@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.env
+*.pyc
+# generated experiment artefacts (structure kept via .gitkeep)
+data/raw/*
+data/processed/*
+experiments/runs/*
+experiments/logs/*
+experiments/reports/*
+results/figures/*
+results/metrics/*
+results/benchmark/*
+*.sqlite
+*.db
+# third-party binaries and PDK files are never committed
+models/*
+!models/README.md
+.tools/
+!**/.gitkeep
