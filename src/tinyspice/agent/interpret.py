@@ -71,13 +71,13 @@ _REPAIRABLE = {"json_invalid", "extra_forbidden", "enum", "literal_error", "floa
                "greater_than_equal", "too_short"}
 
 
-def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1, seed: int = 0) -> InterpretResult:
+def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1, seed: int = 0, max_tokens: int = 450) -> InterpretResult:
     schema = raw_json_schema()
     res = InterpretResult(spec=None, status=ExperimentStatus.REJECTED_INVALID, model=getattr(provider, "name", "?"))
     note: str | None = None
     t0 = time.monotonic()
     for attempt in range(max_repairs + 1):
-        resp = provider.complete_json(SYSTEM_PROMPT, build_user_prompt(request, note), schema, seed=seed)
+        resp = provider.complete_json(SYSTEM_PROMPT, build_user_prompt(request, note), schema, max_tokens=max_tokens, seed=seed)
         res.llm_calls += 1
         res.raw_text, res.model = resp.text, resp.model
         if resp.error:

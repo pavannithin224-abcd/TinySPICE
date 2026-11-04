@@ -32,9 +32,19 @@ MODELS = {  # key -> HF repo (Q4_K_M file is looked up in the repo listing). All
 }
 
 
-def hf(repo: str) -> dict:
-    req = urllib.request.Request(f"https://huggingface.co/api/models/{repo}?blobs=true", headers={"User-Agent": "tinyspice-setup/0.1"})
-    return json.load(urllib.request.urlopen(req, timeout=60))
+def hf(repo: str, tries: int = 8) -> dict:
+    import time
+    import urllib.error
+    last: Exception | None = None
+    for i in range(1, tries + 1):
+        try:
+            req = urllib.request.Request(f"https://huggingface.co/api/models/{repo}?blobs=true", headers={"User-Agent": "tinyspice-setup/0.1"})
+            return json.load(urllib.request.urlopen(req, timeout=60))
+        except (urllib.error.URLError, OSError, TimeoutError) as e:
+            last = e
+            print(f"  hub metadata attempt {i}/{tries} failed ({type(e).__name__}: {e}); retrying")
+            time.sleep(min(3 * i, 30))
+    raise RuntimeError(f"Hugging Face metadata unreachable after {tries} attempts: {last}")
 
 
 def runtime() -> int:
@@ -67,12 +77,14 @@ def model(key: str) -> int:
     m = st.load_manifest()
     url = f"https://huggingface.co/{repo}/resolve/{rev}/{f['rfilename']}"
     dest = st.TOOLS / "models" / f["rfilename"]
-    st.ensure(m, f"model:{key}", url, dest, magic=b"GGUF")
+    st.ensure(m, f"model:{key}", url, dest, magic=b"GGUF", expected_size=f["size"])
     want = (f.get("lfs") or {}).get("sha256")  # independent integrity check against the Hub's own recorded hash
     if want:
         got = st.sha256(dest)
         if got != want:
             dest.unlink()
+            m["entries"].pop(f"model:{key}", None)
+            st.MANIFEST.write_text(json.dumps(m, indent=2))
             sys.exit(f"ERROR: SHA-256 mismatch for {f['rfilename']}: expected {want}, got {got}; file deleted")
         print("  sha256 verified against Hugging Face LFS record")
     else:

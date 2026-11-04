@@ -23,7 +23,7 @@ RAW_FIELDS: dict[str, dict] = {
     "vds_v": {"type": NUM},
     "vgs_v": {"type": NUM},
     "vbs_v": {"type": NUM},
-    "measurements": {"type": ["array", "null"], "items": {"enum": ["ID", "GM", "GDS", "VTH", "SS", "ION", "IOFF"]}},
+    "measurements": {"type": ["array", "null"], "items": {"enum": ["ID", "GM", "GDS", "VTH", "SS", "ION", "IOFF"]}, "maxItems": 7},
     "ion_vgs_v": {"type": NUM},
     "ioff_vgs_v": {"type": NUM},
     "vth_ic_a": {"type": NUM},

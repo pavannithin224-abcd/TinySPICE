@@ -22,11 +22,12 @@ ap.add_argument("provider", help="'rules' or a model key from .tools/manifest.js
 ap.add_argument("--tasks", default="dev", choices=sorted(SETS))
 ap.add_argument("--threads", type=int, default=4)
 ap.add_argument("--seed", type=int, default=0)
+ap.add_argument("--only", nargs="*", help="task ids to run, e.g. --only D01 D04")
 a = ap.parse_args()
 
 tasks = load_tasks(SETS[a.tasks])
 if a.provider == "rules":
-    res = evaluate(RuleBasedProvider(), tasks, seed=a.seed)
+    res = evaluate(RuleBasedProvider(), tasks, seed=a.seed, only=a.only)
     meta = {}
 else:
     try:
@@ -34,7 +35,7 @@ else:
     except ProviderUnavailable as e:
         sys.exit(f"provider unavailable: {e}")
     with prov:
-        res = evaluate(prov, tasks, seed=a.seed)
+        res = evaluate(prov, tasks, seed=a.seed, only=a.only)
         man = prov.tools.manifest
         meta = {"startup_s": round(prov.startup_s, 2), "threads": a.threads, "ctx": prov.ctx,
                 "llama_cpp_tag": man["llama_cpp"]["tag"], "model": man["models"][a.provider]}
