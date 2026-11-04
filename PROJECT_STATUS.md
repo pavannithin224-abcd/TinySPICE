@@ -10,7 +10,7 @@ Status legend used across all docs: **IMPLEMENTED** (code exists) · **MOCK-TEST
 | 0 Foundation | DONE (committed) |
 | 1 Simulator core | DONE (committed; hardening commit d3986a8) |
 | 2 Measurement engine | DONE (committed 2346cac): IMPLEMENTED, unit-tested on analytic curves (E1), cross-checked on real SKY130 data (E2) |
-| 3 LLM -> spec | IN PROGRESS: provider interface, strict interpreter, rule-based floor, Group-1 dev set + harness done and tested (120 tests). Real local LLM NOT yet run: model downloads are slow (~200 KB/s from Hugging Face), Qwen3.5-2B in progress |
+| 3 LLM -> spec | DONE with limits (132 tests). Real local models run on 3 sets. F2 (untainted, 23 tasks): Qwen3.5-2B 3/8 exact; grounding takes silent-wrong 4->0 and bad-accepted 4/15->0/15 with 0 correct lost. Open: spurious `ID` padding, schema-inexpressible contradictions, cross-field swaps beyond W/L, small n |
 
 ## Components
 | Component | Status |
