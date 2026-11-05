@@ -1,0 +1,18 @@
+
+===== qwen3.5-2b
+R0: exact 56/84=0.667  silent-wrong 1  bad-accepted 2/36  re-asked 0  pruned 0  llm calls 120
+R1: exact 61/84=0.726  silent-wrong 1  bad-accepted 4/36  re-asked 0  pruned 12  llm calls 120
+R2: exact 60/84=0.714  silent-wrong 1  bad-accepted 5/36  re-asked 12  pruned 0  llm calls 132
+R2 vs R0: R2-only exact 4, R0-only exact 0, one-sided sign p = 0.0625
+R1 vs R0: R1-only exact 5, R0-only exact 0, one-sided sign p = 0.0312
+R2 vs R1: R2-only exact 0, R1-only exact 1, one-sided sign p = 1.0000
+PRIMARY: gain(R2-R0) = +0.048 (need >= 0.05); p = 0.0625 (need < 0.05); safety held = False; R1 matches/beats R2 (within 0.02) = True
+DECISION: R2 NOT supported
+
+===== qwen3.5-0.8b
+R0: exact 3/84=0.036  silent-wrong 0  bad-accepted 0/36  re-asked 0  pruned 0  llm calls 120
+R1: exact 3/84=0.036  silent-wrong 0  bad-accepted 0/36  re-asked 0  pruned 4  llm calls 120
+R2: exact 3/84=0.036  silent-wrong 0  bad-accepted 0/36  re-asked 4  pruned 0  llm calls 124
+R2 vs R0: R2-only exact 0, R0-only exact 0, one-sided sign p = 1.0000
+R1 vs R0: R1-only exact 0, R0-only exact 0, one-sided sign p = 1.0000
+R2 vs R1: R2-only exact 0, R1-only exact 0, one-sided sign p = 1.0000

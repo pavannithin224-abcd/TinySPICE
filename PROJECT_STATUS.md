@@ -58,3 +58,8 @@ Note: the venv once lost packages unexpectedly (cause unknown); repaired with `p
 On plan: Stage 1 finished on day 1 of 5 allotted (Nov 6-10).
 | 4 Adaptive sampling | DONE (170 tests). Curvature + measurement-aware window sampling on a verified ngspice PWL path. Pre-registered H4 (curvature) NOT SUPPORTED. Window sampling's SS-extraction finding CONFIRMED on 12 fresh conditions (pre-registered, run once): SS success 24/24 vs 4/24 at N=16-20, p=9.5e-7, small GM cost (<=1.5% vs 5% tol). Tied to the SS extractor's window definition; one device family |
 | 5 Reliability + provenance | DONE (224 tests). Budget ledger, recovery catalog, evidence-checked status machine, SQLite append-only store + sha256 manifests, replay/verify, CLI (plan/run/replay/verify/runs). 20/20 PRE-REGISTERED failure-injection cases pass on real ngspice (NGSPICE-TESTED); replay matches within rtol 1e-6; tamper detection works. Injected non-convergence cure is synthetic (not verified on a physical convergence failure) |
+
+## Update 2026-11-05
+- Stage 6 (TinySPICEBench): DONE. Frozen one-shot run, 2B: false-success A 0.42 / B 0.12 / C 0.00; completion 0.50 / 0.46 / 0.86; primary claim (C over A) SUPPORTED (p=9.3e-10). Oracle row: A 0.42, B 0, C 0 false success; completion 0.50/0.71/1.00.
+- Stage 6b (bounded re-ask): NOT SUPPORTED; system keeps R0. Prune/re-ask raised recall ~+0.05 but accepted contradictory requests (guard gap on a new phrasing) so safety failed. Open: guard gap (B08) and unstated-analysis hole (B05); both need a fresh untainted set.
+- 208 tests. Next: Stage 7 (release, README, paper/report).
