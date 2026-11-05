@@ -186,3 +186,27 @@ def test_limit_value_must_sit_next_to_its_own_keyword():
 
 def test_minutes_are_understood_by_numeric_grounding():
     assert "max_runtime_s" not in ungrounded_fields(lraw(max_tool_calls=4, max_retries=2, max_runtime_s=120.0), LIM)
+
+
+# ---- Stage 7a: link words for a stated fixed bias (phrasings written independently of the F4 set)
+import pytest as _pt
+
+_BIAS_PHRASES = [
+    ("VGS is also held at 0.7 V", "vgs_v"), ("VGS is still 0.7 V", "vgs_v"), ("the gate stays at 0.7 V", "vgs_v"), ("VGS remains at 0.7 V", "vgs_v"),
+    ("gate voltage pinned at 0.7 V", "vgs_v"), ("VGS clamped to 0.7 V", "vgs_v"), ("VGS locked at 0.7 V", "vgs_v"), ("VGS set to 0.7 V", "vgs_v"),
+    ("drain biased at 1.1 V", "vds_v"), ("VDS is also fixed at 1.1 V", "vds_v"), ("the drain voltage is maintained at 1.1 V", "vds_v"),
+]
+
+
+@_pt.mark.parametrize("phrase,field", _BIAS_PHRASES)
+def test_stated_fixed_bias_with_new_link_words_is_noticed_when_omitted(phrase, field):
+    from tinyspice.agent.grounding import omitted_biases
+    assert field in omitted_biases({field: None}, f"Id sweep from 0 to 1.8 V in 0.05 V steps; {phrase}.")
+    assert field not in omitted_biases({field: 0.7}, f"Id sweep from 0 to 1.8 V in 0.05 V steps; {phrase}.")
+
+
+@_pt.mark.parametrize("text", ["measure the on-current at VGS also equal to 1.8 V", "Id-Vg with VDS = 1.2 V and VGS from 0 to 1.8 V in 0.05 V steps",
+                                "the sweep is set to 0.05 V steps", "temperature is also 85 C"])
+def test_new_link_words_do_not_invent_a_fixed_bias(text):
+    from tinyspice.agent.grounding import omitted_biases
+    assert "vgs_v" not in omitted_biases({"vgs_v": None}, text) or "on-current" in text

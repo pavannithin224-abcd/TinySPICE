@@ -75,7 +75,7 @@ _BUDGET_PRE = r"(?:at most|max(?:imum)?|up to|limit(?:ed)?(?: of| to)?|cap(?:ped
 _CURRENT_PRE = r"(?:(?:on|off)-?\s?current|\bi(?:on|off)\b)\W*(?:\w+\W+){0,2}$"
 _BIAS_KW = {"vds_v": r"(?:\bvds\b|drain(?: bias| voltage)?)", "vgs_v": r"(?:\bvgs\b|gate(?: bias| voltage)?)",
             "vbs_v": r"(?:\bvbs\b|bulk|body|substrate)"}
-_BIAS_LINK = r"\s*(?:is\s+|are\s+|held\s+|fixed\s+|tied\s+|kept\s+|constant\s+|at\s+|=\s*|of\s+|to\s+)*"
+_BIAS_LINK = r"\s*(?:is\s+|are\s+|also\s+|still\s+|held\s+|fixed\s+|tied\s+|kept\s+|pinned\s+|clamped\s+|locked\s+|set\s+|stays\s+|remains\s+|maintained\s+|biased\s+|constant\s+|steady\s+|at\s+|=\s*|of\s+|to\s+)*"
 
 
 _LIMIT_PATTERNS = {
