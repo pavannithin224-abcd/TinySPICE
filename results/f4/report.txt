@@ -1,0 +1,17 @@
+v0 = e0308a0 (before guard change)   v1 = 491d6b0 (after)
+
+===== qwen3.5-2b
+default v0: contradictions accepted 0/36   unstated-analysis accepted 0/24   valid exact 51/60
+default v1: contradictions accepted 0/36   unstated-analysis accepted 0/24   valid exact 51/60
+default correct extractions LOST by the change: 0 []
+prune   v0: contradictions accepted 5/36   unstated-analysis accepted 0/24   valid exact 54/60
+prune   v1: contradictions accepted 0/36   unstated-analysis accepted 0/24   valid exact 54/60
+prune   correct extractions LOST by the change: 0 []
+
+===== qwen3.5-0.8b
+default v0: contradictions accepted 0/36   unstated-analysis accepted 0/24   valid exact 6/60
+default v1: contradictions accepted 0/36   unstated-analysis accepted 0/24   valid exact 6/60
+default correct extractions LOST by the change: 0 []
+prune   v0: contradictions accepted 6/36   unstated-analysis accepted 0/24   valid exact 6/60
+prune   v1: contradictions accepted 0/36   unstated-analysis accepted 0/24   valid exact 6/60
+prune   correct extractions LOST by the change: 0 []
