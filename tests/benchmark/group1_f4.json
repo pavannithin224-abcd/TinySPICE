@@ -1,0 +1,1016 @@
+{
+ "_note": "Stage 7a fresh set F4: 12 fixed-and-swept contradictions, 8 truly-unstated-analysis, 20 valid controls with legitimate fixed/held wording. FROZEN by sha256 before the guards change.",
+ "tasks": [
+  {
+   "id": "C01",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "Hello, an NMOS from the SKY130 NFET model, W = 6 um, L = 0.15 um, at -20 C. Id-Vg with VDS = 1.2 V, VGS from 0 to 1.8 V in 0.05 V steps while VGS is also held at 0.9 V. Measure the threshold voltage. At most 39 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 6.0,
+    "length_um": 0.15,
+    "temperature_c": -20.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 39,
+    "vds_v": 1.2,
+    "vgs_v": 0.9
+   }
+  },
+  {
+   "id": "C02",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "NMOS SKY130 NFET, W = 0.42 um, L = 0.15 um, at -20 C. Id-Vg, VDS = 1.2 V: sweep VGS from 0 to 1.8 V in 0.05 V steps, and keep VGS constant at 0.9 V. Measure the threshold voltage. At most 39 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.42,
+    "length_um": 0.15,
+    "temperature_c": -20.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 39,
+    "vds_v": 1.2,
+    "vgs_v": 0.9
+   }
+  },
+  {
+   "id": "C03",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "NMOS SKY130 NFET, W = 0.65 um, L = 0.4 um, temperature -20 C. The gate voltage is fixed at 0.9 V and also swept from 0 to 1.2 V in 0.03 V steps, with VDS = 1.2 V (Id-Vg). Measure the threshold voltage. At most 43 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.65,
+    "length_um": 0.4,
+    "temperature_c": -20.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.03,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 43,
+    "vds_v": 1.2,
+    "vgs_v": 0.9
+   }
+  },
+  {
+   "id": "C04",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "an NMOS from the SKY130 NFET model, W = 6 um, L = 0.8 um, temperature 110 C. Hold the gate at 0.9 V and sweep the gate from 0 to 1.8 V in 0.1 V steps; VDS stays at 1.2 V. Measure the threshold voltage. At most 21 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 6.0,
+    "length_um": 0.8,
+    "temperature_c": 110.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.1,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 21,
+    "vds_v": 1.2,
+    "vgs_v": 0.9
+   }
+  },
+  {
+   "id": "C05",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "Hello, NMOS SKY130 NFET, width 2 um and length 0.15 um, at 27 C. Id-Vg with VDS = 1.2 V; VGS sweeps 0 to 1.8 V in 0.1 V steps, fixed gate bias 0.7 V throughout. Measure the threshold voltage. At most 21 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.15,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.1,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 21,
+    "vds_v": 1.2,
+    "vgs_v": 0.7
+   }
+  },
+  {
+   "id": "C06",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "NMOS SKY130 NFET, width 0.65 um and length 0.8 um, temperature 27 C. Transfer curve at VDS = 1.2 V, VGS 0 to 1.8 V in 0.1 V steps, with the gate bias pinned at 0.9 V. Measure the threshold voltage. At most 21 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.65,
+    "length_um": 0.8,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.1,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 21,
+    "vds_v": 1.2,
+    "vgs_v": 0.9
+   }
+  },
+  {
+   "id": "C07",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "Hello, SKY130 NFET (NMOS, 1.8 V), 3.5 um wide and 1.5 um long, at -20 C. Id-Vg with VDS = 1.2 V, VGS from 0 to 1.8 V in 0.1 V steps while VGS is also held at 0.5 V. Measure the threshold voltage. At most 21 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 3.5,
+    "length_um": 1.5,
+    "temperature_c": -20.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.1,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 21,
+    "vds_v": 1.2,
+    "vgs_v": 0.5
+   }
+  },
+  {
+   "id": "C08",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "NMOS SKY130 NFET, 2 um wide and 0.4 um long, at 27 C. Id-Vg, VDS = 1.2 V: sweep VGS from 0 to 1.8 V in 0.05 V steps, and keep VGS constant at 0.7 V. Measure the threshold voltage. At most 39 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.4,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "measurements": [
+     "VTH"
+    ],
+    "max_points": 39,
+    "vds_v": 1.2,
+    "vgs_v": 0.7
+   }
+  },
+  {
+   "id": "C09",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "an NMOS from the SKY130 NFET model, W = 3.5 um, L = 0.15 um, temperature 27 C. Id-Vd with VGS = 1.2 V, VDS from 0 to 1.2 V in 0.05 V steps while VDS is also held at 0.7 V. Measure the drain current. At most 27 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 3.5,
+    "length_um": 0.15,
+    "temperature_c": 27.0,
+    "analysis": "idvd",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.05,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 27,
+    "vgs_v": 1.2,
+    "vds_v": 0.7
+   }
+  },
+  {
+   "id": "C10",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "Hello, SKY130 NFET (NMOS, 1.8 V), 3.5 um wide and 0.4 um long, at 50 C. Output curve at VGS = 1.2 V: sweep VDS 0 to 1.2 V in 0.05 V steps and keep VDS constant at 0.7 V. Measure the drain current. At most 27 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 3.5,
+    "length_um": 0.4,
+    "temperature_c": 50.0,
+    "analysis": "idvd",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.05,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 27,
+    "vgs_v": 1.2,
+    "vds_v": 0.7
+   }
+  },
+  {
+   "id": "C11",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "Hello, an NMOS from the SKY130 NFET model, 2 um wide and 0.25 um long, temperature -20 C. The drain voltage is fixed at 0.7 V and also swept from 0 to 1.8 V in 0.1 V steps, VGS = 1.2 V (Id-Vd). Measure the drain current. At most 21 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.25,
+    "temperature_c": -20.0,
+    "analysis": "idvd",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.1,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 21,
+    "vgs_v": 1.2,
+    "vds_v": 0.7
+   }
+  },
+  {
+   "id": "C12",
+   "cat": "contra_fixed_swept",
+   "expect": "reject",
+   "reject_match": [],
+   "text": "Request: an NMOS from the SKY130 NFET model, W = 6 um, L = 0.8 um, temperature 50 C. Id-Vd with VGS = 1.2 V, VDS from 0 to 1.2 V in 0.03 V steps while VDS is also held at 0.7 V. Measure the drain current. At most 43 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 6.0,
+    "length_um": 0.8,
+    "temperature_c": 50.0,
+    "analysis": "idvd",
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.03,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 43,
+    "vgs_v": 1.2,
+    "vds_v": 0.7
+   }
+  },
+  {
+   "id": "U01",
+   "cat": "unstated_analysis",
+   "expect": "reject",
+   "reject_match": [
+    "analysis"
+   ],
+   "text": "Hello, an NMOS from the SKY130 NFET model, width 0.42 um and length 0.4 um, at 27 C. Sweep one terminal from 0 to 1.8 V in 0.1 V steps with the other terminal at 1.2 V. Measure the drain current. At most 21 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.42,
+    "length_um": 0.4,
+    "temperature_c": 27.0,
+    "analysis": null,
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.1,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 21
+   }
+  },
+  {
+   "id": "U02",
+   "cat": "unstated_analysis",
+   "expect": "reject",
+   "reject_match": [
+    "analysis"
+   ],
+   "text": "Request: an NMOS from the SKY130 NFET model, width 2 um and length 0.8 um, temperature 110 C. Do a voltage sweep from 0 to 1.2 V in 0.04 V steps, 1.2 V on the other electrode. Measure the drain current. At most 33 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.8,
+    "temperature_c": 110.0,
+    "analysis": null,
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.04,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 33
+   }
+  },
+  {
+   "id": "U03",
+   "cat": "unstated_analysis",
+   "expect": "reject",
+   "reject_match": [
+    "analysis"
+   ],
+   "text": "Hello, an NMOS from the SKY130 NFET model, 0.65 um wide and 1.5 um long, temperature 27 C. Run a DC sweep from 0 to 1.2 V in 0.04 V steps with a constant 0.9 V on the remaining terminal. Measure the drain current. At most 33 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.65,
+    "length_um": 1.5,
+    "temperature_c": 27.0,
+    "analysis": null,
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.04,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 33
+   }
+  },
+  {
+   "id": "U04",
+   "cat": "unstated_analysis",
+   "expect": "reject",
+   "reject_match": [
+    "analysis"
+   ],
+   "text": "Hello, NMOS SKY130 NFET, width 1 um and length 1.5 um, at 27 C. Characterize it with a sweep 0 to 1.2 V, step 0.04 V, fixed bias 1.2 V. Measure the drain current. At most 33 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 1.5,
+    "temperature_c": 27.0,
+    "analysis": null,
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.04,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 33
+   }
+  },
+  {
+   "id": "U05",
+   "cat": "unstated_analysis",
+   "expect": "reject",
+   "reject_match": [
+    "analysis"
+   ],
+   "text": "Hello, NMOS SKY130 NFET, 6 um wide and 0.15 um long, temperature 110 C. Sweep one terminal from 0 to 1.2 V in 0.05 V steps with the other terminal at 1.2 V. Measure the drain current. At most 27 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 6.0,
+    "length_um": 0.15,
+    "temperature_c": 110.0,
+    "analysis": null,
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.05,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 27
+   }
+  },
+  {
+   "id": "U06",
+   "cat": "unstated_analysis",
+   "expect": "reject",
+   "reject_match": [
+    "analysis"
+   ],
+   "text": "Hello, an NMOS from the SKY130 NFET model, width 0.42 um and length 0.15 um, temperature -20 C. Do a voltage sweep from 0 to 1.8 V in 0.05 V steps, 1.2 V on the other electrode. Measure the drain current. At most 39 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.42,
+    "length_um": 0.15,
+    "temperature_c": -20.0,
+    "analysis": null,
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.05,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 39
+   }
+  },
+  {
+   "id": "U07",
+   "cat": "unstated_analysis",
+   "expect": "reject",
+   "reject_match": [
+    "analysis"
+   ],
+   "text": "Request: an NMOS from the SKY130 NFET model, width 1 um and length 0.25 um, at 50 C. Run a DC sweep from 0 to 1.2 V in 0.05 V steps with a constant 0.9 V on the remaining terminal. Measure the drain current. At most 27 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.25,
+    "temperature_c": 50.0,
+    "analysis": null,
+    "sweep_start": 0.0,
+    "sweep_stop": 1.2,
+    "sweep_step": 0.05,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 27
+   }
+  },
+  {
+   "id": "U08",
+   "cat": "unstated_analysis",
+   "expect": "reject",
+   "reject_match": [
+    "analysis"
+   ],
+   "text": "Request: an NMOS from the SKY130 NFET model, W = 2 um, L = 0.8 um, at 110 C. Characterize it with a sweep 0 to 1.8 V, step 0.1 V, fixed bias 1.2 V. Measure the drain current. At most 21 points.",
+   "oracle": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.8,
+    "temperature_c": 110.0,
+    "analysis": null,
+    "sweep_start": 0.0,
+    "sweep_stop": 1.8,
+    "sweep_step": 0.1,
+    "measurements": [
+     "ID"
+    ],
+    "max_points": 21
+   }
+  },
+  {
+   "id": "K01",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "Hello, SKY130 NFET (NMOS, 1.8 V), width 0.65 um and length 0.25 um, at 85 C. Id-Vg with VDS = 1.2 V (held constant), VGS from 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage and the transconductance. At most 37 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.65,
+    "length_um": 0.25,
+    "temperature_c": 85.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.05
+    },
+    "measurements": [
+     "VTH",
+     "GM"
+    ],
+    "budget": {
+     "max_points": 37
+    },
+    "vds_v": 1.2
+   }
+  },
+  {
+   "id": "K02",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "Hello, an NMOS from the SKY130 NFET model, W = 1 um, L = 0.25 um, temperature 50 C. Id-Vg: the drain is fixed at 1.2 V, and the gate sweeps 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage and the transconductance. At most 45 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.25,
+    "temperature_c": 50.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.05
+    },
+    "measurements": [
+     "VTH",
+     "GM"
+    ],
+    "budget": {
+     "max_points": 45
+    },
+    "vds_v": 1.2
+   }
+  },
+  {
+   "id": "K03",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "NMOS SKY130 NFET, 0.42 um wide and 1.5 um long, at 50 C. Transfer curve, VGS from 0 to 1.8 V in 0.1 V steps, with VDS kept at 1.2 V throughout. Measure the threshold voltage and the subthreshold swing. At most 27 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.42,
+    "length_um": 1.5,
+    "temperature_c": 50.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.1
+    },
+    "measurements": [
+     "VTH",
+     "SS"
+    ],
+    "budget": {
+     "max_points": 27
+    },
+    "vds_v": 1.2
+   }
+  },
+  {
+   "id": "K04",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "Hello, NMOS SKY130 NFET, 1 um wide and 0.25 um long, temperature 27 C. Id-Vg, VDS = 1.2 V, VGS 0 to 1.2 V in 0.05 V steps; the drain bias is also stated as 1.2 V in the lab sheet. Measure the threshold voltage. At most 28 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.25,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.05
+    },
+    "measurements": [
+     "VTH"
+    ],
+    "budget": {
+     "max_points": 28
+    },
+    "vds_v": 1.2
+   }
+  },
+  {
+   "id": "K05",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "NMOS SKY130 NFET, width 0.42 um and length 0.4 um, at 85 C. Sweep VGS from 0 to 1.2 V in 0.03 V steps at a constant drain bias of 1.2 V (Id-Vg). Measure the threshold voltage and the subthreshold swing. At most 49 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.42,
+    "length_um": 0.4,
+    "temperature_c": 85.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.03
+    },
+    "measurements": [
+     "VTH",
+     "SS"
+    ],
+    "budget": {
+     "max_points": 49
+    },
+    "vds_v": 1.2
+   }
+  },
+  {
+   "id": "K06",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "NMOS SKY130 NFET, W = 2 um, L = 0.15 um, at -20 C. Id-Vg with VDS = 1.2 V (held constant), VGS from 0 to 1.2 V in 0.04 V steps. Measure the threshold voltage and the subthreshold swing. At most 34 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.15,
+    "temperature_c": -20.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.04
+    },
+    "measurements": [
+     "VTH",
+     "SS"
+    ],
+    "budget": {
+     "max_points": 34
+    },
+    "vds_v": 1.2
+   }
+  },
+  {
+   "id": "K07",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "Request: an NMOS from the SKY130 NFET model, 1 um wide and 0.8 um long, temperature 85 C. Id-Vg: the drain is fixed at 0.9 V, and the gate sweeps 0 to 1.8 V in 0.1 V steps. Measure the threshold voltage and the transconductance. At most 27 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.8,
+    "temperature_c": 85.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.1
+    },
+    "measurements": [
+     "VTH",
+     "GM"
+    ],
+    "budget": {
+     "max_points": 27
+    },
+    "vds_v": 0.9
+   }
+  },
+  {
+   "id": "K08",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "SKY130 NFET (NMOS, 1.8 V), width 0.65 um and length 0.8 um, temperature 85 C. Transfer curve, VGS from 0 to 1.2 V in 0.04 V steps, with VDS kept at 1.8 V throughout. Measure the threshold voltage and the transconductance. At most 39 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.65,
+    "length_um": 0.8,
+    "temperature_c": 85.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.04
+    },
+    "measurements": [
+     "VTH",
+     "GM"
+    ],
+    "budget": {
+     "max_points": 39
+    },
+    "vds_v": 1.8
+   }
+  },
+  {
+   "id": "K09",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "Hello, an NMOS from the SKY130 NFET model, width 6 um and length 1.5 um, temperature 50 C. Id-Vg, VDS = 0.6 V, VGS 0 to 1.8 V in 0.1 V steps; the drain bias is also stated as 0.6 V in the lab sheet. Measure the threshold voltage and the subthreshold swing. At most 22 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 6.0,
+    "length_um": 1.5,
+    "temperature_c": 50.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.1
+    },
+    "measurements": [
+     "VTH",
+     "SS"
+    ],
+    "budget": {
+     "max_points": 22
+    },
+    "vds_v": 0.6
+   }
+  },
+  {
+   "id": "K10",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "an NMOS from the SKY130 NFET model, W = 6 um, L = 1.5 um, at 50 C. Sweep VGS from 0 to 1.8 V in 0.05 V steps at a constant drain bias of 0.6 V (Id-Vg). Measure the threshold voltage and the subthreshold swing. At most 45 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 6.0,
+    "length_um": 1.5,
+    "temperature_c": 50.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.05
+    },
+    "measurements": [
+     "VTH",
+     "SS"
+    ],
+    "budget": {
+     "max_points": 45
+    },
+    "vds_v": 0.6
+   }
+  },
+  {
+   "id": "K11",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "Hello, NMOS SKY130 NFET, width 0.65 um and length 0.8 um, at 110 C. Id-Vg with VDS = 1.2 V (held constant), VGS from 0 to 1.2 V in 0.05 V steps. Measure the threshold voltage. At most 33 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.65,
+    "length_um": 0.8,
+    "temperature_c": 110.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.05
+    },
+    "measurements": [
+     "VTH"
+    ],
+    "budget": {
+     "max_points": 33
+    },
+    "vds_v": 1.2
+   }
+  },
+  {
+   "id": "K12",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "Request: NMOS SKY130 NFET, 0.42 um wide and 0.4 um long, at 110 C. Id-Vg: the drain is fixed at 1.2 V, and the gate sweeps 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 45 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.42,
+    "length_um": 0.4,
+    "temperature_c": 110.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.05
+    },
+    "measurements": [
+     "VTH"
+    ],
+    "budget": {
+     "max_points": 45
+    },
+    "vds_v": 1.2
+   }
+  },
+  {
+   "id": "K13",
+   "cat": "valid_control_idvg",
+   "expect": "valid",
+   "text": "an NMOS from the SKY130 NFET model, width 2 um and length 0.15 um, temperature 27 C. Transfer curve, VGS from 0 to 1.8 V in 0.05 V steps, with VDS kept at 0.6 V throughout. Measure the threshold voltage and the transconductance. At most 37 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.15,
+    "temperature_c": 27.0,
+    "analysis": "idvg",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.05
+    },
+    "measurements": [
+     "VTH",
+     "GM"
+    ],
+    "budget": {
+     "max_points": 37
+    },
+    "vds_v": 0.6
+   }
+  },
+  {
+   "id": "K14",
+   "cat": "valid_control_idvd",
+   "expect": "valid",
+   "text": "an NMOS from the SKY130 NFET model, width 3.5 um and length 0.4 um, at 110 C. Id-Vd with VGS = 0.9 V (held constant), VDS from 0 to 1.2 V in 0.05 V steps. Measure the drain current curve. At most 25 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 3.5,
+    "length_um": 0.4,
+    "temperature_c": 110.0,
+    "analysis": "idvd",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.05
+    },
+    "measurements": [
+     "ID"
+    ],
+    "budget": {
+     "max_points": 25
+    },
+    "vgs_v": 0.9
+   }
+  },
+  {
+   "id": "K15",
+   "cat": "valid_control_idvd",
+   "expect": "valid",
+   "text": "Hello, an NMOS from the SKY130 NFET model, 2 um wide and 0.15 um long, at -20 C. Output curve: the gate is fixed at 1.2 V and the drain sweeps 0 to 1.8 V in 0.05 V steps. Measure the output conductance. At most 40 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 2.0,
+    "length_um": 0.15,
+    "temperature_c": -20.0,
+    "analysis": "idvd",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.05
+    },
+    "measurements": [
+     "GDS"
+    ],
+    "budget": {
+     "max_points": 40
+    },
+    "vgs_v": 1.2
+   }
+  },
+  {
+   "id": "K16",
+   "cat": "valid_control_idvd",
+   "expect": "valid",
+   "text": "Request: SKY130 NFET (NMOS, 1.8 V), width 3.5 um and length 0.15 um, at 85 C. Id-Vd, VGS kept at 1.8 V throughout, VDS from 0 to 1.2 V in 0.05 V steps. Measure the output conductance. At most 25 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 3.5,
+    "length_um": 0.15,
+    "temperature_c": 85.0,
+    "analysis": "idvd",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.05
+    },
+    "measurements": [
+     "GDS"
+    ],
+    "budget": {
+     "max_points": 25
+    },
+    "vgs_v": 1.8
+   }
+  },
+  {
+   "id": "K17",
+   "cat": "valid_control_idvd",
+   "expect": "valid",
+   "text": "NMOS SKY130 NFET, 0.42 um wide and 0.4 um long, temperature 110 C. Id-Vd with VGS = 1.2 V (held constant), VDS from 0 to 1.8 V in 0.05 V steps. Measure the drain current curve and the output conductance. At most 40 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.42,
+    "length_um": 0.4,
+    "temperature_c": 110.0,
+    "analysis": "idvd",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.8,
+     "step": 0.05
+    },
+    "measurements": [
+     "ID",
+     "GDS"
+    ],
+    "budget": {
+     "max_points": 40
+    },
+    "vgs_v": 1.2
+   }
+  },
+  {
+   "id": "K18",
+   "cat": "valid_control_idvd",
+   "expect": "valid",
+   "text": "Hello, an NMOS from the SKY130 NFET model, W = 1 um, L = 0.15 um, temperature 27 C. Output curve: the gate is fixed at 1.2 V and the drain sweeps 0 to 1.2 V in 0.05 V steps. Measure the output conductance. At most 28 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.15,
+    "temperature_c": 27.0,
+    "analysis": "idvd",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.05
+    },
+    "measurements": [
+     "GDS"
+    ],
+    "budget": {
+     "max_points": 28
+    },
+    "vgs_v": 1.2
+   }
+  },
+  {
+   "id": "K19",
+   "cat": "valid_control_idvd",
+   "expect": "valid",
+   "text": "Hello, an NMOS from the SKY130 NFET model, 0.42 um wide and 0.4 um long, at 85 C. Id-Vd, VGS kept at 1.8 V throughout, VDS from 0 to 1.2 V in 0.05 V steps. Measure the output conductance. At most 28 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 0.42,
+    "length_um": 0.4,
+    "temperature_c": 85.0,
+    "analysis": "idvd",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.05
+    },
+    "measurements": [
+     "GDS"
+    ],
+    "budget": {
+     "max_points": 28
+    },
+    "vgs_v": 1.8
+   }
+  },
+  {
+   "id": "K20",
+   "cat": "valid_control_idvd",
+   "expect": "valid",
+   "text": "Hello, an NMOS from the SKY130 NFET model, W = 1 um, L = 0.15 um, at -20 C. Id-Vd with VGS = 0.9 V (held constant), VDS from 0 to 1.2 V in 0.03 V steps. Measure the drain current curve. At most 41 points.",
+   "gold": {
+    "device_type": "nmos",
+    "model_name": "sky130_fd_pr__nfet_01v8",
+    "width_um": 1.0,
+    "length_um": 0.15,
+    "temperature_c": -20.0,
+    "analysis": "idvd",
+    "sweep": {
+     "start": 0.0,
+     "stop": 1.2,
+     "step": 0.03
+    },
+    "measurements": [
+     "ID"
+    ],
+    "budget": {
+     "max_points": 41
+    },
+    "vgs_v": 0.9
+   }
+  }
+ ]
+}
