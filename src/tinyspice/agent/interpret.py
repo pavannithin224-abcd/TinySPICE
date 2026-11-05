@@ -45,8 +45,11 @@ REQUEST: Look at an NMOS with width 500 nm and length 2 um at 40 degrees C. Id-V
 JSON: {{"device_type": "nmos", "model_name": null, "width_um": 0.5, "length_um": 2.0, "temperature_c": 40, "analysis": "idvd", "sweep_start": 0, "sweep_stop": 1.5, "sweep_step": null, "sweep_points": 31, "vds_v": null, "vgs_v": 0.7, "vbs_v": null, "measurements": ["ID"], "ion_vgs_v": null, "ioff_vgs_v": null, "vth_ic_a": null, "max_points": 45, "max_runtime_s": null, "max_tool_calls": null, "max_retries": null}}"""
 
 
-def build_user_prompt(request: str, error_note: str | None = None) -> str:
+def build_user_prompt(request: str, error_note: str | None = None, reask_note: str | None = None) -> str:
     base = f"REQUEST:\n{request.strip()}\n\nReturn the JSON object now."
+    if reask_note:
+        base += (f"\n\nYour previous output was rejected because it set fields that do not apply to this request: {reask_note}\n"
+                 "Return the corrected JSON. Set those fields to null. Do NOT add any value the request does not state; keep null for unstated fields.")
     if error_note:
         base += (f"\n\nYour previous output was rejected for FORMAT reasons only: {error_note}\n"
                  "Fix the format. Do NOT add any value the request does not state; keep null for unstated fields.")
@@ -61,6 +64,7 @@ class InterpretResult:
     raw: dict | None = None
     llm_calls: int = 0
     repaired: bool = False
+    reasked: bool = False
     latency_s: float = 0.0
     model: str = ""
     raw_text: str = ""
@@ -68,6 +72,21 @@ class InterpretResult:
     @property
     def ok(self) -> bool:
         return self.spec is not None
+
+
+def stray_fields(raw: dict) -> list[tuple[str, str]]:
+    """Deterministic detector of INAPPLICABLE fields (Stage 6b). Returns (field, message). Missing/ungrounded/contradictory values are NOT strays."""
+    ms = raw.get("measurements") or []
+    out = []
+    if raw.get("ion_vgs_v") is not None and "ION" not in ms:
+        out.append(("ion_vgs_v", "`ion_vgs_v` is set but ION was not requested"))
+    if raw.get("ioff_vgs_v") is not None and "IOFF" not in ms:
+        out.append(("ioff_vgs_v", "`ioff_vgs_v` is set but IOFF was not requested"))
+    if raw.get("analysis") == "idvg" and raw.get("vgs_v") is not None:
+        out.append(("vgs_v", "Id-Vg sweeps VGS, so `vgs_v` must be null"))
+    if raw.get("analysis") == "idvd" and raw.get("vds_v") is not None:
+        out.append(("vds_v", "Id-Vd sweeps VDS, so `vds_v` must be null"))
+    return out
 
 
 def _errors(e: ValidationError) -> list[dict]:
@@ -81,13 +100,17 @@ _REPAIRABLE = {"json_invalid", "extra_forbidden", "enum", "literal_error", "floa
 
 
 def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1, seed: int = 0, max_tokens: int = 450,
-                      ground: bool = True, prune: bool = False) -> InterpretResult:
+                      ground: bool = True, prune: bool = False, stray: str = "reject") -> InterpretResult:
+    assert stray in ("reject", "prune", "reask")
     schema = raw_json_schema()
     res = InterpretResult(spec=None, status=ExperimentStatus.REJECTED_INVALID, model=getattr(provider, "name", "?"))
     note: str | None = None
+    reask_note: str | None = None
+    reasked = False
+    repairs = 0
     t0 = time.monotonic()
-    for attempt in range(max_repairs + 1):
-        resp = provider.complete_json(SYSTEM_PROMPT, build_user_prompt(request, note), schema, max_tokens=max_tokens, seed=seed)
+    for attempt in range(max_repairs + 2):
+        resp = provider.complete_json(SYSTEM_PROMPT, build_user_prompt(request, note, reask_note), schema, max_tokens=max_tokens, seed=seed)
         res.llm_calls += 1
         res.raw_text, res.model = resp.text, resp.model
         if resp.error:
@@ -100,11 +123,24 @@ def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1,
         except ValueError as e:
             res.errors = [{"type": "json_invalid", "loc": "", "msg": str(e)}]
             note = "output was not a valid JSON object"
-            if attempt < max_repairs:
+            if repairs < max_repairs:
+                repairs += 1
                 res.repaired = True
                 continue
             break
         res.raw = raw
+        if stray != "reject":
+            st = stray_fields(raw)
+            if st and stray == "prune":
+                raw = {k: (None if k in {f for f, _ in st} else v) for k, v in raw.items()}
+                res.pruned = list(res.pruned) + [f"stray:{f}" for f, _ in st]
+                res.raw = raw
+            elif st and stray == "reask" and not reasked:
+                reasked = True
+                res.reasked = True
+                reask_note = "; ".join(m for _, m in st)
+                note = None
+                continue
         if prune and isinstance(raw.get("measurements"), list):
             seen = list(dict.fromkeys(raw["measurements"]))      # order-preserving dedupe (tiny models loop)
             if len(seen) != len(raw["measurements"]):
@@ -146,7 +182,8 @@ def interpret_request(request: str, provider: LLMProvider, max_repairs: int = 1,
         except ValidationError as e:
             res.errors = _errors(e)
             repairable = all(x["type"] in _REPAIRABLE for x in res.errors)
-            if repairable and attempt < max_repairs:
+            if repairable and repairs < max_repairs:
+                repairs += 1
                 note = "; ".join(f"{x['loc']}: {x['msg']}" for x in res.errors)[:400]
                 res.repaired = True
                 continue
