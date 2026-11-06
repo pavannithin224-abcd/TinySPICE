@@ -39,8 +39,8 @@ understood request (the parser extracts; code validated it):
 
 status   : successful
 message  : 3/3 measurements ok
-run_id   : 20261106T112130_8f642463_fe95   strategy: window
-budget   : tool_calls 5/20  retries 0/2  points 91/100  wallclock_s 1.6855/300.0
+run_id   : 20261106T112210_8f642463_5958   strategy: window
+budget   : tool_calls 5/20  retries 0/2  points 91/100  wallclock_s 1.4496/300.0
   GM    0.000485377 S
   VTH   0.596246 V
   SS    82.7418 mV/dec
@@ -51,7 +51,7 @@ budget   : tool_calls 5/20  retries 0/2  points 91/100  wallclock_s 1.6855/300.0
 
 
 ```
-$ python -m tinyspice verify 20261106T112130_8f642463_fe95
+$ python -m tinyspice verify 20261106T112210_8f642463_5958
 VERIFIED: every recorded artefact is intact
 ```
 (exit code 0)
@@ -60,7 +60,7 @@ VERIFIED: every recorded artefact is intact
 
 
 ```
-$ python -m tinyspice replay 20261106T112130_8f642463_fe95
+$ python -m tinyspice replay 20261106T112210_8f642463_5958
 {
   "matched": true,
   "per_measurement": {
@@ -80,7 +80,7 @@ $ python -m tinyspice replay 20261106T112130_8f642463_fe95
       "replay": 0.5962455802328903
     }
   },
-  "new_run_id": "20261106T112134_8f642463_1eb9",
+  "new_run_id": "20261106T112213_8f642463_2020",
   "stored_status": "successful",
   "replay_status": "successful"
 }
@@ -100,16 +100,43 @@ status   : rejected_invalid_input
 ```
 (exit code 1)
 
-### 5. A physically absurd request is refused by the planner (it would run fine in ngspice)
+### 5. A physically absurd request is refused by the planner (ngspice itself would happily simulate it)
 
 
 ```
-$ python -m tinyspice ask "NMOS SKY130 NFET, W = 2 um, L = 0.5 um at 300 C. Id-Vg, VDS = 1.8 V, VGS 0 to 1.8 V in 0.05 V steps. Measure the threshold voltage. At most 50 points."
+$ python -m tinyspice ask "Characterize an NMOS SKY130 NFET with W = 1 um and L = 0.18 um at 300 degrees Celsius. Id-Vg with VDS fixed at 1.8 V, VGS from 0 to 1.8 V in 0.02 V steps. Measure the threshold voltage. At most 100 points."
+understood request (the parser extracts; code validated it):
+{
+  "device_type": "nmos",
+  "model_name": "sky130_fd_pr__nfet_01v8",
+  "width_um": 1.0,
+  "length_um": 0.18,
+  "temperature_c": 300.0,
+  "analysis": "idvg",
+  "sweep": {
+    "start": 0.0,
+    "stop": 1.8,
+    "step": 0.02
+  },
+  "vds_v": 1.8,
+  "vbs_v": 0.0,
+  "measurements": [
+    "VTH"
+  ],
+  "vth_ic_a": 1e-07,
+  "budget": {
+    "max_points": 100,
+    "max_runtime_s": 300.0,
+    "max_tool_calls": 20,
+    "max_retries": 2
+  },
+  "output_format": "csv"
+}
+
 status   : rejected_invalid_input
-  - temperature_c: Field required
-  - sweep.start: Field required
-  - sweep.stop: Field required
-(nothing was simulated, no budget was spent)
+message  : TEMPERATURE_OUT_OF_RANGE: T=300.0 C outside [-40.0, 125.0]
+run_id   : 20261106T112217_a9d4ef6d_f8cb   strategy: window
+budget   : tool_calls 1/20  retries 0/2  points 0/100  wallclock_s 0.0022/300.0
 ```
 (exit code 1)
 
@@ -118,7 +145,8 @@ status   : rejected_invalid_input
 
 ```
 $ python -m tinyspice runs
-20261106T112130_8f642463_fe95  successful               window     points=91 retries=0 calls=5
-20261106T112134_8f642463_1eb9  successful               window     points=91 retries=0 calls=5
+20261106T112210_8f642463_5958  successful               window     points=91 retries=0 calls=5
+20261106T112213_8f642463_2020  successful               window     points=91 retries=0 calls=5
+20261106T112217_a9d4ef6d_f8cb  rejected_invalid_input   window     points=0 retries=0 calls=1
 ```
 (exit code 0)
