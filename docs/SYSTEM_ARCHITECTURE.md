@@ -26,4 +26,4 @@ successful · failed · partially_completed · recovered_after_failure · reject
 SUCCESSFUL requires validated simulator output AND successful extraction of every requested measurement.
 
 ## Module status
-schemas: IMPLEMENTED/MOCK-TESTED · planner: IMPLEMENTED/MOCK-TESTED · all others: NOT IMPLEMENTED.
+schemas, planner, simulator, measurements, sampling, budget, recovery, status, provenance, parser and CLI are implemented; see PROJECT_STATUS.md for the current per-component status. PMOS and other PDKs are NOT IMPLEMENTED.

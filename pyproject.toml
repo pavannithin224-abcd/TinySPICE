@@ -15,6 +15,7 @@ dependencies = ["pydantic>=2.6", "numpy>=1.26", "scipy>=1.11", "pandas>=2.0"]
 dev = ["pytest>=8"]
 api = ["fastapi", "uvicorn"]
 ml = ["torch"]
+figures = ["matplotlib"]
 
 [project.scripts]
 tinyspice = "tinyspice.cli:main"
