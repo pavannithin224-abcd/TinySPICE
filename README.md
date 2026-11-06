@@ -18,7 +18,7 @@ budget   : tool_calls 5/20  retries 0/2  points 91/100  wallclock_s 1.6/300
 `tinyspice verify <run_id>` checks every recorded artefact hash; `tinyspice replay <run_id>` re-runs the stored spec and compares measurements (rtol 1e-6).
 A request that is incomplete, contradictory or physically out of range is **refused before anything is simulated**, and the refusal says why.
 
-Figures (generated from the committed raw results by `scripts/make_figures.py`): `results/figures/fig1_benchmark.png`, `fig2_sampling.png`, `fig3_parser.png`. A real, unedited demo transcript is in `docs/DEMO.md`.
+Figures (generated from the committed raw results by `scripts/make_figures.py`): `results/figures/fig1_benchmark.png`, `fig2_sampling.png`, `fig3_parser.png`. A real, unedited demo transcript is in `docs/DEMO.md`; a one-page summary is `docs/SUMMARY.md` and a short report with figures is `docs/REPORT.md`.
 
 ## Status (labels used everywhere)
 **IMPLEMENTED** code exists · **MOCK-TESTED** tests against a mock simulator · **NGSPICE-TESTED** tests against real ngspice · **VERIFIED** checked against an independent reference or a pre-registered experiment with committed raw results.

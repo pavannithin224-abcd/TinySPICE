@@ -18,8 +18,8 @@ Reproduce everything reported here: `python scripts/reproduce.py all` (18 checks
 | 6b Bounded LLM re-ask | NOT SUPPORTED (safety condition failed on a contradiction after field removal); system keeps the plain parser |
 | 7a Fixed-bias guard gap | DONE: contradictions accepted under prune 5/36 -> 0/36 (2B), 6/36 -> 0/36 (0.8B); 0 correct extractions lost |
 | 7b README, 7c reproduction + fresh-clone gate | DONE (18/18 from a clean clone after one CRLF defect was found and fixed) |
-| 7d Figures + demo | IN PROGRESS |
-| 7e Technical report | NOT STARTED |
+| 7d Figures + demo | DONE |
+| 7e Report + one-page summary | DONE (`docs/REPORT.md`, `docs/SUMMARY.md`) |
 
 ## Components
 | Component | Status |
