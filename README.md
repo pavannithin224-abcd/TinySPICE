@@ -7,6 +7,15 @@ The language model only *interprets* the text into a typed spec. Everything afte
 
 > Built in November 2026 as a single-author research project. Tested on Windows 11 only, one device family (SKY130 1.8 V NFET, `tt` corner). Read the **Limits** section before relying on any claim.
 
+## Read first
+| | |
+|---|---|
+| **One-page summary** | [docs/SUMMARY.md](https://github.com/pavannithin224-abcd/TinySPICE/blob/main/docs/SUMMARY.md) |
+| **Project report** (about 4 pages, with figures) | [docs/REPORT.md](https://github.com/pavannithin224-abcd/TinySPICE/blob/main/docs/REPORT.md) |
+| **Real demo transcript** | [docs/DEMO.md](https://github.com/pavannithin224-abcd/TinySPICE/blob/main/docs/DEMO.md) |
+| **Every decision, amendment and negative result** | [docs/DECISIONS.md](https://github.com/pavannithin224-abcd/TinySPICE/blob/main/docs/DECISIONS.md) |
+| **Reproduce everything** | `python scripts/reproduce.py all` (18 checks, verified from a fresh clone of this repo) |
+
 ## What it does (one real run)
 ```
 > python -m tinyspice ask file:examples/requests/idvg_complete.txt
@@ -18,7 +27,20 @@ budget   : tool_calls 5/20  retries 0/2  points 91/100  wallclock_s 1.6/300
 `tinyspice verify <run_id>` checks every recorded artefact hash; `tinyspice replay <run_id>` re-runs the stored spec and compares measurements (rtol 1e-6).
 A request that is incomplete, contradictory or physically out of range is **refused before anything is simulated**, and the refusal says why.
 
-Figures (generated from the committed raw results by `scripts/make_figures.py`): `results/figures/fig1_benchmark.png`, `fig2_sampling.png`, `fig3_parser.png`. A real, unedited demo transcript is in `docs/DEMO.md`; a one-page summary is `docs/SUMMARY.md` and a short report with figures is `docs/REPORT.md`.
+## Screenshots and animation
+These are **renderings of the real captured transcript** (`docs/DEMO.md`, produced from real ngspice runs by `scripts/make_demo.py`; regenerate with `scripts/make_media.py`). They are not a live screen recording.
+
+![demo animation](docs/media/demo.gif)
+
+| A real run: English request to measurements | Refused before simulating (planner: 300 C is out of range) |
+|---|---|
+| ![ask](docs/media/01_ask_run.png) | ![refused](docs/media/04_planner_refuses_300C.png) |
+
+Result figures, generated from the committed raw results by `scripts/make_figures.py`:
+
+![benchmark](results/figures/fig1_benchmark.png)
+
+Also: [sampling figure](results/figures/fig2_sampling.png), [parser figure](results/figures/fig3_parser.png). A one-page summary is `docs/SUMMARY.md`; the short report is `docs/REPORT.md`.
 
 ## Status (labels used everywhere)
 **IMPLEMENTED** code exists · **MOCK-TESTED** tests against a mock simulator · **NGSPICE-TESTED** tests against real ngspice · **VERIFIED** checked against an independent reference or a pre-registered experiment with committed raw results.

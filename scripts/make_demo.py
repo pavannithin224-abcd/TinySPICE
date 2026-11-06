@@ -18,6 +18,7 @@ def sh(title, args, note=""):
     out = (p.stdout + p.stderr).replace("\r\n", "\n").strip()
     out = out.replace(str(ROOT), "<repo>").replace(str(tmp), "<tmp>")
     shown = "python -m tinyspice " + " ".join(a if " " not in a else '"' + a + '"' for a in args)
+    shown = shown.replace(str(ROOT), "<repo>").replace(str(ROOT).replace("\\", "/"), "<repo>").replace(str(tmp), "<tmp>")
     blocks.append(f"### {title}\n{note}\n\n```\n$ {shown}\n{out}\n```\n(exit code {p.returncode})\n")
     return out, p.returncode
 
