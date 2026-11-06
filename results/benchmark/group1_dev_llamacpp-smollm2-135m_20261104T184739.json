@@ -1,0 +1,237 @@
+{
+  "provider": "llamacpp:smollm2-135m",
+  "seed": 0,
+  "metrics": {
+    "n_valid_tasks": 5,
+    "n_reject_tasks": 8,
+    "valid_rate": 0.0,
+    "exact_match_rate": 0.0,
+    "wrong_value_rate": 0.0,
+    "correct_rejection": 1.0,
+    "false_accept_rate": 0.0,
+    "reason_match_rate": 0.0,
+    "mean_latency_s": 22.721384615384615,
+    "mean_llm_calls": 2,
+    "repair_rate": 1.0
+  },
+  "tasks": [
+    {
+      "id": "D01",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 18.882,
+      "errors": [
+        ": Unterminated string starting at: line 145 column 5 (char 1600)"
+      ],
+      "raw": null,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "D02",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 23.273,
+      "errors": [
+        ": Expecting value: line 149 column 4 (char 1623)"
+      ],
+      "raw": null,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "D03",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 22.566,
+      "errors": [
+        ": Expecting value: line 148 column 4 (char 1619)"
+      ],
+      "raw": null,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "D04",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 23.127,
+      "errors": [
+        ": Unterminated string starting at: line 144 column 5 (char 1598)"
+      ],
+      "raw": null,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "D05",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 22.212,
+      "errors": [
+        ": Expecting value: line 142 column 4 (char 1578)"
+      ],
+      "raw": null,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "D06",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 22.538,
+      "errors": [
+        ": Expecting value: line 146 column 4 (char 1610)"
+      ],
+      "raw": null,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "D07",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 22.476,
+      "errors": [
+        ": Unterminated string starting at: line 144 column 5 (char 1598)"
+      ],
+      "raw": null,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "D08",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 22.91,
+      "errors": [
+        ": Expecting value: line 144 column 4 (char 1597)"
+      ],
+      "raw": null,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "D09",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 22.955,
+      "errors": [
+        ": Unterminated string starting at: line 150 column 5 (char 1627)"
+      ],
+      "raw": null,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "D10",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 22.375,
+      "errors": [
+        ": Expecting value: line 149 column 10 (char 1622)"
+      ],
+      "raw": null,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "D11",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 19.045,
+      "errors": [
+        "sweep.step: Input should be greater than 0",
+        "measurements: Field required",
+        "budget.max_points: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "nmos",
+        "width_um": 1.0,
+        "length_um": 0.18,
+        "temperature_c": 27,
+        "analysis": "idvg",
+        "sweep_start": 0,
+        "sweep_stop": 0,
+        "sweep_step": 0,
+        "sweep_points": null,
+        "vds_v": 1.8,
+        "vgs_v": 0.18,
+        "vbs_v": 0.02,
+        "measurements": null,
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": 0.18,
+        "max_points": null,
+        "max_runtime_s": 10000,
+        "max_tool_calls": 1000,
+        "max_retries": 1000
+      },
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "D12",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 29.024,
+      "errors": [
+        ": Unterminated string starting at: line 145 column 5 (char 1604)"
+      ],
+      "raw": null,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "D13",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "latency_s": 23.995,
+      "errors": [
+        ": Expecting value: line 146 column 10 (char 1602)"
+      ],
+      "raw": null,
+      "rejected": true,
+      "reason_match": false
+    }
+  ],
+  "run_meta": {
+    "startup_s": 1.09,
+    "threads": 4,
+    "ctx": 4096,
+    "llama_cpp_tag": "b12102",
+    "model": {
+      "repo": "bartowski/SmolLM2-135M-Instruct-GGUF",
+      "revision": "09816acd5d99df7be770d85ea30822623dab342c",
+      "file": ".tools/models/SmolLM2-135M-Instruct-Q4_K_M.gguf",
+      "license": "apache-2.0"
+    }
+  }
+}

@@ -1,0 +1,2042 @@
+{
+  "provider": "llamacpp:smollm2-360m",
+  "seed": 0,
+  "metrics": {
+    "n_valid_tasks": 20,
+    "n_reject_tasks": 21,
+    "valid_rate": 0.35,
+    "exact_match_rate": 0.0,
+    "wrong_value_rate": 0.35,
+    "correct_rejection": 0.8095238095238095,
+    "false_accept_rate": 0.19047619047619047,
+    "reason_match_rate": 0.058823529411764705,
+    "mean_latency_s": 8.292560975609756,
+    "mean_llm_calls": 1.048780487804878,
+    "repair_rate": 0.04878048780487805
+  },
+  "tasks": [
+    {
+      "id": "H01",
+      "expect": "valid",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 12.727,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "SKY130 1.8 V NFET",
+        "width_um": 0.1,
+        "length_um": 0.8,
+        "temperature_c": 85,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 0.32,
+        "sweep_step": null,
+        "sweep_points": 37,
+        "vds_v": null,
+        "vgs_v": 0.32,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 37,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"SKY130 1.8 V NFET\",\n  \"width_um\": 0.1,\n  \"length_um\": 0.8,\n  \"temperature_c\": 85,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.32,\n  \"sweep_step\": null,\n  \"sweep_points\": 37,\n  \"vds_v\": null,\n  \"vgs_v\": 0.32,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 37,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": "  \"sweep_stop\": 0.32,\n  \"sweep_step\": null,\n  \"sweep_points\": 37,\n  \"vds_v\": null,\n  \"vgs_v\": 0.32,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 37,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 468,
+      "exact": false,
+      "wrong_value": true,
+      "diff": {
+        "model_name": [
+          "sky130_fd_pr__nfet_01v8",
+          "SKY130 1.8 V NFET"
+        ],
+        "width_um": [
+          1.0,
+          0.1
+        ],
+        "analysis": [
+          "idvg",
+          "idvd"
+        ],
+        "sweep": [
+          {
+            "start": 0.0,
+            "stop": 0.32,
+            "step": 0.02,
+            "points": null
+          },
+          {
+            "start": 0.0,
+            "stop": 0.32,
+            "step": null,
+            "points": 37
+          }
+        ],
+        "vds_v": [
+          0.5,
+          null
+        ],
+        "vgs_v": [
+          null,
+          0.32
+        ],
+        "measurements": [
+          [
+            "ION",
+            "VTH",
+            "ID"
+          ],
+          [
+            "ID"
+          ]
+        ],
+        "ion_vgs_v": [
+          0.32,
+          null
+        ],
+        "budget": [
+          {
+            "max_points": 37,
+            "max_runtime_s": 300.0,
+            "max_tool_calls": 3,
+            "max_retries": 2
+          },
+          {
+            "max_points": 37,
+            "max_runtime_s": 300.0,
+            "max_tool_calls": 20,
+            "max_retries": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "H02",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.184,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.5,
+        "length_um": 2.0,
+        "temperature_c": 40,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 45,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.5,\n  \"length_um\": 2.0,\n  \"temperature_c\": 40,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 451,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H03",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 8.533,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.5,
+        "length_um": 2.0,
+        "temperature_c": 100,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 45,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.5,\n  \"length_um\": 2.0,\n  \"temperature_c\": 100,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 452,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H04",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.964,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.84,
+        "length_um": 0.15,
+        "temperature_c": 50,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 13,
+        "vds_v": null,
+        "vgs_v": 1.2,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 13,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.84,\n  \"length_um\": 0.15,\n  \"temperature_c\": 50,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 13,\n  \"vds_v\": null,\n  \"vgs_v\": 1.2,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 13,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 13,\n  \"vds_v\": null,\n  \"vgs_v\": 1.2,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 13,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 453,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H05",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.116,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 10,
+        "length_um": 0.18,
+        "temperature_c": 100,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 10,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 33,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 10,\n  \"length_um\": 0.18,\n  \"temperature_c\": 100,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 10,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 33,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": "0,\n  \"sweep_stop\": 10,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 33,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 451,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H06",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.834,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 600,
+        "length_um": 250,
+        "temperature_c": -40,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 0.6,
+        "sweep_step": null,
+        "sweep_points": 13,
+        "vds_v": null,
+        "vgs_v": 0.5,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 13,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 600,\n  \"length_um\": 250,\n  \"temperature_c\": -40,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 13,\n  \"vds_v\": null,\n  \"vgs_v\": 0.5,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 13,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 0.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 13,\n  \"vds_v\": null,\n  \"vgs_v\": 0.5,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 13,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 452,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H07",
+      "expect": "valid",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.864,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "SKY130 1.8 V NFET",
+        "width_um": 0.5,
+        "length_um": 2.0,
+        "temperature_c": 50,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 33,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"SKY130 1.8 V NFET\",\n  \"width_um\": 0.5,\n  \"length_um\": 2.0,\n  \"temperature_c\": 50,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 33,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 33,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 466,
+      "exact": false,
+      "wrong_value": true,
+      "diff": {
+        "model_name": [
+          "sky130_fd_pr__nfet_01v8",
+          "SKY130 1.8 V NFET"
+        ],
+        "width_um": [
+          5.0,
+          0.5
+        ],
+        "analysis": [
+          "idvg",
+          "idvd"
+        ],
+        "sweep": [
+          {
+            "start": 0.0,
+            "stop": 0.3,
+            "step": 0.025,
+            "points": null
+          },
+          {
+            "start": 0.0,
+            "stop": 1.5,
+            "step": null,
+            "points": 31
+          }
+        ],
+        "vds_v": [
+          1.2,
+          null
+        ],
+        "vgs_v": [
+          null,
+          0.7
+        ],
+        "measurements": [
+          [
+            "SS",
+            "ION"
+          ],
+          [
+            "ID"
+          ]
+        ],
+        "ion_vgs_v": [
+          0.3,
+          null
+        ]
+      }
+    },
+    {
+      "id": "H08",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.567,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.5,
+        "length_um": 0.8,
+        "temperature_c": 27,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 13,
+        "vds_v": null,
+        "vgs_v": 1.2,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 13,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.5,\n  \"length_um\": 0.8,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 13,\n  \"vds_v\": null,\n  \"vgs_v\": 1.2,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 13,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 13,\n  \"vds_v\": null,\n  \"vgs_v\": 1.2,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 13,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 451,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H09",
+      "expect": "valid",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.283,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "sky130_fd_pr__nfet_01v8",
+        "width_um": 0.6,
+        "length_um": 2,
+        "temperature_c": 0,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 3.6,
+        "sweep_step": null,
+        "sweep_points": 37,
+        "vds_v": null,
+        "vgs_v": 0.6,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 37,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 0.6,\n  \"length_um\": 2,\n  \"temperature_c\": 0,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 3.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 37,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 37,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 3.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 37,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 37,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 469,
+      "exact": false,
+      "wrong_value": true,
+      "diff": {
+        "analysis": [
+          "idvg",
+          "idvd"
+        ],
+        "sweep": [
+          {
+            "start": 0.0,
+            "stop": 3.6,
+            "step": 0.1,
+            "points": null
+          },
+          {
+            "start": 0.0,
+            "stop": 3.6,
+            "step": null,
+            "points": 37
+          }
+        ],
+        "vds_v": [
+          1.2,
+          null
+        ],
+        "vgs_v": [
+          null,
+          0.6
+        ],
+        "measurements": [
+          [
+            "ION",
+            "GM"
+          ],
+          [
+            "ID"
+          ]
+        ],
+        "ion_vgs_v": [
+          3.6,
+          null
+        ]
+      }
+    },
+    {
+      "id": "H10",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "pruned": [],
+      "latency_s": 13.269,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.84,
+        "length_um": 0.15,
+        "temperature_c": 0,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 2,
+        "vds_v": null,
+        "vgs_v": 0.84,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 2,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\"device_type\": \"nmos\", \"model_name\": null, \"width_um\": 0.84, \"length_um\": 0.15, \"temperature_c\": 0, \"analysis\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 1.2, \"sweep_step\": null, \"sweep_points\": 2, \"vds_v\": null, \"vgs_v\": 0.84, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 2, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_tail": "sis\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 1.2, \"sweep_step\": null, \"sweep_points\": 2, \"vds_v\": null, \"vgs_v\": 0.84, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 2, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_len": 407,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H11",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.347,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.42,
+        "length_um": 1.5,
+        "temperature_c": 0,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.9,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 37,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\"device_type\": \"nmos\", \"model_name\": null, \"width_um\": 0.42, \"length_um\": 1.5, \"temperature_c\": 0, \"analysis\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 1.2, \"sweep_step\": null, \"sweep_points\": 31, \"vds_v\": null, \"vgs_v\": 0.9, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 37, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_tail": "is\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 1.2, \"sweep_step\": null, \"sweep_points\": 31, \"vds_v\": null, \"vgs_v\": 0.9, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 37, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_len": 407,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H12",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.418,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.8,
+        "length_um": 0.1,
+        "temperature_c": 125,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 13,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 13,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.8,\n  \"length_um\": 0.1,\n  \"temperature_c\": 125,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 13,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 13,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 13,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 13,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 452,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H13",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.627,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 420,
+        "length_um": 350,
+        "temperature_c": -40,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 45,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 420,\n  \"length_um\": 350,\n  \"temperature_c\": -40,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 452,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H14",
+      "expect": "valid",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.423,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "SKY130 1.8 V NFET",
+        "width_um": 1,
+        "length_um": 0.18,
+        "temperature_c": -20,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 37,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 57,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"SKY130 1.8 V NFET\",\n  \"width_um\": 1,\n  \"length_um\": 0.18,\n  \"temperature_c\": -20,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 37,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 57,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 37,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 57,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 466,
+      "exact": false,
+      "wrong_value": true,
+      "diff": {
+        "model_name": [
+          "sky130_fd_pr__nfet_01v8",
+          "SKY130 1.8 V NFET"
+        ],
+        "analysis": [
+          "idvg",
+          "idvd"
+        ],
+        "sweep": [
+          {
+            "start": 0.0,
+            "stop": 3.6,
+            "step": null,
+            "points": 37
+          },
+          {
+            "start": 0.0,
+            "stop": 1.2,
+            "step": null,
+            "points": 37
+          }
+        ],
+        "vds_v": [
+          1.2,
+          null
+        ],
+        "vgs_v": [
+          null,
+          0.7
+        ],
+        "measurements": [
+          [
+            "ION",
+            "GM"
+          ],
+          [
+            "ID"
+          ]
+        ],
+        "ion_vgs_v": [
+          3.6,
+          null
+        ]
+      }
+    },
+    {
+      "id": "H15",
+      "expect": "valid",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 8.232,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "sky130_fd_pr__nfet_01v8",
+        "width_um": 3,
+        "length_um": 0.18,
+        "temperature_c": 50,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 2.4,
+        "sweep_step": null,
+        "sweep_points": 30,
+        "vds_v": null,
+        "vgs_v": 1.2,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 30,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 3,\n  \"length_um\": 0.18,\n  \"temperature_c\": 50,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 2.4,\n  \"sweep_step\": null,\n  \"sweep_points\": 30,\n  \"vds_v\": null,\n  \"vgs_v\": 1.2,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 30,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 2.4,\n  \"sweep_step\": null,\n  \"sweep_points\": 30,\n  \"vds_v\": null,\n  \"vgs_v\": 1.2,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 30,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 471,
+      "exact": false,
+      "wrong_value": true,
+      "diff": {
+        "sweep": [
+          {
+            "start": 0.0,
+            "stop": 2.4,
+            "step": 0.1,
+            "points": null
+          },
+          {
+            "start": 0.0,
+            "stop": 2.4,
+            "step": null,
+            "points": 30
+          }
+        ]
+      }
+    },
+    {
+      "id": "H16",
+      "expect": "valid",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 8.244,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "sky130_fd_pr__nfet_01v8",
+        "width_um": 840,
+        "length_um": 2000,
+        "temperature_c": -20,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 25,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 840,\n  \"length_um\": 2000,\n  \"temperature_c\": -20,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 25,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 25,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 474,
+      "exact": false,
+      "wrong_value": true,
+      "diff": {
+        "width_um": [
+          0.84,
+          840.0
+        ],
+        "length_um": [
+          2.0,
+          2000.0
+        ],
+        "analysis": [
+          "idvg",
+          "idvd"
+        ],
+        "sweep": [
+          {
+            "start": 0.0,
+            "stop": 0.48,
+            "step": 0.02,
+            "points": null
+          },
+          {
+            "start": 0.0,
+            "stop": 1.5,
+            "step": null,
+            "points": 31
+          }
+        ],
+        "vds_v": [
+          1.8,
+          null
+        ],
+        "vgs_v": [
+          null,
+          0.7
+        ],
+        "measurements": [
+          [
+            "GM",
+            "VTH",
+            "IOFF"
+          ],
+          [
+            "ID"
+          ]
+        ],
+        "ioff_vgs_v": [
+          0.0,
+          null
+        ]
+      }
+    },
+    {
+      "id": "H17",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.87,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 1000,
+        "length_um": 500,
+        "temperature_c": -20,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 0.6,
+        "sweep_step": null,
+        "sweep_points": 30,
+        "vds_v": null,
+        "vgs_v": 0.5,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 30,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 1000,\n  \"length_um\": 500,\n  \"temperature_c\": -20,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 30,\n  \"vds_v\": null,\n  \"vgs_v\": 0.5,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 30,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 0.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 30,\n  \"vds_v\": null,\n  \"vgs_v\": 0.5,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 30,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 453,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H18",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 8.921,
+      "errors": [
+        "model_name: Field required",
+        "sweep.points: Input should be greater than or equal to 2"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.15,
+        "length_um": 0.15,
+        "temperature_c": 100,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 0,
+        "vds_v": null,
+        "vgs_v": 0.9,
+        "vbs_v": null,
+        "measurements": [
+          "VTH"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 45,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.15,\n  \"length_um\": 0.15,\n  \"temperature_c\": 100,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 0,\n  \"vds_v\": null,\n  \"vgs_v\": 0.9,\n  \"vbs_v\": null,\n  \"measurements\": [\"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 0,\n  \"vds_v\": null,\n  \"vgs_v\": 0.9,\n  \"vbs_v\": null,\n  \"measurements\": [\"VTH\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 454,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H19",
+      "expect": "valid",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.635,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.6,
+        "length_um": 0.18,
+        "temperature_c": -20,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.6,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 45,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.6,\n  \"length_um\": 0.18,\n  \"temperature_c\": -20,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 453,
+      "exact": false,
+      "wrong_value": false
+    },
+    {
+      "id": "H20",
+      "expect": "valid",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 8.52,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "SKY130 1.8 V NFET",
+        "width_um": 3,
+        "length_um": 1,
+        "temperature_c": 100,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 37,
+        "vds_v": null,
+        "vgs_v": 1.8,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 57,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"SKY130 1.8 V NFET\",\n  \"width_um\": 3,\n  \"length_um\": 1,\n  \"temperature_c\": 100,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 37,\n  \"vds_v\": null,\n  \"vgs_v\": 1.8,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 57,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 37,\n  \"vds_v\": null,\n  \"vgs_v\": 1.8,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 57,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 463,
+      "exact": false,
+      "wrong_value": true,
+      "diff": {
+        "model_name": [
+          "sky130_fd_pr__nfet_01v8",
+          "SKY130 1.8 V NFET"
+        ],
+        "sweep": [
+          {
+            "start": 0.0,
+            "stop": 0.9,
+            "step": null,
+            "points": 37
+          },
+          {
+            "start": 0.0,
+            "stop": 1.5,
+            "step": null,
+            "points": 37
+          }
+        ],
+        "measurements": [
+          [
+            "ID",
+            "GDS"
+          ],
+          [
+            "ID"
+          ]
+        ],
+        "budget": [
+          {
+            "max_points": 57,
+            "max_runtime_s": 300.0,
+            "max_tool_calls": 4,
+            "max_retries": 2
+          },
+          {
+            "max_points": 57,
+            "max_runtime_s": 300.0,
+            "max_tool_calls": 20,
+            "max_retries": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "X01",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.311,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 3,
+        "length_um": 3,
+        "temperature_c": -40,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 2.4,
+        "sweep_step": null,
+        "sweep_points": 35,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 35,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 3,\n  \"length_um\": 3,\n  \"temperature_c\": -40,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 2.4,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 2.4,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 448,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X02",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 9.115,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.18,
+        "length_um": 0.18,
+        "temperature_c": 27,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.8,
+        "sweep_step": null,
+        "sweep_points": 23,
+        "vds_v": null,
+        "vgs_v": 0.6,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 23,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.18,\n  \"length_um\": 0.18,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 453,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X03",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 11.987,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 2,
+        "length_um": 2,
+        "temperature_c": -40,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 29,
+        "vds_v": null,
+        "vgs_v": 0.9,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 29,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 2,\n  \"length_um\": 2,\n  \"temperature_c\": -40,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 29,\n  \"vds_v\": null,\n  \"vgs_v\": 0.9,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 29,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 29,\n  \"vds_v\": null,\n  \"vgs_v\": 0.9,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 29,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 448,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X04",
+      "expect": "reject",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.98,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "sky130_fd_pr__nfet_01v8",
+        "width_um": 1.5,
+        "length_um": 2,
+        "temperature_c": 0,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 2.4,
+        "sweep_step": null,
+        "sweep_points": 35,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 35,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 1.5,\n  \"length_um\": 2,\n  \"temperature_c\": 0,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 2.4,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 2.4,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 469,
+      "rejected": false,
+      "reason_match": false
+    },
+    {
+      "id": "X05",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.81,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.7,
+        "length_um": 7,
+        "temperature_c": 50,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 23,
+        "vds_v": null,
+        "vgs_v": 0.6,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 23,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.7,\n  \"length_um\": 7,\n  \"temperature_c\": 50,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 449,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X06",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 8.851,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.42,
+        "length_um": 0.35,
+        "temperature_c": 40,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 35,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 35,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.42,\n  \"length_um\": 0.35,\n  \"temperature_c\": 40,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 453,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X07",
+      "expect": "reject",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 11.313,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "sky130_fd_pr__nfet_01v8",
+        "width_um": 0.25,
+        "length_um": 0.25,
+        "temperature_c": 0,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 29,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 29,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"sky130_fd_pr__nfet_01v8\",\n  \"width_um\": 0.25,\n  \"length_um\": 0.25,\n  \"temperature_c\": 0,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 29,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 29,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 29,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 29,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 473,
+      "rejected": false,
+      "reason_match": false
+    },
+    {
+      "id": "X08",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 10.392,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 1000,
+        "length_um": 500,
+        "temperature_c": -20,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 0.6,
+        "sweep_step": null,
+        "sweep_points": 23,
+        "vds_v": null,
+        "vgs_v": 0.6,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 23,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 1000,\n  \"length_um\": 500,\n  \"temperature_c\": -20,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 0.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 453,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X09",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 10.218,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.42,
+        "length_um": 2,
+        "temperature_c": 85,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 0.6,
+        "sweep_step": null,
+        "sweep_points": 23,
+        "vds_v": null,
+        "vgs_v": 0.6,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 23,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.42,\n  \"length_um\": 2,\n  \"temperature_c\": 85,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 0.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 0.6,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 450,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X10",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 10.465,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 10,
+        "length_um": 0.18,
+        "temperature_c": 125,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 23,
+        "vds_v": null,
+        "vgs_v": 0.6,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 23,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 10,\n  \"length_um\": 0.18,\n  \"temperature_c\": 125,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 452,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X11",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 9.457,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.84,
+        "length_um": 0.18,
+        "temperature_c": 0,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 0.9,
+        "sweep_step": null,
+        "sweep_points": 29,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 29,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\"device_type\": \"nmos\", \"model_name\": null, \"width_um\": 0.84, \"length_um\": 0.18, \"temperature_c\": 0, \"analysis\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 0.9, \"sweep_step\": null, \"sweep_points\": 29, \"vds_v\": null, \"vgs_v\": 0.7, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 29, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_tail": "is\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 0.9, \"sweep_step\": null, \"sweep_points\": 29, \"vds_v\": null, \"vgs_v\": 0.7, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 29, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_len": 408,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X12",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 9.978,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.15,
+        "length_um": 0.15,
+        "temperature_c": 125,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 35,
+        "vds_v": null,
+        "vgs_v": 0.12,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 35,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.15,\n  \"length_um\": 0.15,\n  \"temperature_c\": 125,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.12,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": "\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.12,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 455,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X13",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.346,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.7,
+        "length_um": 1.0,
+        "temperature_c": 50,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 23,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 23,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.7,\n  \"length_um\": 1.0,\n  \"temperature_c\": 50,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 23,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 23,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 451,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X14",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.711,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.42,
+        "length_um": 0.15,
+        "temperature_c": 125,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 35,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 35,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.42,\n  \"length_um\": 0.15,\n  \"temperature_c\": 125,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 454,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X15",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 5.891,
+      "errors": [
+        "model_name: Field required",
+        "sweep.points: Input should be greater than or equal to 2",
+        "budget.max_points: Input should be greater than 0"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.42,
+        "length_um": 0.5,
+        "temperature_c": 50,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.8,
+        "sweep_step": null,
+        "sweep_points": 0,
+        "vds_v": null,
+        "vgs_v": 0.6,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 0,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\"device_type\": \"nmos\", \"model_name\": null, \"width_um\": 0.42, \"length_um\": 0.5, \"temperature_c\": 50, \"analysis\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": null, \"sweep_points\": 0, \"vds_v\": null, \"vgs_v\": 0.6, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 0, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_tail": "ysis\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 1.8, \"sweep_step\": null, \"sweep_points\": 0, \"vds_v\": null, \"vgs_v\": 0.6, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 0, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_len": 406,
+      "rejected": true,
+      "reason_match": true
+    },
+    {
+      "id": "X16",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 2,
+      "repaired": true,
+      "pruned": [],
+      "latency_s": 13.488,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.5,
+        "length_um": 2.0,
+        "temperature_c": 40,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 45,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.5,\n  \"length_um\": 2.0,\n  \"temperature_c\": 40,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 451,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X17",
+      "expect": "reject",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.182,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "SKY130 1.8 V NFET",
+        "width_um": 3000,
+        "length_um": 180,
+        "temperature_c": 85,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.2,
+        "sweep_step": null,
+        "sweep_points": 35,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 35,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"SKY130 1.8 V NFET\",\n  \"width_um\": 3000,\n  \"length_um\": 180,\n  \"temperature_c\": 85,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.2,\n  \"sweep_step\": null,\n  \"sweep_points\": 35,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 35,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 467,
+      "rejected": false,
+      "reason_match": false
+    },
+    {
+      "id": "X18",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 6.878,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.84,
+        "length_um": 2,
+        "temperature_c": -20,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.8,
+        "sweep_step": null,
+        "sweep_points": 29,
+        "vds_v": null,
+        "vgs_v": 0.6,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 29,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.84,\n  \"length_um\": 2,\n  \"temperature_c\": -20,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 29,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 29,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 29,\n  \"vds_v\": null,\n  \"vgs_v\": 0.6,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 29,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 451,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X19",
+      "expect": "reject",
+      "produced_valid": true,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 7.862,
+      "errors": [],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": "SKY130 1.8 V NFET",
+        "width_um": 0.3,
+        "length_um": 0.15,
+        "temperature_c": 27,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.8,
+        "sweep_step": null,
+        "sweep_points": 19,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 29,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": \"SKY130 1.8 V NFET\",\n  \"width_um\": 0.3,\n  \"length_um\": 0.15,\n  \"temperature_c\": 27,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 19,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 29,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.8,\n  \"sweep_step\": null,\n  \"sweep_points\": 19,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 29,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 467,
+      "rejected": false,
+      "reason_match": false
+    },
+    {
+      "id": "X20",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 5.33,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.5,
+        "length_um": 2.0,
+        "temperature_c": 40,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 45,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\"device_type\": \"nmos\", \"model_name\": null, \"width_um\": 0.5, \"length_um\": 2.0, \"temperature_c\": 40, \"analysis\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 1.5, \"sweep_step\": null, \"sweep_points\": 31, \"vds_v\": null, \"vgs_v\": 0.7, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 45, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_tail": "is\": \"idvd\", \"sweep_start\": 0, \"sweep_stop\": 1.5, \"sweep_step\": null, \"sweep_points\": 31, \"vds_v\": null, \"vgs_v\": 0.7, \"vbs_v\": null, \"measurements\": [\"ID\"], \"ion_vgs_v\": null, \"ioff_vgs_v\": null, \"vth_ic_a\": null, \"max_points\": 45, \"max_runtime_s\": null, \"max_tool_calls\": null, \"max_retries\": null}",
+      "raw_text_len": 407,
+      "rejected": true,
+      "reason_match": false
+    },
+    {
+      "id": "X21",
+      "expect": "reject",
+      "produced_valid": false,
+      "llm_calls": 1,
+      "repaired": false,
+      "pruned": [],
+      "latency_s": 5.852,
+      "errors": [
+        "model_name: Field required"
+      ],
+      "raw": {
+        "device_type": "nmos",
+        "model_name": null,
+        "width_um": 0.5,
+        "length_um": 2.0,
+        "temperature_c": 40,
+        "analysis": "idvd",
+        "sweep_start": 0,
+        "sweep_stop": 1.5,
+        "sweep_step": null,
+        "sweep_points": 31,
+        "vds_v": null,
+        "vgs_v": 0.7,
+        "vbs_v": null,
+        "measurements": [
+          "ID"
+        ],
+        "ion_vgs_v": null,
+        "ioff_vgs_v": null,
+        "vth_ic_a": null,
+        "max_points": 45,
+        "max_runtime_s": null,
+        "max_tool_calls": null,
+        "max_retries": null
+      },
+      "raw_text_head": "{\n  \"device_type\": \"nmos\",\n  \"model_name\": null,\n  \"width_um\": 0.5,\n  \"length_um\": 2.0,\n  \"temperature_c\": 40,\n  \"analysis\": \"idvd\",\n  \"sweep_start\": 0,\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_tail": ",\n  \"sweep_stop\": 1.5,\n  \"sweep_step\": null,\n  \"sweep_points\": 31,\n  \"vds_v\": null,\n  \"vgs_v\": 0.7,\n  \"vbs_v\": null,\n  \"measurements\": [\"ID\"],\n  \"ion_vgs_v\": null,\n  \"ioff_vgs_v\": null,\n  \"vth_ic_a\": null,\n  \"max_points\": 45,\n  \"max_runtime_s\": null,\n  \"max_tool_calls\": null,\n  \"max_retries\": null\n}",
+      "raw_text_len": 451,
+      "rejected": true,
+      "reason_match": false
+    }
+  ],
+  "run_meta": {
+    "startup_s": 1.04,
+    "threads": 4,
+    "ctx": 4096,
+    "llama_cpp_tag": "b12102",
+    "model": {
+      "repo": "bartowski/SmolLM2-360M-Instruct-GGUF",
+      "revision": "7be6f65f1db715fe5dc5a4634c0d459b4eed42ec",
+      "file": ".tools/models/SmolLM2-360M-Instruct-Q4_K_M.gguf",
+      "license": "apache-2.0"
+    }
+  }
+}
