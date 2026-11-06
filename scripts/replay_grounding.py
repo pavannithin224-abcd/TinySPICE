@@ -9,10 +9,12 @@ from pathlib import Path
 from tinyspice.agent.grounding import ungrounded_fields
 
 ROOT = Path(__file__).resolve().parents[1]
-SETS = {"dev": "group1_dev.json", "frozen": "group1_frozen.json", "frozen2": "group1_frozen2.json"}
+SETS = {"dev": "group1_dev.json", "frozen": "group1_frozen.json", "frozen2": "group1_frozen2.json", "frozen3": "group1_frozen3.json"}
 latest = {}
 for f in sorted(glob.glob(str(ROOT / "results/benchmark/group1_*_llamacpp-*.json")), key=os.path.getmtime):
-    m = re.search(r"group1_(dev|frozen2|frozen)_llamacpp-(.+?)_2026", f)
+    m = re.search(r"group1_(dev|frozen3|frozen2|frozen)_llamacpp-(.+?)_2026", f)
+    if not m:
+        continue
     latest[(m[2], m[1])] = f
 
 out = []
