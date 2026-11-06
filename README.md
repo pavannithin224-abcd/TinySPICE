@@ -1,5 +1,7 @@
 # TinySPICE
 
+[![tests](https://github.com/pavannithin224-abcd/TinySPICE/actions/workflows/tests.yml/badge.svg)](https://github.com/pavannithin224-abcd/TinySPICE/actions/workflows/tests.yml) CI runs the 226 unit and mock-simulator tests; the 43 tests that need a real ngspice install are run locally by `scripts/reproduce.py all`.
+
 **A budget-aware, reliability-driven LLM agent for reproducible MOSFET characterization.**
 
 TinySPICE turns a plain-English request ("NMOS SKY130 NFET, W = 1 um, L = 0.18 um, Id-Vg ... measure the threshold voltage ... at most 100 points") into a validated, budget-limited, fully recorded **ngspice** experiment.
