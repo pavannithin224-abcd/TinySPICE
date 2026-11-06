@@ -28,3 +28,5 @@ results/bench/runs/
 results/bench/work/
 results/stage4_confirm/ref/
 results/stage4_confirm/runs/
+
+fresh_log.txt
