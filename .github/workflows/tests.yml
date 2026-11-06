@@ -1,0 +1,18 @@
+name: tests
+# Unit tests and the mock-simulator tests only. Tests that need a real ngspice + SKY130 install are
+# deselected here (they are skipped automatically without the tools); they are covered by
+# `python scripts/reproduce.py all` on a machine where scripts/setup_tools.py has been run.
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  unit:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m pytest -q -m "not ngspice" -p no:cacheprovider
