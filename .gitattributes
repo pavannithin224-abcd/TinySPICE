@@ -1,0 +1,4 @@
+# Frozen benchmark sets are verified by sha256; keep byte-exact LF on every platform (core.autocrlf would otherwise break the hashes)
+tests/benchmark/** text eol=lf
+*.sha256 text eol=lf
+results/**/*.json text eol=lf
