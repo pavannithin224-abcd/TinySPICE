@@ -1,65 +1,55 @@
 # TinySPICE — Project Status
 
-_Last updated: 2026-11-04 (end of day 1)_
+_Last updated: 2026-11-06 (Stage 7 in progress). Deadline 2026-11-30._
 
-Status legend used across all docs: **IMPLEMENTED** (code exists) · **MOCK-TESTED** · **NGSPICE-TESTED** · **VERIFIED** (checked against independent reference) · **NOT IMPLEMENTED**.
+Labels: **IMPLEMENTED** (code exists) · **MOCK-TESTED** · **NGSPICE-TESTED** · **VERIFIED** (independent reference or pre-registered experiment with committed raw results) · **NOT IMPLEMENTED**.
+Reproduce everything reported here: `python scripts/reproduce.py all` (18 checks; passes from a fresh clone). Full test suite: 269 passed (unit + integration with real ngspice).
 
 ## Stage progress
 | Stage | State |
 |---|---|
-| 0 Foundation | DONE (committed) |
-| 1 Simulator core | DONE (committed; hardening commit d3986a8) |
-| 2 Measurement engine | DONE (committed 2346cac): IMPLEMENTED, unit-tested on analytic curves (E1), cross-checked on real SKY130 data (E2) |
-| 3 LLM -> spec | DONE with limits (143 tests). F3 (untainted, 20 valid + 21 reject): Qwen3.5-2B final pipeline = 7/20 exact, 1 silent wrong (a defaulted omitted limit), 0/21 bad requests accepted (raw: 4 wrong, 7/21 accepted). Safety is strong, recall is weak (35%). Open: stated budget limits must be extracted (H13), vocabulary gaps in regex guards, bounded re-ask idea for Stage 5. Prune policy off by default (no gain) |
+| 0 Foundation | DONE |
+| 1 Simulator core (ngspice 47 + SKY130 NFET in `.tools/`) | DONE; hardened (gmin/abstol leakage artefact fixed: IOFF 1.82 pA -> 20.9 fA) |
+| 2 Measurement engine (ID, GM, GDS, VTH, SS, ION, IOFF) | DONE; VERIFIED on analytic curves and real data |
+| 3 English -> spec (local llama.cpp: Qwen3.5 0.8B/2B, SmolLM2 135M/360M) + deterministic guardrails | DONE with limits. F3 (untainted): 2B = 7/20 exact, 0/21 bad requests accepted (raw: 4 silent-wrong, 7/21 accepted). Safe; recall about 35 % |
+| 4 Adaptive sampling | DONE. Curvature sampling NOT SUPPORTED (null). Window sampling for SS CONFIRMED: 24/24 vs 4/24, p = 1e-6, one device family |
+| 5 Reliability + provenance | DONE. Budget ledger, recovery catalogue, six-state status, SQLite provenance, replay/verify, CLI. 20/20 pre-registered injection cases. Convergence cure verified only against an injected fault; no physical non-convergence could be provoked (24 hostile runs) |
+| 6 TinySPICEBench | DONE (one frozen run, 2B): false success A 30/72, B 9/72, C 0/72; completion 0.50 / 0.46 / 0.86. Task-level sign test A-only 10, C-only 0, p = 0.001 (seeds are mostly pseudo-replicates, so the task-level p is the honest one). Oracle row: A 0.42 false success, B and C 0 |
+| 6b Bounded LLM re-ask | NOT SUPPORTED (safety condition failed on a contradiction after field removal); system keeps the plain parser |
+| 7a Fixed-bias guard gap | DONE: contradictions accepted under prune 5/36 -> 0/36 (2B), 6/36 -> 0/36 (0.8B); 0 correct extractions lost |
+| 7b README, 7c reproduction + fresh-clone gate | DONE (18/18 from a clean clone after one CRLF defect was found and fixed) |
+| 7d Figures + demo | IN PROGRESS |
+| 7e Technical report | NOT STARTED |
 
 ## Components
 | Component | Status |
 |---|---|
-| schemas (spec, device limits, status) | IMPLEMENTED, MOCK-TESTED |
-| planner | IMPLEMENTED, MOCK-TESTED |
-| simulator: netlist generator, model profiles, safe ngspice runner, output validation, error classification | IMPLEMENTED, MOCK-TESTED, **NGSPICE-TESTED** (ngspice 47) |
-| simulator: MockSimulator with fault injection | IMPLEMENTED, MOCK-TESTED |
-| NMOS Id-Vg on SKY130 `nfet_01v8` (tt corner) | **NGSPICE-TESTED** (physical trends checked; not VERIFIED against any independent reference) |
-| NMOS Id-Vd on SKY130 | **NGSPICE-TESTED** (real run, saturation behaviour checked) |
-| executor (spec -> plan -> simulator -> run dir -> honest status) | IMPLEMENTED, MOCK-TESTED, NGSPICE-TESTED (see measurement wiring row for the status rule) |
-| PMOS | NOT IMPLEMENTED (rejected with UnsupportedDevice) |
-| measurements: ID, GM, GDS, VTH (constant current), SS (log-slope fit with R^2 gate), ION, IOFF | IMPLEMENTED, unit-tested on analytic curves (known answers; independent brentq reference for VTH), **cross-checked** on real SKY130 data against an independent scipy spline computation (same data; NOT validated against silicon or a datasheet). Every failure returns value=None + code |
-| executor measurement wiring | IMPLEMENTED: all requested ok -> SUCCESSFUL; some fail -> PARTIAL; all fail -> FAILED; writes measurements.json |
-| providers: interface, RuleBasedProvider (no-LLM floor), ScriptedProvider (test double), LlamaCppProvider (loopback-only llama-server) | IMPLEMENTED, MOCK-TESTED. LlamaCppProvider NOT yet run against a real model |
-| agent: strict NL -> ExperimentSpec interpreter (nulls dropped, missing/contradiction never repaired, <=1 format repair) | IMPLEMENTED, MOCK-TESTED (scripted + rule provider). NOT yet tested with a real LLM |
-| Group-1 dev set (13 tasks) + harness (valid/exact/wrong-value/false-accept/reason-match metrics) | IMPLEMENTED; rule floor: 100 % exact on dev (tuned on dev, so NOT evidence of generalisation). Frozen test set not written yet |
-| sampling, budget runtime, recovery, provenance store, CLI | NOT IMPLEMENTED |
+| schemas, planner (device limits, point/tool-call budgets) | NGSPICE-TESTED |
+| simulator: netlists, safe runner, output validation, error classification; mock with fault injection | NGSPICE-TESTED |
+| NMOS Id-Vg and Id-Vd on SKY130 `nfet_01v8`, `tt` corner | NGSPICE-TESTED (physical trends checked; not validated against silicon) |
+| measurements | VERIFIED (analytic + scipy cross-check) |
+| parser providers (rules floor, scripted, llama.cpp), strict interpreter, grounding / coverage / omitted-bias / omitted-limit / conflict guards | IMPLEMENTED; guards VERIFIED on pre-registered sets |
+| sampling (uniform, curvature, window) | NGSPICE-TESTED; window VERIFIED, curvature null |
+| budget ledger, recovery, status machine, provenance, replay, CLI (`plan run ask replay verify runs`) | NGSPICE-TESTED |
+| benchmark harness, baselines A/B/C, independent scoring | VERIFIED (frozen run) |
+| PMOS and other devices/PDKs, non-Windows platforms | NOT IMPLEMENTED |
 
-## Evidence (real runs)
-- ngspice-47 executed from `.tools/ngspice/Spice64/bin/ngspice_con.exe`.
-- SKY130 NFET W=1 um, L=0.18 um, T=27 C, VDS=1.8 V, VGS 0..1.8 V: 91 points, validated (row count, finite, monotonic sweep, endpoints). Id rises from ~20 fA at VGS=0 to ~0.43 mA at 1.8 V.
-- Failure path exercised for real: missing include file is detected and reported as MISSING_INCLUDE (not hidden); a real 0.01 s timeout returns TIMEOUT in ~0.03 s and leaves no stray process.
-- Physics sanity (real runs, `scripts/sanity_probe.py`): Ion(W=2)/Ion(W=1)=2.17 and Ion(W=4)/Ion(W=1)=4.14 (binned model, not exactly linear); Ion falls with L (4.3e-4 -> 2.8e-4 -> 1.3e-4 A for L=0.18/0.36/1.0); Ion falls with T (4.9e-4 / 4.3e-4 / 3.7e-4 A at -40/27/125 C) while subthreshold Id at 0.45 V rises ~280x from -40 to 125 C; Id-Vd (VGS=1.2) starts at ~0, increases monotonically, slope falls from 4.4e-4 to 2e-5 S (saturation).
-- **Bug found and fixed (Stage 1 hardening):** ngspice default gmin=1e-12 S put a gmin*VDS = 1.8 pA floor under every current, so IOFF at 27 C measured the solver, not the device (1.82 pA vs true ~20.9 fA; at -40 C 1.81 pA vs ~10 fA). Fixed with explicit `.option gmin=1e-18 abstol=1e-18` in every netlist, recorded in run provenance; results are stable down to gmin=abstol=1e-20, reltol=1e-6 (`scripts/gmin_probe.py`). Regression-tested.
-- Tests: 107 passed (E1 analytic: 27; real-ngspice integration incl. E2 cross-check), confirmed run.
-- **Stage 2 real result** (`scripts/run_example.py`, SKY130 NFET W=1 um L=0.18 um 27 C VDS=1.8 V, status SUCCESSFUL): VTH 0.596 V (Ic=100 nA*W/L=556 nA); SS 81.6 mV/dec (R^2 0.9985, window 0.36-0.58 V, 2.7 decades); GM max 0.485 mS at VGS=1.8 V (on the sweep edge, flagged: not a true peak); ION 431.5 uA; IOFF 20.9 fA (not near the solver floor).
+## Evidence worth keeping (real runs)
+- SKY130 NFET W = 1 um, L = 0.18 um, 27 C, VDS = 1.8 V: VTH 0.596 V, SS 81.6-82.7 mV/dec, GM 0.485 mS (max at the sweep edge, flagged), ION 431.5 uA, IOFF 20.9 fA.
+- Bug found and fixed in Stage 1: ngspice default gmin = 1e-12 S put a 1.8 pA floor under every current, so IOFF measured the solver. Fixed with `.option gmin=1e-18 abstol=1e-18` in every netlist; regression-tested.
+- Bug found by the fresh-clone gate (Stage 7c): git `autocrlf` rewrote the frozen sets and broke their sha256; fixed with `.gitattributes`.
 
 ## Known limitations
-- Process corner is fixed to `tt`; the spec has no corner field yet.
-- SKY130 geometry limits (W 0.36-100 um, L 0.15-100 um) verified from the model bins; voltage and temperature limits are conventions (`limits_verified=false`).
-- The built-in Level-1 model is educational (runner smoke tests only; no subthreshold).
-- Tool downloads: 7zr.exe has no published checksum (only hashed after download); SKY130 files pinned by upstream commit.
+- One author wrote the tasks, system and baselines (author bias; mitigated by freezing and pre-registration). n = 24 tasks, one device family, one corner (`tt`), one platform.
+- All three benchmark configurations share the measurement code: the benchmark isolates orchestration, not extraction.
+- Small-model parse recall is low; the guards trade recall for safety.
+- Voltage and temperature device limits are conventions (`limits_verified=false`); geometry limits verified from the model bins.
+- Physical non-convergence recovery never exercised.
+- Prior art: LLM + SPICE is not new (AnalogAgent, arXiv 2603.23910, others); claimed contributions are the narrower ones listed in the README.
+- 7zr.exe has no published checksum (hashed after download); SKY130 files are pinned by upstream commit.
 
 ## Environment
-Windows 11, Python 3.14.7, venv `.venv`. All third-party tools live in `.tools/` (git-ignored, ~80 MB): ngspice 47, 7zr, SKY130 NFET model files. Nothing is read from other projects.
-Note: the venv once lost packages unexpectedly (cause unknown); repaired with `pip install --force-reinstall -e .[dev]`; `pip check` clean.
+Windows 11, Python 3.14.7, venv `.venv`. Third-party tools in `.tools/` (git-ignored): ngspice 47, SKY130 NFET model files, llama.cpp b12102, GGUF models. `.gitattributes` pins LF on frozen sets.
 
 ## Next
-1. Commit Stage 1 (after final test run).
-2. Stage 2: measurement engine, analytic-curve tests first.
-3. Time candidate local LLMs (Qwen3.5 small, Phi-4-mini, SmolLM3-3B) once measurements are in.
-
-## Schedule
-On plan: Stage 1 finished on day 1 of 5 allotted (Nov 6-10).
-| 4 Adaptive sampling | DONE (170 tests). Curvature + measurement-aware window sampling on a verified ngspice PWL path. Pre-registered H4 (curvature) NOT SUPPORTED. Window sampling's SS-extraction finding CONFIRMED on 12 fresh conditions (pre-registered, run once): SS success 24/24 vs 4/24 at N=16-20, p=9.5e-7, small GM cost (<=1.5% vs 5% tol). Tied to the SS extractor's window definition; one device family |
-| 5 Reliability + provenance | DONE (224 tests). Budget ledger, recovery catalog, evidence-checked status machine, SQLite append-only store + sha256 manifests, replay/verify, CLI (plan/run/replay/verify/runs). 20/20 PRE-REGISTERED failure-injection cases pass on real ngspice (NGSPICE-TESTED); replay matches within rtol 1e-6; tamper detection works. Injected non-convergence cure is synthetic (not verified on a physical convergence failure) |
-
-## Update 2026-11-05
-- Stage 6 (TinySPICEBench): DONE. Frozen one-shot run, 2B: false-success A 0.42 / B 0.12 / C 0.00; completion 0.50 / 0.46 / 0.86; primary claim (C over A) SUPPORTED (p=9.3e-10). Oracle row: A 0.42, B 0, C 0 false success; completion 0.50/0.71/1.00.
-- Stage 6b (bounded re-ask): NOT SUPPORTED; system keeps R0. Prune/re-ask raised recall ~+0.05 but accepted contradictory requests (guard gap on a new phrasing) so safety failed. Open: guard gap (B08) and unstated-analysis hole (B05); both need a fresh untainted set.
-- 208 tests. Next: Stage 7 (release, README, paper/report).
+7d figures (script-generated from committed raw results) and demo capture; 7e technical report (~6 pages) plus one-page summary. Pending the user: public GitHub push, write-up format.
