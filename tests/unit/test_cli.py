@@ -47,3 +47,31 @@ def test_verify_exit_code_flags_tampering(tmp_path, capsys):
     (next((tmp_path / "runs" / rid).rglob("spec.json"))).write_text("{}")
     assert cli(tmp_path, "verify", rid) == 1
     assert "changed" in capsys.readouterr().out
+
+
+REQ_OK = ROOT / "examples" / "requests" / "idvg_complete.txt"
+REQ_INCOMPLETE = ROOT / "examples" / "requests" / "idvg_example.txt"
+
+
+def test_ask_runs_a_complete_request_end_to_end_on_the_mock(tmp_path, capsys):
+    code = cli(tmp_path, "ask", f"file:{REQ_OK}")
+    out = capsys.readouterr().out
+    assert code in (0, 2) and "understood request" in out and "status   :" in out and "run_id" in out
+
+
+def test_ask_rejects_an_incomplete_request_without_spending_anything(tmp_path, capsys):
+    code = cli(tmp_path, "ask", f"file:{REQ_INCOMPLETE}")
+    out = capsys.readouterr().out
+    assert code == 1 and "rejected_invalid_input" in out and "no budget was spent" in out
+    assert not (tmp_path / "runs").exists()
+
+
+def test_ask_dry_run_prints_the_understood_spec_only(tmp_path, capsys):
+    assert cli(tmp_path, "ask", f"file:{REQ_OK}", "--dry-run") == 0
+    out = capsys.readouterr().out
+    assert "understood request" in out and "run_id" not in out and not (tmp_path / "runs").exists()
+
+
+def test_ask_accepts_the_request_text_inline(tmp_path, capsys):
+    assert cli(tmp_path, "ask", "Run a MOSFET simulation with some reasonable settings.") == 1
+    assert "rejected_invalid_input" in capsys.readouterr().out

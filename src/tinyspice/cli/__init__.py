@@ -1,4 +1,4 @@
-"""TinySPICE command line:  tinyspice plan|run|replay|verify|runs  (python -m tinyspice ...)
+"""TinySPICE command line:  tinyspice plan|run|ask|replay|verify|runs  (python -m tinyspice ...)
 
 Exit codes: 0 successful / recovered / verify ok / replay matched; 2 partially_completed; 1 anything else (failed, stopped, rejected, verify/replay mismatch).
 `plan` is a dry run: it validates and prints the plan and spends nothing."""
@@ -67,6 +67,48 @@ def cmd_run(a) -> int:
     return {ExperimentStatus.SUCCESSFUL: 0, ExperimentStatus.RECOVERED: 0, ExperimentStatus.PARTIAL: 2}.get(r.status, 1)
 
 
+def cmd_ask(a) -> int:
+    """English request -> (parser) -> validated spec -> normal run. The parser only extracts; rejection is a normal, reported outcome."""
+    from tinyspice.agent import interpret_request
+    text = Path(a.request[5:]).read_text(encoding="utf-8") if a.request.startswith("file:") else a.request
+    if a.parser == "rules":
+        from tinyspice.providers import RuleBasedProvider
+        provider, closer = RuleBasedProvider(), None
+    else:
+        from tinyspice.providers import LlamaCppProvider
+        provider = closer = LlamaCppProvider(a.parser.split(":", 1)[1], temperature=0.0)
+        provider.start()
+    try:
+        r = interpret_request(text, provider, ground=True)
+    finally:
+        if closer is not None:
+            closer.stop()
+    if not r.ok:
+        print("status   : rejected_invalid_input")
+        for e in r.errors:
+            print(f"  - {e['loc'] or 'request'}: {e['msg']}")
+        print("(nothing was simulated, no budget was spent)")
+        return 1
+    spec = r.spec
+    print("understood request (the parser extracts; code validated it):")
+    print(json.dumps(spec.model_dump(mode="json", exclude_none=True), indent=2))
+    if a.dry_run:
+        return 0
+    from tinyspice.benchmark.bench import strategy_for
+    store = ProvenanceStore(Path(a.db))
+    strategy = a.strategy or strategy_for(spec)
+    res = run_experiment(spec, _limits(spec, a.limits), _sim(a.simulator), Path(a.runs), strategy=strategy, store=store)
+    print()
+    print(f"status   : {res.status.value}")
+    print(f"message  : {res.message}")
+    print(f"run_id   : {res.run_id}   strategy: {strategy}")
+    print("budget   : " + "  ".join(f"{k} {v['used']}/{v['limit']}" for k, v in res.budget.items()))
+    for k, m in (res.measurements or {}).items():
+        print(f"  {k:5s} " + (f"{m.value:.6g} {getattr(m, 'unit', '')}" if m.ok else f"REFUSED ({m.error_code})"))
+    store.close()
+    return {ExperimentStatus.SUCCESSFUL: 0, ExperimentStatus.RECOVERED: 0, ExperimentStatus.PARTIAL: 2}.get(res.status, 1)
+
+
 def cmd_replay(a) -> int:
     store = ProvenanceStore(Path(a.db))
     rec = store.run(a.run_id)
@@ -109,6 +151,12 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("run", help="execute an experiment spec")
     p.add_argument("spec"), p.add_argument("--strategy", default="uniform", choices=("uniform", "curvature", "window"))
     p.set_defaults(fn=cmd_run)
+    p = sub.add_parser("ask", help="English request -> validated spec -> run (parser: rules, or llm:<model-key>)")
+    p.add_argument("request", help="the request text, or file:<path>")
+    p.add_argument("--parser", default="rules")
+    p.add_argument("--strategy", default=None, choices=("uniform", "curvature", "window"))
+    p.add_argument("--dry-run", action="store_true")
+    p.set_defaults(fn=cmd_ask)
     p = sub.add_parser("replay", help="re-run a stored run and compare measurements")
     p.add_argument("run_id"), p.add_argument("--rtol", type=float, default=1e-6)
     p.set_defaults(fn=cmd_replay)

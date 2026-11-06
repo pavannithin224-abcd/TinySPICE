@@ -1,0 +1,1 @@
+Characterize an NMOS SKY130 NFET with W = 1 um and L = 0.18 um at room temperature. Id-Vg with VDS fixed at 1.8 V, VGS from 0 to 1.8 V in 0.02 V steps. Measure the threshold voltage, transconductance and subthreshold swing. At most 100 points.
